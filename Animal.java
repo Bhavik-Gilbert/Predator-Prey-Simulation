@@ -13,7 +13,7 @@ public abstract class Animal
     // The animal's field.
     private Field field;
     // The animal's position in the field.
-    private Location location;
+    private Location location; // location
     
     /**
      * Create a new animal at location in field.
