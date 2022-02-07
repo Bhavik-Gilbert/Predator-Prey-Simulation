@@ -63,7 +63,7 @@ public class Tortoise extends Animal
      * @param field The field currently occupied.
      * @param newTortoises A list to return newly born tortoises.
      */
-    public void act(List<Animal> newTortoises)
+    public void act(List<Actor> newTortoises)
     {
         incrementAge();
         incrementHunger();
@@ -120,9 +120,9 @@ public class Tortoise extends Animal
         Iterator<Location> it = adjacent.iterator();
         while(it.hasNext()) {
             Location where = it.next();
-            Object animal = field.getObjectAt(where);
-            if(animal instanceof Plant) {
-                Plant plant = (Plant) animal;
+            Object actor = field.getObjectAt(where);
+            if(actor instanceof Plant) {
+                Plant plant = (Plant) actor;
                 if(plant.isAlive()) { 
                     plant.setDead();
                     foodLevel += PLANT_FOOD_VALUE;
@@ -138,7 +138,7 @@ public class Tortoise extends Animal
      * New births will be made into free adjacent locations.
      * @param newTortoises A list to return newly born tortoises.
      */
-    private void giveBirth(List<Animal> newTortoises)
+    private void giveBirth(List<Actor> newTortoises)
     {
         // New tortoises are born into adjacent locations.
         // Get a list of adjacent free locations.

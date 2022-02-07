@@ -31,8 +31,8 @@ public class Simulator
     // The probability that a plant will be created in any given grid position.
     private static final double PLANT_CREATION_PROBABILITY = 0;
 
-    // List of animals in the field.
-    private List<Animal> animals;
+    // List of actors in the field.
+    private List<Actor> actors;
     // The current state of the field.
     private Field field;
     // The current step of the simulation.
@@ -68,7 +68,7 @@ public class Simulator
             width = DEFAULT_WIDTH;
         }
         
-        animals = new ArrayList<>();
+        actors = new ArrayList<>();
         field = new Field(depth, width);
 
         // Create a view of the state of each location in the field.
@@ -115,19 +115,19 @@ public class Simulator
     {
         step++;
 
-        // Provide space for newborn animals.
-        List<Animal> newAnimals = new ArrayList<>();        
-        // Let all animals act.
-        for(Iterator<Animal> it = animals.iterator(); it.hasNext(); ) {
-            Animal animal = it.next();
-            animal.act(newAnimals);
-            if(! animal.isAlive()) {
+        // Provide space for newborn actors.
+        List<Actor> newActors = new ArrayList<>();        
+        // Let all actors act.
+        for(Iterator<Actor> it = actors.iterator(); it.hasNext(); ) {
+            Actor actor = it.next();
+            actor.act(newActors);
+            if(! actor.isAlive()) {
                 it.remove();
             }
         }
                
-        // Add the newly born animals to the main lists.
-        animals.addAll(newAnimals);
+        // Add the newly born actors to the main lists.
+        actors.addAll(newActors);
 
         view.showStatus(step, field);
     }
@@ -138,7 +138,7 @@ public class Simulator
     public void reset()
     {
         step = 0;
-        animals.clear();
+        actors.clear();
         populate();
         
         // Show the starting state in the view.
@@ -157,32 +157,32 @@ public class Simulator
                 if (rand.nextDouble() <= DODO_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Dodo dodo = new Dodo(true, field, location);
-                    animals.add(dodo);
+                    actors.add(dodo);
                 }
                 else if(rand.nextDouble() <= HUMAN_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Human human = new Human(true, field, location);
-                    animals.add(human);
+                    actors.add(human);
                 }
                 if(rand.nextDouble() <= PIG_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Pig pig = new Pig(true, field, location);
-                    animals.add(pig);
+                    actors.add(pig);
                 }
                 if (rand.nextDouble() <= MONKEY_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Monkey monkey = new Monkey(true, field, location);
-                    animals.add(monkey);
+                    actors.add(monkey);
                 }
                 if (rand.nextDouble() <= TORTOISE_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Tortoise tortoise = new Tortoise(true, field, location);
-                    animals.add(tortoise);
+                    actors.add(tortoise);
                 }
                 if (rand.nextDouble() <= PLANT_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Plant plant = new Plant(true, field, location);
-                    animals.add(plant);
+                    actors.add(plant);
                 }
                 // else leave the location empty.
             }

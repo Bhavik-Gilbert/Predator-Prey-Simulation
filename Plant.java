@@ -10,7 +10,7 @@ import java.util.Random;
  * @author David J. Barnes and Michael Kölling
  * @version 2016.02.29 (2)
  */
-public class Plant extends Animal
+public class Plant extends Actor
 {
     // Characteristics shared by all plants (class variables).
 
@@ -52,7 +52,7 @@ public class Plant extends Animal
      * around. Sometimes it will breed or die of old age.
      * @param newPlants A list to return newly born plants.
      */
-    public void act(List<Animal> newPlants)
+    public void act(List<Actor> newPlants)
     {
         incrementAge();
         if(isAlive()) {
@@ -77,7 +77,7 @@ public class Plant extends Animal
      * New births will be made into free adjacent locations.
      * @param newPlants A list to return newly born plants.
      */
-    private void giveBirth(List<Animal> newPlants)
+    private void giveBirth(List<Actor> newPlants)
     {
         // New plants are born into adjacent locations.
         // Get a list of adjacent free locations.

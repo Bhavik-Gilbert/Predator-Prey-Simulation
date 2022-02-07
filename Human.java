@@ -65,7 +65,7 @@ public class Human extends Animal
      * @param field The field currently occupied.
      * @param newHuman A list to return newly born human.
      */
-    public void act(List<Animal> newHuman)
+    public void act(List<Actor> newHuman)
     {
         incrementAge();
         incrementHunger();
@@ -148,7 +148,7 @@ public class Human extends Animal
      * New births will be made into free adjacent locations.
      * @param newHuman A list to return newly born human.
      */
-    private void giveBirth(List<Animal> newHuman)
+    private void giveBirth(List<Actor> newHuman)
     {
         // New human are born into adjacent locations.
         // Get a list of adjacent free locations.

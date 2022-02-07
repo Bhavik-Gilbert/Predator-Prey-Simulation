@@ -63,7 +63,7 @@ public class Monkey extends Animal
      * @param field The field currently occupied.
      * @param newMonkeys A list to return newly born monkeys.
      */
-    public void act(List<Animal> newMonkeys)
+    public void act(List<Actor> newMonkeys)
     {
         incrementAge();
         incrementHunger();
@@ -120,9 +120,9 @@ public class Monkey extends Animal
         Iterator<Location> it = adjacent.iterator();
         while(it.hasNext()) {
             Location where = it.next();
-            Object animal = field.getObjectAt(where);
-            if(animal instanceof Dodo) {
-                Dodo dodo = (Dodo) animal;
+            Object actor = field.getObjectAt(where);
+            if(actor instanceof Dodo) {
+                Dodo dodo = (Dodo) actor;
                 if(dodo.isAlive()) { 
                     dodo.setDead();
                     foodLevel += DODO_FOOD_VALUE;
@@ -138,7 +138,7 @@ public class Monkey extends Animal
      * New births will be made into free adjacent locations.
      * @param newMonkeys A list to return newly born monkeys.
      */
-    private void giveBirth(List<Animal> newMonkeys)
+    private void giveBirth(List<Actor> newMonkeys)
     {
         // New monkeys are born into adjacent locations.
         // Get a list of adjacent free locations.
