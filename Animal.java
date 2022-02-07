@@ -30,7 +30,7 @@ public abstract class Animal extends Actor
      */
     private void setGender(Gender gender)
     {
-        gender = gender;
+        this.gender = gender;
     }
     
     protected void randomGender()
@@ -42,5 +42,38 @@ public abstract class Animal extends Actor
     protected Gender getGender()
     {
         return gender;
+    }
+
+    /**
+     * A monkey can breed if it has reached the breeding age.
+     */
+    protected boolean canBreed(Field field, int BREEDING_AGE, int age) {
+        boolean partner = false;
+        List<Location> free = field.adjacentLocations(getLocation()); 
+        while (free.size() > 0) {
+            free.remove(0);
+
+            try {
+                Animal animal = (Animal) field.getObjectAt(getLocation());
+                System.out.println(this.getClass().equals(animal.getClass()) && !(this.getGender().equals(animal.getGender())));
+                System.out.println(this.getClass().equals(animal.getClass()));
+                System.out.println(!(this.getGender().equals(animal.getGender())));
+                System.out.println(this.getGender() + " : " + animal.getGender());
+                System.out.println("");
+                if (this.getClass().equals(animal.getClass()) && !(this.getGender().equals(animal.getGender()))) {
+                    partner = true;
+                    break;
+                }
+            } catch (Exception e) {
+                continue;
+            }
+        }
+
+        if (!partner) {
+            return partner;
+        }
+        
+        System.out.println("birth");
+        return age >= BREEDING_AGE;
     }
 }

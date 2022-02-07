@@ -16,17 +16,17 @@ public class Human extends Animal
     // Characteristics shared by all human (class variables).
     
     // The age at which a human can start to breed.
-    private static final int BREEDING_AGE = 10;
+    private static final int BREEDING_AGE = 18;
     // The age to which a human can live.
-    private static final int MAX_AGE = 50;
+    private static final int MAX_AGE = 120;
     // The likelihood of a human breeding.
-    private static final double BREEDING_PROBABILITY = 0.1;
+    private static final double BREEDING_PROBABILITY = 0.8;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 6;
+    private static final int MAX_LITTER_SIZE = 2;
     // The food value of a single rabbit. In effect, this is the
     // number of steps a human can go before it has to eat again.
-    private static final int PIG_FOOD_VALUE = 10;
-    private static final int DODO_FOOD_VALUE = 10;
+    private static final int PIG_FOOD_VALUE = 100;
+    private static final int DODO_FOOD_VALUE = 100;
 
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
@@ -154,7 +154,7 @@ public class Human extends Animal
         // Get a list of adjacent free locations.
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed();
+        int births = breed(field);
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
             Human young = new Human(false, field, loc);
@@ -167,20 +167,13 @@ public class Human extends Animal
      * if it can breed.
      * @return The number of births (may be zero).
      */
-    private int breed()
+    private int breed(Field field)
     {
         int births = 0;
-        if(canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
+        if(canBreed(field, BREEDING_AGE, age) && rand.nextDouble() <= BREEDING_PROBABILITY) {
             births = rand.nextInt(MAX_LITTER_SIZE) + 1;
         }
         return births;
     }
 
-    /**
-     * A human can breed if it has reached the breeding age.
-     */
-    private boolean canBreed()
-    {
-        return age >= BREEDING_AGE;
-    }
 }

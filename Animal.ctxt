@@ -1,14 +1,17 @@
 #BlueJ class context
 comment0.target=Animal
-comment0.text=\n\ A\ class\ representing\ shared\ characteristics\ of\ animals.\n\ \n\ @author\ David\ J.\ Barnes\ and\ Michael\ K\u00F6lling\n\ @version\ 2016.02.29\ (2)\n
+comment0.text=\r\n\ A\ class\ representing\ shared\ characteristics\ of\ animals.\r\n\ \r\n\ @author\ David\ J.\ Barnes\ and\ Michael\ K\u00F6lling\r\n\ @version\ 2016.02.29\ (2)\r\n
 comment1.params=field\ location
 comment1.target=Animal(Field,\ Location)
-comment1.text=\n\ Create\ a\ new\ animal\ at\ location\ in\ field.\n\ \n\ @param\ field\ The\ field\ currently\ occupied.\n\ @param\ location\ The\ location\ within\ the\ field.\n
+comment1.text=\r\n\ Create\ a\ new\ animal\ at\ location\ in\ field.\r\n\ \r\n\ @param\ field\ The\ field\ currently\ occupied.\r\n\ @param\ location\ The\ location\ within\ the\ field.\r\n
 comment2.params=gender
 comment2.target=void\ setGender(Gender)
-comment2.text=\n\ Indicate\ that\ the\ animal\ is\ no\ longer\ alive.\n\ It\ is\ removed\ from\ the\ field.\n
+comment2.text=\r\n\ Indicate\ that\ the\ animal\ is\ no\ longer\ alive.\r\n\ It\ is\ removed\ from\ the\ field.\r\n
 comment3.params=
 comment3.target=void\ randomGender()
 comment4.params=
 comment4.target=Gender\ getGender()
-numComments=5
+comment5.params=field\ BREEDING_AGE\ age
+comment5.target=boolean\ canBreed(Field,\ int,\ int)
+comment5.text=\r\n\ A\ monkey\ can\ breed\ if\ it\ has\ reached\ the\ breeding\ age.\r\n
+numComments=6

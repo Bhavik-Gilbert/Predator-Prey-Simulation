@@ -16,13 +16,13 @@ public class Tortoise extends Animal
     // Characteristics shared by all tortoises (class variables).
     
     // The age at which a tortoise can start to breed.
-    private static final int BREEDING_AGE = 15;
+    private static final int BREEDING_AGE = 10;
     // The age to which a tortoise can live.
-    private static final int MAX_AGE = 25;
+    private static final int MAX_AGE = 105;
     // The likelihood of a tortoise breeding.
-    private static final double BREEDING_PROBABILITY = 0.05;
+    private static final double BREEDING_PROBABILITY = 1;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 3;
+    private static final int MAX_LITTER_SIZE = 10;
     // The food value of a single plant. In effect, this is the
     // number of steps a tortoise can go before it has to eat again.
     private static final int PLANT_FOOD_VALUE = 10000;
@@ -144,7 +144,7 @@ public class Tortoise extends Animal
         // Get a list of adjacent free locations.
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed();
+        int births = breed(field);
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
             Tortoise young = new Tortoise(false, field, loc);
@@ -157,20 +157,12 @@ public class Tortoise extends Animal
      * if it can breed.
      * @return The number of births (may be zero).
      */
-    private int breed()
+    private int breed(Field field)
     {
         int births = 0;
-        if(canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
+        if(canBreed(field, BREEDING_AGE, age) && rand.nextDouble() <= BREEDING_PROBABILITY) {
             births = rand.nextInt(MAX_LITTER_SIZE) + 1;
         }
         return births;
-    }
-
-    /**
-     * A tortoise can breed if it has reached the breeding age.
-     */
-    private boolean canBreed()
-    {
-        return age >= BREEDING_AGE;
     }
 }
