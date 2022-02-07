@@ -1,8 +1,8 @@
 #BlueJ class context
-comment0.target=Rabbit
+comment0.target=Racoon
 comment0.text=\r\n\ A\ simple\ model\ of\ a\ rabbit.\r\n\ Rabbits\ age,\ move,\ eat\ plants,\ and\ die.\r\n\ \r\n\ @author\ David\ J.\ Barnes\ and\ Michael\ K\u00F6lling\r\n\ @version\ 2016.02.29\ (2)\r\n
 comment1.params=randomAge\ field\ location
-comment1.target=Rabbit(boolean,\ Field,\ Location)
+comment1.target=Racoon(boolean,\ Field,\ Location)
 comment1.text=\r\n\ Create\ a\ rabbit.\ A\ rabbit\ can\ be\ created\ as\ a\ new\ born\ (age\ zero\r\n\ and\ not\ hungry)\ or\ with\ a\ random\ age\ and\ food\ level.\r\n\ \r\n\ @param\ randomAge\ If\ true,\ the\ rabbit\ will\ have\ random\ age\ and\ hunger\ level.\r\n\ @param\ field\ The\ field\ currently\ occupied.\r\n\ @param\ location\ The\ location\ within\ the\ field.\r\n
 comment2.params=newRabbits
 comment2.target=void\ act(java.util.List)

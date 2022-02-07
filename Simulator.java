@@ -15,15 +15,19 @@ public class Simulator
 {
     // Constants representing configuration information for the simulation.
     // The default width for the grid.
-    private static final int DEFAULT_WIDTH = 120;
+    private static final int DEFAULT_WIDTH = 150;
     // The default depth of the grid.
-    private static final int DEFAULT_DEPTH = 80;
+    private static final int DEFAULT_DEPTH = 100;
     // The probability that a fox will be created in any given grid position.
-    private static final double FOX_CREATION_PROBABILITY = 0.05;
+    private static final double FOX_CREATION_PROBABILITY = 0.06;
     // The probability that a rabbit will be created in any given grid position.
     private static final double RABBIT_CREATION_PROBABILITY = 0.1;
+    // The probability that a racoon will be created in any given grid position.
+    private static final double RACOON_CREATION_PROBABILITY = 0.13;
     // The probability that a wolf will be created in any given grid position.
     private static final double WOLF_CREATION_PROBABILITY = 0.03;    
+    // The probability that a wolf will be created in any given grid position.
+    private static final double PLANT_CREATION_PROBABILITY = 0;
 
     // List of animals in the field.
     private List<Animal> animals;
@@ -70,6 +74,8 @@ public class Simulator
         view.setColor(Rabbit.class, Color.ORANGE);
         view.setColor(Fox.class, Color.BLUE);
         view.setColor(Wolf.class, Color.RED);
+        view.setColor(Racoon.class, Color.GRAY);
+        //view.setColor(Plant.class, Color.GREEN);
         
         // Setup a valid starting point.
         reset();
@@ -159,6 +165,16 @@ public class Simulator
                     Location location = new Location(row, col);
                     Rabbit rabbit = new Rabbit(true, field, location);
                     animals.add(rabbit);
+                }
+                else if (rand.nextDouble() <= RACOON_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Racoon racoon = new Racoon(true, field, location);
+                    animals.add(racoon);
+                }
+                else if (rand.nextDouble() <= PLANT_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Plant plant = new Plant(true, field, location);
+                    animals.add(plant);
                 }
                 // else leave the location empty.
             }
