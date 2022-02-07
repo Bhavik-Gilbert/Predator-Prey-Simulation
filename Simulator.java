@@ -71,10 +71,10 @@ public class Simulator
 
         // Create a view of the state of each location in the field.
         view = new SimulatorView(depth, width);
-        view.setColor(Rabbit.class, Color.ORANGE);
-        view.setColor(Fox.class, Color.BLUE);
-        view.setColor(Wolf.class, Color.RED);
-        view.setColor(Racoon.class, Color.GRAY);
+        view.setColor(Pig.class, Color.ORANGE);
+        view.setColor(Human.class, Color.BLUE);
+        view.setColor(Dodo.class, Color.RED);
+        view.setColor(Monkey.class, Color.GRAY);
         //view.setColor(Plant.class, Color.GREEN);
         
         // Setup a valid starting point.
@@ -153,22 +153,22 @@ public class Simulator
             for(int col = 0; col < field.getWidth(); col++) {
                 if (rand.nextDouble() <= WOLF_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Wolf wolf = new Wolf(true, field, location);
+                    Dodo wolf = new Dodo(true, field, location);
                     animals.add(wolf);
                 }
                 else if(rand.nextDouble() <= FOX_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Fox fox = new Fox(true, field, location);
+                    Human fox = new Human(true, field, location);
                     animals.add(fox);
                 }
                 else if(rand.nextDouble() <= RABBIT_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Rabbit rabbit = new Rabbit(true, field, location);
+                    Pig rabbit = new Pig(true, field, location);
                     animals.add(rabbit);
                 }
                 else if (rand.nextDouble() <= RACOON_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Racoon racoon = new Racoon(true, field, location);
+                    Monkey racoon = new Monkey(true, field, location);
                     animals.add(racoon);
                 }
                 else if (rand.nextDouble() <= PLANT_CREATION_PROBABILITY) {

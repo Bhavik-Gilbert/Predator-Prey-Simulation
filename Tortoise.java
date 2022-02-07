@@ -1,49 +1,49 @@
- 
+ //ate plants
 
 import java.util.List;
 import java.util.Iterator;
 import java.util.Random;
 
 /**
- * A simple model of a rabbit.
- * Rabbits age, move, eat plants, and die.
+ * A simple model of a tortoise.
+ * Tortoises age, move, eat plants, and die.
  * 
  * @author David J. Barnes and Michael Kölling
  * @version 2016.02.29 (2)
  */
-public class Rabbit extends Animal
+public class Tortoise extends Animal
 {
-    // Characteristics shared by all rabbits (class variables).
+    // Characteristics shared by all tortoises (class variables).
     
-    // The age at which a rabbit can start to breed.
-    private static final int BREEDING_AGE = 5;
-    // The age to which a rabbit can live.
-    private static final int MAX_AGE = 40;
-    // The likelihood of a rabbit breeding.
-    private static final double BREEDING_PROBABILITY = 0.11;
+    // The age at which a tortoise can start to breed.
+    private static final int BREEDING_AGE = 3;
+    // The age to which a tortoise can live.
+    private static final int MAX_AGE = 25;
+    // The likelihood of a tortoise breeding.
+    private static final double BREEDING_PROBABILITY = 0.10;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 9;
+    private static final int MAX_LITTER_SIZE = 4;
     // The food value of a single plant. In effect, this is the
-    // number of steps a rabbit can go before it has to eat again.
+    // number of steps a tortoise can go before it has to eat again.
     private static final int PLANT_FOOD_VALUE = 10000;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
     
     // Individual characteristics (instance fields).
-    // The rabbit's age.
+    // The tortoise's age.
     private int age;
-    // The rabbit's food level, which is increased by eating plants.
+    // The tortoise's food level, which is increased by eating plants.
     private int foodLevel;
 
     /**
-     * Create a rabbit. A rabbit can be created as a new born (age zero
+     * Create a tortoise. A tortoise can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
      * 
-     * @param randomAge If true, the rabbit will have random age and hunger level.
+     * @param randomAge If true, the tortoise will have random age and hunger level.
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    public Rabbit(boolean randomAge, Field field, Location location)
+    public Tortoise(boolean randomAge, Field field, Location location)
     {
         super(field, location);
         if(randomAge) {
@@ -57,18 +57,18 @@ public class Rabbit extends Animal
     }
     
     /**
-     * This is what the rabbit does most of the time: it hunts for
+     * This is what the tortoise does most of the time: it hunts for
      * plants. In the process, it might breed, die of hunger,
      * or die of old age.
      * @param field The field currently occupied.
-     * @param newRabbits A list to return newly born rabbits.
+     * @param newTortoises A list to return newly born tortoises.
      */
-    public void act(List<Animal> newRabbits)
+    public void act(List<Animal> newTortoises)
     {
         incrementAge();
         incrementHunger();
         if(isAlive()) {
-            giveBirth(newRabbits);            
+            giveBirth(newTortoises);            
             // Move towards a source of food if found.
             Location newLocation = findFood();
             if(newLocation == null) { 
@@ -87,7 +87,7 @@ public class Rabbit extends Animal
     }
 
     /**
-     * Increase the age. This could result in the rabbit's death.
+     * Increase the age. This could result in the tortoise's death.
      */
     private void incrementAge()
     {
@@ -98,7 +98,7 @@ public class Rabbit extends Animal
     }
     
     /**
-     * Make this rabbit more hungry. This could result in the rabbit's death.
+     * Make this tortoise more hungry. This could result in the tortoise's death.
      */
     private void incrementHunger()
     {
@@ -134,21 +134,21 @@ public class Rabbit extends Animal
     }
     
     /**
-     * Check whether or not this rabbit is to give birth at this step.
+     * Check whether or not this tortoise is to give birth at this step.
      * New births will be made into free adjacent locations.
-     * @param newRabbits A list to return newly born rabbits.
+     * @param newTortoises A list to return newly born tortoises.
      */
-    private void giveBirth(List<Animal> newRabbits)
+    private void giveBirth(List<Animal> newTortoises)
     {
-        // New rabbits are born into adjacent locations.
+        // New tortoises are born into adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Rabbit young = new Rabbit(false, field, loc);
-            newRabbits.add(young);
+            Tortoise young = new Tortoise(false, field, loc);
+            newTortoises.add(young);
         }
     }
         
@@ -167,7 +167,7 @@ public class Rabbit extends Animal
     }
 
     /**
-     * A rabbit can breed if it has reached the breeding age.
+     * A tortoise can breed if it has reached the breeding age.
      */
     private boolean canBreed()
     {

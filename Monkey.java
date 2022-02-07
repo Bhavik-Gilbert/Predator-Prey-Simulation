@@ -1,77 +1,74 @@
- 
+ //ate plants
 
 import java.util.List;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
 
 /**
- * A simple model of a wolf.
- * Wolves age, move, eat foxes, and die.
+ * A simple model of a monkey.
+ * Monkeys age, move, eat plants, and die.
  * 
  * @author David J. Barnes and Michael Kölling
  * @version 2016.02.29 (2)
  */
-public class Wolf extends Animal
+public class Monkey extends Animal
 {
-    // Characteristics shared by all Wolves (class variables).
+    // Characteristics shared by all monkeys (class variables).
     
-    // The age at which a wolf can start to breed.
-    private static final int BREEDING_AGE = 30;
-    // The age to which a wolf can live.
-    private static final int MAX_AGE = 60;
-    // The likelihood of a wolf breeding.
-    private static final double BREEDING_PROBABILITY = 0.03;
+    // The age at which a monkey can start to breed.
+    private static final int BREEDING_AGE = 3;
+    // The age to which a monkey can live.
+    private static final int MAX_AGE = 25;
+    // The likelihood of a monkey breeding.
+    private static final double BREEDING_PROBABILITY = 0.10;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 2;
-    // The food value of a single wolf. In effect, this is the
-    // number of steps a wolf can go before it has to eat again.
-    private static final int FOX_FOOD_VALUE = 20;
-    private static final int RACOON_FOOD_VALUE = 10;
-    private static final int RABBIT_FOOD_VALUE = 10;
+    private static final int MAX_LITTER_SIZE = 4;
+    // The food value of a single plant. In effect, this is the
+    // number of steps a monkey can go before it has to eat again.
+    private static final int DODO_FOOD_VALUE = 10;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
     
     // Individual characteristics (instance fields).
-    // The wolf's age.
+    // The monkey's age.
     private int age;
-    // The wolf's food level, which is increased by eating foxes.
+    // The monkey's food level, which is increased by eating plants.
     private int foodLevel;
 
     /**
-     * Create a wolf. A wolf can be created as a new born (age zero
+     * Create a monkey. A monkey can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
      * 
-     * @param randomAge If true, the wolf will have random age and hunger level.
+     * @param randomAge If true, the monkey will have random age and hunger level.
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    public Wolf(boolean randomAge, Field field, Location location)
+    public Monkey(boolean randomAge, Field field, Location location)
     {
         super(field, location);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
-            foodLevel = rand.nextInt(FOX_FOOD_VALUE);
+            foodLevel = rand.nextInt(DODO_FOOD_VALUE);
         }
         else {
             age = 0;
-            foodLevel = FOX_FOOD_VALUE;
+            foodLevel = DODO_FOOD_VALUE;
         }
     }
     
     /**
-     * This is what the wolf does most of the time: it hunts for
-     * foxes. In the process, it might breed, die of hunger,
+     * This is what the monkey does most of the time: it hunts for
+     * plants. In the process, it might breed, die of hunger,
      * or die of old age.
      * @param field The field currently occupied.
-     * @param newWolves A list to return newly born Wolves.
+     * @param newMonkeys A list to return newly born monkeys.
      */
-    public void act(List<Animal> newWolves)
+    public void act(List<Animal> newMonkeys)
     {
         incrementAge();
         incrementHunger();
         if(isAlive()) {
-            giveBirth(newWolves);            
+            giveBirth(newMonkeys);            
             // Move towards a source of food if found.
             Location newLocation = findFood();
             if(newLocation == null) { 
@@ -90,7 +87,7 @@ public class Wolf extends Animal
     }
 
     /**
-     * Increase the age. This could result in the wolf's death.
+     * Increase the age. This could result in the monkey's death.
      */
     private void incrementAge()
     {
@@ -101,7 +98,7 @@ public class Wolf extends Animal
     }
     
     /**
-     * Make this wolf more hungry. This could result in the wolf's death.
+     * Make this monkey more hungry. This could result in the monkey's death.
      */
     private void incrementHunger()
     {
@@ -112,8 +109,8 @@ public class Wolf extends Animal
     }
     
     /**
-     * Look for foxes adjacent to the current location.
-     * Only the first live wolf is eaten.
+     * Look for plants adjacent to the current location.
+     * Only the first live plant is eaten.
      * @return Where food was found, or null if it wasn't.
      */
     private Location findFood()
@@ -124,27 +121,11 @@ public class Wolf extends Animal
         while(it.hasNext()) {
             Location where = it.next();
             Object animal = field.getObjectAt(where);
-            if(animal instanceof Fox) {
-                Fox fox = (Fox) animal;
-                if(fox.isAlive()) { 
-                    fox.setDead();
-                    foodLevel += FOX_FOOD_VALUE;
-                    return where;
-                }
-            }
-            if(animal instanceof Racoon) {
-                Racoon racoon = (Racoon) animal;
-                if(racoon.isAlive()) { 
-                    racoon.setDead();
-                    foodLevel += RACOON_FOOD_VALUE;
-                    return where;
-                }
-            }
-            if (animal instanceof Rabbit) {
-                Rabbit rabbit = (Rabbit) animal;
-                if (rabbit.isAlive()) {
-                    rabbit.setDead();
-                    foodLevel += RABBIT_FOOD_VALUE;
+            if(animal instanceof Dodo) {
+                Dodo dodo = (Dodo) animal;
+                if(dodo.isAlive()) { 
+                    dodo.setDead();
+                    foodLevel += DODO_FOOD_VALUE;
                     return where;
                 }
             }
@@ -153,21 +134,21 @@ public class Wolf extends Animal
     }
     
     /**
-     * Check whether or not this wolf is to give birth at this step.
+     * Check whether or not this monkey is to give birth at this step.
      * New births will be made into free adjacent locations.
-     * @param newWolves A list to return newly born Wolves.
+     * @param newMonkeys A list to return newly born monkeys.
      */
-    private void giveBirth(List<Animal> newWolves)
+    private void giveBirth(List<Animal> newMonkeys)
     {
-        // New Wolves are born into adjacent locations.
+        // New monkeys are born into adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Wolf young = new Wolf(false, field, loc);
-            newWolves.add(young);
+            Monkey young = new Monkey(false, field, loc);
+            newMonkeys.add(young);
         }
     }
         
@@ -186,7 +167,7 @@ public class Wolf extends Animal
     }
 
     /**
-     * A wolf can breed if it has reached the breeding age.
+     * A monkey can breed if it has reached the breeding age.
      */
     private boolean canBreed()
     {
