@@ -18,15 +18,17 @@ public class Simulator
     private static final int DEFAULT_WIDTH = 150;
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 100;
-    // The probability that a fox will be created in any given grid position.
-    private static final double FOX_CREATION_PROBABILITY = 0.06;
-    // The probability that a rabbit will be created in any given grid position.
-    private static final double RABBIT_CREATION_PROBABILITY = 0.1;
-    // The probability that a racoon will be created in any given grid position.
-    private static final double RACOON_CREATION_PROBABILITY = 0.13;
-    // The probability that a wolf will be created in any given grid position.
-    private static final double WOLF_CREATION_PROBABILITY = 0.03;    
-    // The probability that a wolf will be created in any given grid position.
+    // The probability that a human will be created in any given grid position.
+    private static final double HUMAN_CREATION_PROBABILITY = 0.05;
+    // The probability that a monkey will be created in any given grid position.
+    private static final double MONKEY_CREATION_PROBABILITY = 0.05;
+    // The probability that a pig will be created in any given grid position.
+    private static final double PIG_CREATION_PROBABILITY = 0.05;
+    // The probability that a tortoise will be created in any given grid position.
+    private static final double TORTOISE_CREATION_PROBABILITY = 0.05;
+    // The probability that a dodo will be created in any given grid position.
+    private static final double DODO_CREATION_PROBABILITY = 0.05;    
+    // The probability that a plant will be created in any given grid position.
     private static final double PLANT_CREATION_PROBABILITY = 0;
 
     // List of animals in the field.
@@ -71,10 +73,11 @@ public class Simulator
 
         // Create a view of the state of each location in the field.
         view = new SimulatorView(depth, width);
-        view.setColor(Pig.class, Color.ORANGE);
-        view.setColor(Human.class, Color.BLUE);
-        view.setColor(Dodo.class, Color.RED);
-        view.setColor(Monkey.class, Color.GRAY);
+        view.setColor(Pig.class, new Color(255,102,102));
+        view.setColor(Human.class, new Color(153,102,0));
+        view.setColor(Dodo.class, new Color(255,204,51));
+        view.setColor(Monkey.class, new Color(51,0,0));
+        view.setColor(Tortoise.class, new Color(0,153,0));
         //view.setColor(Plant.class, Color.GREEN);
         
         // Setup a valid starting point.
@@ -151,27 +154,32 @@ public class Simulator
         field.clear();
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
-                if (rand.nextDouble() <= WOLF_CREATION_PROBABILITY) {
+                if (rand.nextDouble() <= DODO_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Dodo wolf = new Dodo(true, field, location);
-                    animals.add(wolf);
+                    Dodo dodo = new Dodo(true, field, location);
+                    animals.add(dodo);
                 }
-                else if(rand.nextDouble() <= FOX_CREATION_PROBABILITY) {
+                else if(rand.nextDouble() <= HUMAN_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Human fox = new Human(true, field, location);
-                    animals.add(fox);
+                    Human human = new Human(true, field, location);
+                    animals.add(human);
                 }
-                else if(rand.nextDouble() <= RABBIT_CREATION_PROBABILITY) {
+                if(rand.nextDouble() <= PIG_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Pig rabbit = new Pig(true, field, location);
-                    animals.add(rabbit);
+                    Pig pig = new Pig(true, field, location);
+                    animals.add(pig);
                 }
-                else if (rand.nextDouble() <= RACOON_CREATION_PROBABILITY) {
+                if (rand.nextDouble() <= MONKEY_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Monkey racoon = new Monkey(true, field, location);
-                    animals.add(racoon);
+                    Monkey monkey = new Monkey(true, field, location);
+                    animals.add(monkey);
                 }
-                else if (rand.nextDouble() <= PLANT_CREATION_PROBABILITY) {
+                if (rand.nextDouble() <= TORTOISE_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Tortoise tortoise = new Tortoise(true, field, location);
+                    animals.add(tortoise);
+                }
+                if (rand.nextDouble() <= PLANT_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Plant plant = new Plant(true, field, location);
                     animals.add(plant);

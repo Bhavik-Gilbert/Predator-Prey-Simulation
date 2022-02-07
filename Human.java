@@ -132,9 +132,9 @@ public class Human extends Animal
                 }
             }
             if (animal instanceof Dodo) {
-                Monkey monkey = (Monkey) animal;
-                if (monkey.isAlive()) {
-                    monkey.setDead();
+                Dodo dodo = (Dodo) animal;
+                if (dodo.isAlive()) {
+                    dodo.setDead();
                     foodLevel = DODO_FOOD_VALUE;
                     return where;
                 }

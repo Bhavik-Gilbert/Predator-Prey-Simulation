@@ -122,7 +122,7 @@ public class Dodo extends Animal
         while(it.hasNext()) {
             Location where = it.next();
             Object animal = field.getObjectAt(where);
-            if(animal instanceof Human) {
+            if(animal instanceof Plant) {
                 Plant plant = (Plant) animal;
                 if(plant.isAlive()) { 
                     plant.setDead();
