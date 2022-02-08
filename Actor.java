@@ -1,18 +1,21 @@
 import java.util.List;
 
 /**
- * Write a description of class Actor here.
+ * Defines what the different characteristics of elements in the simulation must have
  *
- * @author (your name)
+ *  Determines it's state of life and location on the field
+ * Creates existence of action method for subclasses 
+ *
+ * @author Bhavik Gilbert and Heman Seegolam
  * @version (a version number or a date)
  */
 public abstract class Actor
 {
-    // Whether the animal is alive or not.
+    // Whether the actor is alive or not.
     protected boolean alive;
-    // The animal's field.
+    // The actor's field.
     protected Field field;
-    // The animal's position in the field.
+    // The actor's position in the field.
     protected Location location;
 
     /**
@@ -26,15 +29,16 @@ public abstract class Actor
     }
 
     /**
-     * Make this animal act - that is: make it do
+     * Make this actor act - that is: make it do
      * whatever it wants/needs to do.
      * @param newActors A list to receive newly born actors.
+     * @param timeOfDay Integer value determining day or night
      */
     abstract public void act(List<Actor> newActors, int timeOfDay);
 
     /**
-     * Check whether the animal is alive or not.
-     * @return true if the animal is still alive.
+     * Check whether the actor is alive or not.
+     * @return true if the actor is still alive.
      */
     protected boolean isAlive()
     {
@@ -42,7 +46,7 @@ public abstract class Actor
     }
 
     /**
-     * Indicate that the animal is no longer alive.
+     * Indicate that the actor is no longer alive.
      * It is removed from the field.
      */
     protected void setDead()
@@ -56,8 +60,8 @@ public abstract class Actor
     }
 
     /**
-     * Return the animal's location.
-     * @return The animal's location.
+     * Return the actor's location.
+     * @return The actor's location.
      */
     protected Location getLocation()
     {
@@ -65,8 +69,8 @@ public abstract class Actor
     }
     
     /**
-     * Place the animal at the new location in the given field.
-     * @param newLocation The animal's new location.
+     * Place the actor at the new location in the given field.
+     * @param newLocation The actor's new location.
      */
     protected void setLocation(Location newLocation)
     {
@@ -78,8 +82,8 @@ public abstract class Actor
     }
     
     /**
-     * Return the animal's field.
-     * @return The animal's field.
+     * Return the actor's field.
+     * @return The actor's field.
      */
     protected Field getField()
     {

@@ -6,9 +6,10 @@ import java.util.Random;
 
 /**
  * A simple model of a human.
- * Human age, move, eat rabbits, and die.
+ * Human age, move, eat dodos and pigs, and die.
  * 
  * @author David J. Barnes and Michael Kölling
+ * @author Bhavik Gilbert and Heman Seegolam
  * @version 2016.02.29 (2)
  */
 public class Human extends Animal
@@ -23,7 +24,7 @@ public class Human extends Animal
     private static final double BREEDING_PROBABILITY = 0.8;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
-    // The food value of a single rabbit. In effect, this is the
+    // The food value of a single pig/dodo. In effect, this is the
     // number of steps a human can go before it has to eat again.
     private static final int PIG_FOOD_VALUE = 50;
     private static final int DODO_FOOD_VALUE = 50;
@@ -60,7 +61,9 @@ public class Human extends Animal
     
     /**
      * Determines whether night or day.
-     * @param newHuman A list to return newly born human.
+     * 
+     * @param newHuman  A list to return newly born human.
+     * @param timeOfDay Integer value determining day or night
      */
     public void act(List<Actor> newHuman, int timeOfDay)
     {
@@ -73,9 +76,9 @@ public class Human extends Animal
     }
     
     /**
-     * This is what the humans do during the day: it hunts for
-     * dodos and pigs. In the process, it might breed, die of hunger,
-     * or die of old age.
+     * This is what the humans do during the day: it hunts for dodos and pigs.
+     *  In the process, it might breed, die of hunger, or die of old age.
+     * 
      * @param newHuman A list to return newly born humans.
      */
     public void dayAct(List<Actor> newHuman)
@@ -102,9 +105,8 @@ public class Human extends Animal
     }
     
     /**
-     * This is what the humans do during the night: it hunts for
-     * dodos and pigs. In the process, it might breed, die of hunger,
-     * or die of old age.
+     * This is what the humans do during the night
+     * 
      * @param newHuman A list to return newly born humans.
      */
     public void nightAct(List<Actor> newHuman)
@@ -134,8 +136,9 @@ public class Human extends Animal
     }
     
     /**
-     * Look for rabbits adjacent to the current location.
+     * Look for dodos and pigs adjacent to the current location.
      * Only the first live rabbit is eaten.
+     * 
      * @return Where food was found, or null if it wasn't.
      */
     private Location findFood()
@@ -169,6 +172,7 @@ public class Human extends Animal
     /**
      * Check whether or not this human is to give birth at this step.
      * New births will be made into free adjacent locations.
+     * 
      * @param newHuman A list to return newly born human.
      */
     private void giveBirth(List<Actor> newHuman)
@@ -186,8 +190,9 @@ public class Human extends Animal
     }
         
     /**
-     * Generate a number representing the number of births,
-     * if it can breed.
+     * Generate a number representing the number of births, if it can breed.
+     * 
+     * @param field The field the object is currently in
      * @return The number of births (may be zero).
      */
     private int breed(Field field)

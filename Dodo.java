@@ -1,5 +1,3 @@
- //ate foxes, rabbits and racoons
-
 import java.util.List;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -7,9 +5,10 @@ import java.util.Random;
 
 /**
  * A simple model of a dodo.
- * Dodos age, move, eat foxes, and die.
+ * Dodos age, move, reproduce, eat plants, and die.
  * 
  * @author David J. Barnes and Michael Kölling
+ * @author Bhavik Gilbert and Heman Seegolam
  * @version 2016.02.29 (2)
  */
 public class Dodo extends Animal
@@ -59,7 +58,9 @@ public class Dodo extends Animal
     
     /**
      * Determines whether night or day.
-     * @param newHuman A list to return newly born human.
+     * 
+     * @param newDodos  A list to return newly born human.
+     * @param timeOfDay Integer value determining day or night
      */
     public void act(List<Actor> newDodos, int timeOfDay)
     {
@@ -72,10 +73,9 @@ public class Dodo extends Animal
     }
     
     /**
-     * This is what the dodo does most of the time: it hunts for
-     * foxes. In the process, it might breed, die of hunger,
-     * or die of old age.
-     * @param field The field currently occupied.
+     * This is what the dodo does most of the time: it looks for plants
+     * In the process, it might breed, die of hunger, or die of old age.
+     * 
      * @param newDodos A list to return newly born Dodos.
      */
     public void dayAct(List<Actor> newDodos)
@@ -102,10 +102,8 @@ public class Dodo extends Animal
     }
     
     /**
-     * This is what the humans do during the night: it hunts for
-     * dodos and pigs. In the process, it might breed, die of hunger,
-     * or die of old age.
-     * @param newHuman A list to return newly born humans.
+     * This is what the dodos do during the night
+     * @param newDodos A list to return newly born Dodos.
      */
     public void nightAct(List<Actor> newDodos)
     {
@@ -134,8 +132,8 @@ public class Dodo extends Animal
     }
     
     /**
-     * Look for foxes adjacent to the current location.
-     * Only the first live dodo is eaten.
+     * Look for plants adjacent to the current location.
+     * Only the first live plant is eaten.
      * @return Where food was found, or null if it wasn't.
      */
     private Location findFood()
@@ -180,6 +178,7 @@ public class Dodo extends Animal
     /**
      * Generate a number representing the number of births,
      * if it can breed.
+     * @param field The field the dodo is currently in
      * @return The number of births (may be zero).
      */
     private int breed(Field field)

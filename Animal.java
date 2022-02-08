@@ -5,6 +5,7 @@ import java.util.Random;
  * A class representing shared characteristics of animals.
  * 
  * @author David J. Barnes and Michael Kölling
+ * @author Bhavik Gilbert & Heman Seegolam
  * @version 2016.02.29 (2)
  */
 public abstract class Animal extends Actor
@@ -25,20 +26,28 @@ public abstract class Animal extends Actor
     }
     
     /**
-     * Indicate that the animal is no longer alive.
-     * It is removed from the field.
+     * Sets the gender of the animal
+     * @param setGender The gender that the animal will be set to
      */
     private void setGender(Gender gender)
     {
         this.gender = gender;
     }
     
+    /**
+     * Generates a random gender from the Gender ENUM
+     * Call setGender to give animal this random gender
+     */
     protected void randomGender()
     {
         Random rand = Randomizer.getRandom();
         setGender(Gender.values()[rand.nextInt(Gender.values().length)]);
     }            
     
+    /**
+     * Gets the gender of the animal
+     * @return Gender of the animal
+     */
     protected Gender getGender()
     {
         return gender;
@@ -46,6 +55,10 @@ public abstract class Animal extends Actor
 
     /**
      * An animal can breed if it has reached the breeding age and meets a mate of opposite gender.
+     * @param field The field the object is in
+     * @param BREEDING_AGE The minimum age that animal can start breeding
+     * @param age The current age of the animal
+     * @return Boolean value, true if mate is found and is of age, false otherwise
      */
     protected boolean canBreed(Field field, int BREEDING_AGE, int age) {
         boolean partner = false;
@@ -62,13 +75,10 @@ public abstract class Animal extends Actor
                     break;
                 }
             }
+            // Removes checked object from list
             adjacentLocations.remove(0);
         }
 
-        if (!partner) {
-            return partner;
-        }
-        
-        return age >= BREEDING_AGE;
+        return age >= BREEDING_AGE && partner;
     }
 }

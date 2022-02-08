@@ -1,8 +1,8 @@
 
 /**
- * Enumeration class Gender - write a description of the enum class here
+ * Defines the different genders animals can have 
  *
- * @author (your name here)
+ * @author Bhavik Gilbert and Heman Seegolam
  * @version (version number or date here)
  */
 public enum Gender

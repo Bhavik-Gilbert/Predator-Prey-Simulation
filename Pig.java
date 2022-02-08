@@ -6,9 +6,10 @@ import java.util.Random;
 
 /**
  * A simple model of a pig.
- * Pigs age, move, eat plants, and die.
+ * Pigs age, move, eat dodos, and die.
  * 
  * @author David J. Barnes and Michael Kölling
+ * @author Bhavik Gilbert and Heman Seegolam
  * @version 2016.02.29 (2)
  */
 public class Pig extends Animal
@@ -58,7 +59,9 @@ public class Pig extends Animal
     
     /**
      * Determines whether night or day.
-     * @param newHuman A list to return newly born human.
+     * 
+     * @param newHuman  A list to return newly born human.
+     * @param timeOfDay Integer value determining day or night
      */
     public void act(List<Actor> newPigs, int timeOfDay)
     {
@@ -71,10 +74,9 @@ public class Pig extends Animal
     }
     
     /**
-     * This is what the pig does most of the time: it hunts for
-     * plants. In the process, it might breed, die of hunger,
-     * or die of old age.
-     * @param field The field currently occupied.
+     * This is what the pig does most of the time: it hunts for dodos. 
+     * In the process, it might breed, die of hunger, or die of old age.
+     * 
      * @param newPigs A list to return newly born pigs.
      */
     public void dayAct(List<Actor> newPigs)
@@ -104,7 +106,8 @@ public class Pig extends Animal
      * This is what the humans do during the night: it hunts for
      * dodos and pigs. In the process, it might breed, die of hunger,
      * or die of old age.
-     * @param newHuman A list to return newly born humans.
+     * 
+     * @param newPigs A list to return newly born pigs.
      */
     public void nightAct(List<Actor> newPigs)
     {
@@ -135,6 +138,7 @@ public class Pig extends Animal
     /**
      * Look for plants adjacent to the current location.
      * Only the first live plant is eaten.
+     * 
      * @return Where food was found, or null if it wasn't.
      */
     private Location findFood()
@@ -160,6 +164,7 @@ public class Pig extends Animal
     /**
      * Check whether or not this pig is to give birth at this step.
      * New births will be made into free adjacent locations.
+     * 
      * @param newPigs A list to return newly born pigs.
      */
     private void giveBirth(List<Actor> newPigs)
@@ -179,6 +184,7 @@ public class Pig extends Animal
     /**
      * Generate a number representing the number of births,
      * if it can breed.
+     * 
      * @return The number of births (may be zero).
      */
     private int breed(Field field)

@@ -1,14 +1,13 @@
- //ate plants
-
 import java.util.List;
 import java.util.Iterator;
 import java.util.Random;
 
 /**
  * A simple model of a monkey.
- * Monkeys age, move, eat plants, and die.
+ * Monkeys age, move, eat dodos, and die.
  * 
  * @author David J. Barnes and Michael Kölling
+ * @author Bhavik Gilbert and Heman Seegolam
  * @version 2016.02.29 (2)
  */
 public class Monkey extends Animal
@@ -58,7 +57,9 @@ public class Monkey extends Animal
     
     /**
      * Determines whether night or day.
-     * @param newHuman A list to return newly born human.
+     * 
+     * @param newMonkeys A list to return newly born human.
+     * @param timeOfDay  Integer value determining day or night
      */
     public void act(List<Actor> newMonkeys, int timeOfDay)
     {
@@ -71,10 +72,9 @@ public class Monkey extends Animal
     }
     
     /**
-     * This is what the monkey does most of the time: it hunts for
-     * dodos. In the process, it might breed, die of hunger,
-     * or die of old age.
-     * @param field The field currently occupied.
+     * This is what the monkey does most of the time: it hunts for dodos. 
+     * In the process, it might breed, die of hunger, or die of old age.
+     *
      * @param newMonkeys A list to return newly born monkeys.
      */
     public void dayAct(List<Actor> newMonkeys)
@@ -101,9 +101,8 @@ public class Monkey extends Animal
     }
     
     /**
-     * This is what the monkeys do during the night: it hunts for
-     * dodos. In the process, it might breed, die of hunger,
-     * or die of old age.
+     * This is what the monkeys do during the night
+     * 
      * @param newMonkeys A list to return newly born monkeys.
      */
     public void nightAct(List<Actor> newMonkeys)
@@ -135,6 +134,7 @@ public class Monkey extends Animal
     /**
      * Look for plants adjacent to the current location.
      * Only the first live plant is eaten.
+     * 
      * @return Where food was found, or null if it wasn't.
      */
     private Location findFood()
@@ -160,6 +160,7 @@ public class Monkey extends Animal
     /**
      * Check whether or not this monkey is to give birth at this step.
      * New births will be made into free adjacent locations.
+     * 
      * @param newMonkeys A list to return newly born monkeys.
      */
     private void giveBirth(List<Actor> newMonkeys)
@@ -179,6 +180,8 @@ public class Monkey extends Animal
     /**
      * Generate a number representing the number of births,
      * if it can breed.
+     * 
+     * @param field The field the monkey is currently in
      * @return The number of births (may be zero).
      */
     private int breed(Field field)

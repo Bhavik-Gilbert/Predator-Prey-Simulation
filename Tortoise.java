@@ -1,5 +1,3 @@
- //ate plants
-
 import java.util.List;
 import java.util.Iterator;
 import java.util.Random;
@@ -9,6 +7,7 @@ import java.util.Random;
  * Tortoises age, move, eat plants, and die.
  * 
  * @author David J. Barnes and Michael Kölling
+ * @author Bhavik Gilbert and Heman Seegolam
  * @version 2016.02.29 (2)
  */
 public class Tortoise extends Animal
@@ -58,7 +57,9 @@ public class Tortoise extends Animal
     
     /**
      * Determines whether night or day.
-     * @param newHuman A list to return newly born human.
+     *
+     * @param newTortoises A list to return newly born tortoise.
+     * @param timeOfDay Integer value determining day or night
      */
     public void act(List<Actor> newTortoises, int timeOfDay)
     {
@@ -74,7 +75,7 @@ public class Tortoise extends Animal
      * This is what the tortoise does most of the time: it hunts for
      * plants. In the process, it might breed, die of hunger,
      * or die of old age.
-     * @param field The field currently occupied.
+     * 
      * @param newTortoises A list to return newly born tortoises.
      */
     public void dayAct(List<Actor> newTortoises)
@@ -101,10 +102,9 @@ public class Tortoise extends Animal
     }
     
     /**
-     * This is what the humans do during the night: it hunts for
-     * dodos and pigs. In the process, it might breed, die of hunger,
-     * or die of old age.
-     * @param newHuman A list to return newly born humans.
+     * This is what the tortoises do during the night
+     * 
+     * @param newTortoises A list to return newly born tortoises.
      */
     public void nightAct(List<Actor> newTortoises)
     {
@@ -135,6 +135,7 @@ public class Tortoise extends Animal
     /**
      * Look for plants adjacent to the current location.
      * Only the first live plant is eaten.
+     * 
      * @return Where food was found, or null if it wasn't.
      */
     private Location findFood()
@@ -160,6 +161,7 @@ public class Tortoise extends Animal
     /**
      * Check whether or not this tortoise is to give birth at this step.
      * New births will be made into free adjacent locations.
+     * 
      * @param newTortoises A list to return newly born tortoises.
      */
     private void giveBirth(List<Actor> newTortoises)
@@ -179,6 +181,8 @@ public class Tortoise extends Animal
     /**
      * Generate a number representing the number of births,
      * if it can breed.
+     * 
+     * @param field The field the tortoise is currently in
      * @return The number of births (may be zero).
      */
     private int breed(Field field)

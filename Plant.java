@@ -8,6 +8,7 @@ import java.util.Random;
  * Plants age, move, breed, and die.
  * 
  * @author David J. Barnes and Michael Kölling
+ * @author Bhavik Gilbert and Heman Seegolam
  * @version 2016.02.29 (2)
  */
 public class Plant extends Actor
@@ -49,7 +50,9 @@ public class Plant extends Actor
     
     /**
      * Determines whether night or day.
-     * @param newHuman A list to return newly born human.
+     * 
+     * @param newPlants A list to return newly born plants.
+     * @param timeOfDay Integer value determining day or night
      */
     public void act(List<Actor> newPlants, int timeOfDay)
     {
@@ -62,8 +65,8 @@ public class Plant extends Actor
     }
     
     /**
-     * This is what the plant does most of the time - it runs 
-     * around. Sometimes it will breed or die of old age.
+     * This is what the plant during the day. 
+     * Sometimes it will breed or die of old age.
      * @param newPlants A list to return newly born plants.
      */
     public void dayAct(List<Actor> newPlants)
@@ -75,10 +78,9 @@ public class Plant extends Actor
     }
     
     /**
-     * This is what the humans do during the night: it hunts for
-     * dodos and pigs. In the process, it might breed, die of hunger,
-     * or die of old age.
-     * @param newHuman A list to return newly born humans.
+     * This is what the plants do during the night
+     * 
+     * @param newPlants A list to return newly born plants.
      */
     public void nightAct(List<Actor> newPlants)
     {
@@ -99,6 +101,7 @@ public class Plant extends Actor
     /**
      * Check whether or not this plant is to give birth at this step.
      * New births will be made into free adjacent locations.
+     * 
      * @param newPlants A list to return newly born plants.
      */
     private void giveBirth(List<Actor> newPlants)
@@ -118,6 +121,7 @@ public class Plant extends Actor
     /**
      * Generate a number representing the number of births,
      * if it can breed.
+     * 
      * @return The number of births (may be zero).
      */
     private int breed()
@@ -131,6 +135,7 @@ public class Plant extends Actor
 
     /**
      * A plant can breed if it has reached the breeding age.
+     * 
      * @return true if the plant can breed, false otherwise.
      */
     private boolean canBreed()

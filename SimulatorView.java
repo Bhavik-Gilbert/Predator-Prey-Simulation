@@ -6,12 +6,13 @@ import java.util.Map;
 
 /**
  * A graphical view of the simulation grid.
- * The view displays a colored rectangle for each location 
+ * The view displays a colored rectangle for each location
  * representing its contents. It uses a default background color.
  * Colors for each type of species can be defined using the
  * setColor method.
  * 
  * @author David J. Barnes and Michael Kölling
+ * @author Bhavik Gilbert amd Heman Seegolam
  * @version 2016.02.29
  */
 public class SimulatorView extends JFrame
@@ -22,7 +23,7 @@ public class SimulatorView extends JFrame
     // Color used for objects that have no defined color.
     private static final Color UNKNOWN_COLOR = Color.gray;
 
-    private final String STEP_PREFIX = "Step: ";
+    private final String DAY_PREFIX = "Day: ";
     private final String TIME_PREFIX = "Time: ";
     private final String POPULATION_PREFIX = "Population: ";
     private JLabel stepLabel, timeLabel, population, infoLabel;
@@ -44,7 +45,7 @@ public class SimulatorView extends JFrame
         colors = new LinkedHashMap<>();
 
         setTitle("Fox and Rabbit Simulation");
-        stepLabel = new JLabel(STEP_PREFIX, JLabel.CENTER);
+        stepLabel = new JLabel(DAY_PREFIX, JLabel.CENTER);
         timeLabel = new JLabel(TIME_PREFIX, JLabel.CENTER);
         infoLabel = new JLabel("  ", JLabel.CENTER);
         population = new JLabel(POPULATION_PREFIX, JLabel.CENTER);
@@ -85,6 +86,7 @@ public class SimulatorView extends JFrame
     }
 
     /**
+     * @param animalClass An animal class
      * @return The color to be used for a given class of animal.
      */
     private Color getColor(Class animalClass)
@@ -110,7 +112,7 @@ public class SimulatorView extends JFrame
             setVisible(true);
         }
             
-        stepLabel.setText(STEP_PREFIX + step);
+        stepLabel.setText(DAY_PREFIX + (step+1)/2);
         String time = "";
         if(step%2 == 0){
             time = "Night";
@@ -143,6 +145,7 @@ public class SimulatorView extends JFrame
 
     /**
      * Determine whether the simulation should continue to run.
+     * @param field The field the viewer is displaying
      * @return true If there is more than one species alive.
      */
     public boolean isViable(Field field)

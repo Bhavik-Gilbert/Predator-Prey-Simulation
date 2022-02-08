@@ -3,10 +3,11 @@ import java.awt.Color;
 /**
  * Provide a counter for a participant in the simulation.
  * This includes an identifying string and a count of how
- * many participants of this type currently exist within 
+ * many participants of this type currently exist within
  * the simulation.
  * 
  * @author David J. Barnes and Michael Kölling
+ * @author Bhavik Gilbert and Heman Seegolam
  * @version 2016.02.29
  */
 public class Counter

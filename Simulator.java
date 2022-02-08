@@ -6,9 +6,10 @@ import java.awt.Color;
 
 /**
  * A simple predator-prey simulator, based on a rectangular field
- * containing rabbits and foxes.
+ * containing dodos, humans, monkeys, tortoises and pigs.
  * 
  * @author David J. Barnes and Michael Kölling
+ * @author Bhavik Gilbert and Heman Seegolam
  * @version 2016.02.29 (2)
  */
 public class Simulator
@@ -108,8 +109,7 @@ public class Simulator
     
     /**
      * Run the simulation from its current state for a single step.
-     * Iterate over the whole field updating the state of each
-     * fox and rabbit.
+     * Iterate over the whole field updating the state of each actor
      */
     public void simulateOneStep()
     {
@@ -125,6 +125,8 @@ public class Simulator
                 it.remove();
             }
         }
+
+        delay(500);
                
         // Add the newly born actors to the main lists.
         actors.addAll(newActors);
@@ -146,7 +148,7 @@ public class Simulator
     }
     
     /**
-     * Randomly populate the field with foxes and rabbits.
+     * Randomly populate the field with actors.
      */
     private void populate()
     {
