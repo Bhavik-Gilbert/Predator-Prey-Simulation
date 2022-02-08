@@ -15,7 +15,7 @@ public class Randomizer
     // A shared Random object, if required.
     private static final Random rand = new Random(SEED);
     // Determine whether a shared random generator is to be provided.
-    private static final boolean useShared = false;
+    private static final boolean useShared = true;
 
     /**
      * Constructor for objects of class Randomizer

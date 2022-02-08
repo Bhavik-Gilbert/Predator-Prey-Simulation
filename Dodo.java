@@ -58,13 +58,27 @@ public class Dodo extends Animal
     }
     
     /**
+     * Determines whether night or day.
+     * @param newHuman A list to return newly born human.
+     */
+    public void act(List<Actor> newDodos, int timeOfDay)
+    {
+        switch(timeOfDay){
+            case 0:
+                dayAct(newDodos);
+            case 1:
+                nightAct(newDodos);
+        }
+    }
+    
+    /**
      * This is what the dodo does most of the time: it hunts for
      * foxes. In the process, it might breed, die of hunger,
      * or die of old age.
      * @param field The field currently occupied.
      * @param newDodos A list to return newly born Dodos.
      */
-    public void act(List<Actor> newDodos)
+    public void dayAct(List<Actor> newDodos)
     {
         incrementAge();
         incrementHunger();
@@ -85,6 +99,16 @@ public class Dodo extends Animal
                 setDead();
             }
         }
+    }
+    
+    /**
+     * This is what the humans do during the night: it hunts for
+     * dodos and pigs. In the process, it might breed, die of hunger,
+     * or die of old age.
+     * @param newHuman A list to return newly born humans.
+     */
+    public void nightAct(List<Actor> newDodos)
+    {
     }
 
     /**

@@ -48,16 +48,40 @@ public class Plant extends Actor
     }
     
     /**
+     * Determines whether night or day.
+     * @param newHuman A list to return newly born human.
+     */
+    public void act(List<Actor> newPlants, int timeOfDay)
+    {
+        switch(timeOfDay){
+            case 0:
+                dayAct(newPlants);
+            case 1:
+                nightAct(newPlants);
+        }
+    }
+    
+    /**
      * This is what the plant does most of the time - it runs 
      * around. Sometimes it will breed or die of old age.
      * @param newPlants A list to return newly born plants.
      */
-    public void act(List<Actor> newPlants)
+    public void dayAct(List<Actor> newPlants)
     {
         incrementAge();
         if(isAlive()) {
             giveBirth(newPlants);            
         }
+    }
+    
+    /**
+     * This is what the humans do during the night: it hunts for
+     * dodos and pigs. In the process, it might breed, die of hunger,
+     * or die of old age.
+     * @param newHuman A list to return newly born humans.
+     */
+    public void nightAct(List<Actor> newPlants)
+    {
     }
 
     /**

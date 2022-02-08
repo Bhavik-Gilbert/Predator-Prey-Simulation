@@ -57,13 +57,27 @@ public class Monkey extends Animal
     }
     
     /**
+     * Determines whether night or day.
+     * @param newHuman A list to return newly born human.
+     */
+    public void act(List<Actor> newMonkeys, int timeOfDay)
+    {
+        switch(timeOfDay){
+            case 0:
+                dayAct(newMonkeys);
+            case 1:
+                nightAct(newMonkeys);
+        }
+    }
+    
+    /**
      * This is what the monkey does most of the time: it hunts for
-     * plants. In the process, it might breed, die of hunger,
+     * dodos. In the process, it might breed, die of hunger,
      * or die of old age.
      * @param field The field currently occupied.
      * @param newMonkeys A list to return newly born monkeys.
      */
-    public void act(List<Actor> newMonkeys)
+    public void dayAct(List<Actor> newMonkeys)
     {
         incrementAge();
         incrementHunger();
@@ -84,6 +98,16 @@ public class Monkey extends Animal
                 setDead();
             }
         }
+    }
+    
+    /**
+     * This is what the monkeys do during the night: it hunts for
+     * dodos. In the process, it might breed, die of hunger,
+     * or die of old age.
+     * @param newMonkeys A list to return newly born monkeys.
+     */
+    public void nightAct(List<Actor> newMonkeys)
+    {
     }
 
     /**

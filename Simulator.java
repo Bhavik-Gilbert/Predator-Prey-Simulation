@@ -120,7 +120,7 @@ public class Simulator
         // Let all actors act.
         for(Iterator<Actor> it = actors.iterator(); it.hasNext(); ) {
             Actor actor = it.next();
-            actor.act(newActors);
+            actor.act(newActors, step%2);
             if(! actor.isAlive()) {
                 it.remove();
             }

@@ -56,11 +56,6 @@ public abstract class Animal extends Actor
             Object actor = field.getObjectAt(adjacentLocations.get(0));
             if (actor instanceof Animal) {
                 Animal animal = (Animal) actor;
-                System.out.println(this.getClass().equals(animal.getClass()) && !(this.getGender().equals(animal.getGender())));
-                System.out.println(this.getClass().equals(animal.getClass()));
-                System.out.println(!(this.getGender().equals(animal.getGender())));
-                System.out.println(this.getGender() + " : " + animal.getGender());
-                System.out.println("");
                 // Check for same species and oppsite gender
                 if (this.getClass().equals(animal.getClass()) && !(this.getGender().equals(animal.getGender()))) {
                     partner = true;
@@ -74,7 +69,6 @@ public abstract class Animal extends Actor
             return partner;
         }
         
-        System.out.println("birth");
         return age >= BREEDING_AGE;
     }
 }

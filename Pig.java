@@ -57,13 +57,27 @@ public class Pig extends Animal
     }
     
     /**
+     * Determines whether night or day.
+     * @param newHuman A list to return newly born human.
+     */
+    public void act(List<Actor> newPigs, int timeOfDay)
+    {
+        switch(timeOfDay){
+            case 0:
+                dayAct(newPigs);
+            case 1:
+                nightAct(newPigs);
+        }
+    }
+    
+    /**
      * This is what the pig does most of the time: it hunts for
      * plants. In the process, it might breed, die of hunger,
      * or die of old age.
      * @param field The field currently occupied.
      * @param newPigs A list to return newly born pigs.
      */
-    public void act(List<Actor> newPigs)
+    public void dayAct(List<Actor> newPigs)
     {
         incrementAge();
         incrementHunger();
@@ -84,6 +98,16 @@ public class Pig extends Animal
                 setDead();
             }
         }
+    }
+    
+    /**
+     * This is what the humans do during the night: it hunts for
+     * dodos and pigs. In the process, it might breed, die of hunger,
+     * or die of old age.
+     * @param newHuman A list to return newly born humans.
+     */
+    public void nightAct(List<Actor> newPigs)
+    {
     }
 
     /**

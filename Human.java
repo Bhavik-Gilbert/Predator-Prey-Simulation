@@ -59,13 +59,26 @@ public class Human extends Animal
     }
     
     /**
-     * This is what the human does most of the time: it hunts for
-     * rabbits. In the process, it might breed, die of hunger,
-     * or die of old age.
-     * @param field The field currently occupied.
+     * Determines whether night or day.
      * @param newHuman A list to return newly born human.
      */
-    public void act(List<Actor> newHuman)
+    public void act(List<Actor> newHuman, int timeOfDay)
+    {
+        switch(timeOfDay){
+            case 0:
+                dayAct(newHuman);
+            case 1:
+                nightAct(newHuman);
+        }
+    }
+    
+    /**
+     * This is what the humans do during the day: it hunts for
+     * dodos and pigs. In the process, it might breed, die of hunger,
+     * or die of old age.
+     * @param newHuman A list to return newly born humans.
+     */
+    public void dayAct(List<Actor> newHuman)
     {
         incrementAge();
         incrementHunger();
@@ -86,6 +99,16 @@ public class Human extends Animal
                 setDead();
             }
         }
+    }
+    
+    /**
+     * This is what the humans do during the night: it hunts for
+     * dodos and pigs. In the process, it might breed, die of hunger,
+     * or die of old age.
+     * @param newHuman A list to return newly born humans.
+     */
+    public void nightAct(List<Actor> newHuman)
+    {
     }
 
     /**
