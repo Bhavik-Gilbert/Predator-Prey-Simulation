@@ -45,27 +45,29 @@ public abstract class Animal extends Actor
     }
 
     /**
-     * A monkey can breed if it has reached the breeding age.
+     * An animal can breed if it has reached the breeding age and meets a mate of opposite gender.
      */
     protected boolean canBreed(Field field, int BREEDING_AGE, int age) {
         boolean partner = false;
-        List<Location> free = field.adjacentLocations(getLocation()); 
-        while (free.size() > 0) {
-            free.remove(0);
-
-            Object actor = field.getObjectAt(getLocation());
+        // Find all adjacent locations
+        List<Location> adjacentLocations = field.adjacentLocations(getLocation()); 
+        while (adjacentLocations.size() > 0) {
+            // Retrieves object at location
+            Object actor = field.getObjectAt(adjacentLocations.get(0));
             if (actor instanceof Animal) {
                 Animal animal = (Animal) actor;
-                //System.out.println(this.getClass().equals(animal.getClass()) && !(this.getGender().equals(animal.getGender())));
-                //System.out.println(this.getClass().equals(animal.getClass()));
-                //System.out.println(!(this.getGender().equals(animal.getGender())));
-                //System.out.println(this.getGender() + " : " + animal.getGender());
-                //System.out.println("");
+                System.out.println(this.getClass().equals(animal.getClass()) && !(this.getGender().equals(animal.getGender())));
+                System.out.println(this.getClass().equals(animal.getClass()));
+                System.out.println(!(this.getGender().equals(animal.getGender())));
+                System.out.println(this.getGender() + " : " + animal.getGender());
+                System.out.println("");
+                // Check for same species and oppsite gender
                 if (this.getClass().equals(animal.getClass()) && !(this.getGender().equals(animal.getGender()))) {
                     partner = true;
                     break;
                 }
             }
+            adjacentLocations.remove(0);
         }
 
         if (!partner) {
