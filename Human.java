@@ -18,15 +18,15 @@ public class Human extends Animal
     // The age at which a human can start to breed.
     private static final int BREEDING_AGE = 18;
     // The age to which a human can live.
-    private static final int MAX_AGE = 120;
+    private static final int MAX_AGE = 90;
     // The likelihood of a human breeding.
     private static final double BREEDING_PROBABILITY = 0.8;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
     // The food value of a single rabbit. In effect, this is the
     // number of steps a human can go before it has to eat again.
-    private static final int PIG_FOOD_VALUE = 100;
-    private static final int DODO_FOOD_VALUE = 100;
+    private static final int PIG_FOOD_VALUE = 50;
+    private static final int DODO_FOOD_VALUE = 50;
 
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();

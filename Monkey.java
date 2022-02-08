@@ -25,7 +25,7 @@ public class Monkey extends Animal
     private static final int MAX_LITTER_SIZE = 4;
     // The food value of a single plant. In effect, this is the
     // number of steps a monkey can go before it has to eat again.
-    private static final int DODO_FOOD_VALUE = 100;
+    private static final int DODO_FOOD_VALUE = 50;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
     

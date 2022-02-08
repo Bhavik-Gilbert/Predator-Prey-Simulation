@@ -53,19 +53,18 @@ public abstract class Animal extends Actor
         while (free.size() > 0) {
             free.remove(0);
 
-            try {
-                Animal animal = (Animal) field.getObjectAt(getLocation());
-                System.out.println(this.getClass().equals(animal.getClass()) && !(this.getGender().equals(animal.getGender())));
-                System.out.println(this.getClass().equals(animal.getClass()));
-                System.out.println(!(this.getGender().equals(animal.getGender())));
-                System.out.println(this.getGender() + " : " + animal.getGender());
-                System.out.println("");
+            Object actor = field.getObjectAt(getLocation());
+            if (actor instanceof Animal) {
+                Animal animal = (Animal) actor;
+                //System.out.println(this.getClass().equals(animal.getClass()) && !(this.getGender().equals(animal.getGender())));
+                //System.out.println(this.getClass().equals(animal.getClass()));
+                //System.out.println(!(this.getGender().equals(animal.getGender())));
+                //System.out.println(this.getGender() + " : " + animal.getGender());
+                //System.out.println("");
                 if (this.getClass().equals(animal.getClass()) && !(this.getGender().equals(animal.getGender()))) {
                     partner = true;
                     break;
                 }
-            } catch (Exception e) {
-                continue;
             }
         }
 
