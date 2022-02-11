@@ -49,23 +49,7 @@ public class Plant extends Actor
     }
     
     /**
-     * Determines whether night or day.
-     * 
-     * @param newPlants A list to return newly born plants.
-     * @param timeOfDay Integer value determining day or night
-     */
-    public void act(List<Actor> newPlants, int timeOfDay)
-    {
-        switch(timeOfDay){
-            case 0:
-                dayAct(newPlants);
-            case 1:
-                nightAct(newPlants);
-        }
-    }
-    
-    /**
-     * This is what the plant during the day. 
+     * This is what the plant does during the day. 
      * Sometimes it will breed or die of old age.
      * @param newPlants A list to return newly born plants.
      */
@@ -78,7 +62,7 @@ public class Plant extends Actor
     }
     
     /**
-     * This is what the plants do during the night
+     * This is what the plant does during the night
      * 
      * @param newPlants A list to return newly born plants.
      */

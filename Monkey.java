@@ -19,10 +19,10 @@ public class Monkey extends Animal
     // The age to which a monkey can live.
     private static final int MAX_AGE = 50;
     // The likelihood of a monkey breeding.
-    private static final double BREEDING_PROBABILITY = 0.8;
+    private static final double BREEDING_PROBABILITY = 0.4;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 4;
-    // The food value of a single plant. In effect, this is the
+    private static final int MAX_LITTER_SIZE = 2;
+    // The food value of a single dodo. In effect, this is the
     // number of steps a monkey can go before it has to eat again.
     private static final int DODO_FOOD_VALUE = 50;
     // A shared random number generator to control breeding.
@@ -31,7 +31,7 @@ public class Monkey extends Animal
     // Individual characteristics (instance fields).
     // The monkey's age.
     private int age;
-    // The monkey's food level, which is increased by eating plants.
+    // The monkey's food level, which is increased by eating.
     private int foodLevel;
 
     /**
@@ -56,23 +56,7 @@ public class Monkey extends Animal
     }
     
     /**
-     * Determines whether night or day.
-     * 
-     * @param newMonkeys A list to return newly born human.
-     * @param timeOfDay  Integer value determining day or night
-     */
-    public void act(List<Actor> newMonkeys, int timeOfDay)
-    {
-        switch(timeOfDay){
-            case 0:
-                dayAct(newMonkeys);
-            case 1:
-                nightAct(newMonkeys);
-        }
-    }
-    
-    /**
-     * This is what the monkey does most of the time: it hunts for dodos. 
+     * This is what the monkey does during the day: it hunts for dodos. 
      * In the process, it might breed, die of hunger, or die of old age.
      *
      * @param newMonkeys A list to return newly born monkeys.
@@ -101,7 +85,7 @@ public class Monkey extends Animal
     }
     
     /**
-     * This is what the monkeys do during the night
+     * This is what the monkey does during the night
      * 
      * @param newMonkeys A list to return newly born monkeys.
      */
@@ -132,8 +116,8 @@ public class Monkey extends Animal
     }
     
     /**
-     * Look for plants adjacent to the current location.
-     * Only the first live plant is eaten.
+     * Look for dodos adjacent to the current location.
+     * Only the first live dodo is eaten.
      * 
      * @return Where food was found, or null if it wasn't.
      */

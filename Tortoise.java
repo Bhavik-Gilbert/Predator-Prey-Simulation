@@ -56,23 +56,7 @@ public class Tortoise extends Animal
     }
     
     /**
-     * Determines whether night or day.
-     *
-     * @param newTortoises A list to return newly born tortoise.
-     * @param timeOfDay Integer value determining day or night
-     */
-    public void act(List<Actor> newTortoises, int timeOfDay)
-    {
-        switch(timeOfDay){
-            case 0:
-                dayAct(newTortoises);
-            case 1:
-                nightAct(newTortoises);
-        }
-    }
-    
-    /**
-     * This is what the tortoise does most of the time: it hunts for
+     * This is what the tortoise does during the day: it hunts for
      * plants. In the process, it might breed, die of hunger,
      * or die of old age.
      * 
@@ -102,7 +86,7 @@ public class Tortoise extends Animal
     }
     
     /**
-     * This is what the tortoises do during the night
+     * This is what the tortoise does during the night
      * 
      * @param newTortoises A list to return newly born tortoises.
      */

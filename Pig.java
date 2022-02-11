@@ -1,5 +1,3 @@
- //ate plants
-
 import java.util.List;
 import java.util.Iterator;
 import java.util.Random;
@@ -24,7 +22,7 @@ public class Pig extends Animal
     private static final double BREEDING_PROBABILITY = 0.9;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 9;
-    // The food value of a single plant. In effect, this is the
+    // The food value of a single dodo. In effect, this is the
     // number of steps a pig can go before it has to eat again.
     private static final int DODO_FOOD_VALUE = 100;
     // A shared random number generator to control breeding.
@@ -33,7 +31,7 @@ public class Pig extends Animal
     // Individual characteristics (instance fields).
     // The pig's age.
     private int age;
-    // The pig's food level, which is increased by eating plants.
+    // The pig's food level, which is increased by eating dodos.
     private int foodLevel;
 
     /**
@@ -58,23 +56,7 @@ public class Pig extends Animal
     }
     
     /**
-     * Determines whether night or day.
-     * 
-     * @param newHuman  A list to return newly born human.
-     * @param timeOfDay Integer value determining day or night
-     */
-    public void act(List<Actor> newPigs, int timeOfDay)
-    {
-        switch(timeOfDay){
-            case 0:
-                dayAct(newPigs);
-            case 1:
-                nightAct(newPigs);
-        }
-    }
-    
-    /**
-     * This is what the pig does most of the time: it hunts for dodos. 
+     * This is what the pig does during the day: it hunts for dodos. 
      * In the process, it might breed, die of hunger, or die of old age.
      * 
      * @param newPigs A list to return newly born pigs.
@@ -103,9 +85,7 @@ public class Pig extends Animal
     }
     
     /**
-     * This is what the humans do during the night: it hunts for
-     * dodos and pigs. In the process, it might breed, die of hunger,
-     * or die of old age.
+     * This is what the pig does during the night
      * 
      * @param newPigs A list to return newly born pigs.
      */
@@ -136,8 +116,8 @@ public class Pig extends Animal
     }
     
     /**
-     * Look for plants adjacent to the current location.
-     * Only the first live plant is eaten.
+     * Look for dodos adjacent to the current location.
+     * Only the first live dodo is eaten.
      * 
      * @return Where food was found, or null if it wasn't.
      */
@@ -182,7 +162,7 @@ public class Pig extends Animal
     }
         
     /**
-     * Generate a number representing the number of births,
+     * Generate a number representing the number of births, 
      * if it can breed.
      * 
      * @return The number of births (may be zero).

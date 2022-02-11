@@ -1,5 +1,3 @@
- //ate rabbits and racoons
-
 import java.util.List;
 import java.util.Iterator;
 import java.util.Random;
@@ -35,7 +33,7 @@ public class Human extends Animal
     // Individual characteristics (instance fields).
     // The human's age.
     private int age;
-    // The human's food level, which is increased by eating rabbits.
+    // The human's food level, which is increased by eating.
     private int foodLevel;
 
     /**
@@ -60,23 +58,7 @@ public class Human extends Animal
     }
     
     /**
-     * Determines whether night or day.
-     * 
-     * @param newHuman  A list to return newly born human.
-     * @param timeOfDay Integer value determining day or night
-     */
-    public void act(List<Actor> newHuman, int timeOfDay)
-    {
-        switch(timeOfDay){
-            case 0:
-                dayAct(newHuman);
-            case 1:
-                nightAct(newHuman);
-        }
-    }
-    
-    /**
-     * This is what the humans do during the day: it hunts for dodos and pigs.
+     * This is what the human does during the day: it hunts for dodos and pigs.
      *  In the process, it might breed, die of hunger, or die of old age.
      * 
      * @param newHuman A list to return newly born humans.
@@ -105,7 +87,7 @@ public class Human extends Animal
     }
     
     /**
-     * This is what the humans do during the night
+     * This is what the human does during the night
      * 
      * @param newHuman A list to return newly born humans.
      */
@@ -137,7 +119,7 @@ public class Human extends Animal
     
     /**
      * Look for dodos and pigs adjacent to the current location.
-     * Only the first live rabbit is eaten.
+     * Only the first live dodo or  pig is eaten.
      * 
      * @return Where food was found, or null if it wasn't.
      */

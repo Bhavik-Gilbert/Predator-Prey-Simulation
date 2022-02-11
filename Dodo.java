@@ -32,7 +32,7 @@ public class Dodo extends Animal
     // Individual characteristics (instance fields).
     // The dodo's age.
     private int age;
-    // The dodo's food level, which is increased by eating foxes.
+    // The dodo's food level, which is increased by eating.
     private int foodLevel;
 
     /**
@@ -57,23 +57,7 @@ public class Dodo extends Animal
     }
     
     /**
-     * Determines whether night or day.
-     * 
-     * @param newDodos  A list to return newly born human.
-     * @param timeOfDay Integer value determining day or night
-     */
-    public void act(List<Actor> newDodos, int timeOfDay)
-    {
-        switch(timeOfDay){
-            case 0:
-                dayAct(newDodos);
-            case 1:
-                nightAct(newDodos);
-        }
-    }
-    
-    /**
-     * This is what the dodo does most of the time: it looks for plants
+     * This is what the dodo does during the day: it looks for plants
      * In the process, it might breed, die of hunger, or die of old age.
      * 
      * @param newDodos A list to return newly born Dodos.

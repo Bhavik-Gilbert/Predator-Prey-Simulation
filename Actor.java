@@ -29,12 +29,33 @@ public abstract class Actor
     }
 
     /**
-     * Make this actor act - that is: make it do
-     * whatever it wants/needs to do.
-     * @param newActors A list to receive newly born actors.
+     * Determines whether night or day.
+     * 
+     * @param newActors A list to return newly born actors.
      * @param timeOfDay Integer value determining day or night
      */
-    abstract public void act(List<Actor> newActors, int timeOfDay);
+    public void act(List<Actor> newActors, int timeOfDay) {
+        switch (timeOfDay) {
+            case 0:
+                dayAct(newActors);
+            case 1:
+                nightAct(newActors);
+        }
+    }
+
+    /**
+     * Plays out the actions taken by the actor during the day.
+     * 
+     * @param newActors A list to return newly born actors.
+     */
+    protected abstract void dayAct(List<Actor> newActors);
+
+    /**
+     * Plays out the actions taken by the actor during the night.
+     * 
+     * @param newActors A list to return newly born actors.
+     */
+    protected abstract void nightAct(List<Actor> newActors);
 
     /**
      * Check whether the actor is alive or not.
