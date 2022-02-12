@@ -42,9 +42,9 @@ public class Monkey extends Animal
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    public Monkey(boolean randomAge, Field field, Location location)
+    public Monkey(boolean randomAge, Field field, Location location, boolean overlap)
     {
-        super(field, location);
+        super(field, location, false);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
             foodLevel = rand.nextInt(DODO_FOOD_VALUE);
@@ -154,9 +154,10 @@ public class Monkey extends Animal
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
         int births = breed(field);
+        System.out.println(free.size());
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Monkey young = new Monkey(false, field, loc);
+            Monkey young = new Monkey(false, field, loc, false);
             newMonkeys.add(young);
         }
     }

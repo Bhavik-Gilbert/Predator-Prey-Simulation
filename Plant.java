@@ -39,9 +39,9 @@ public class Plant extends Actor
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    public Plant(boolean randomAge, Field field, Location location)
+    public Plant(boolean randomAge, Field field, Location location, boolean overlap)
     {
-        super(field, location);
+        super(field, location, overlap);
         age = 0;
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
@@ -97,7 +97,7 @@ public class Plant extends Actor
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Plant young = new Plant(false, field, loc);
+            Plant young = new Plant(false, field, loc, true);
             newPlants.add(young);
         }
     }

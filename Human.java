@@ -44,9 +44,9 @@ public class Human extends Animal
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    public Human(boolean randomAge, Field field, Location location)
+    public Human(boolean randomAge, Field field, Location location, boolean overlap)
     {
-        super(field, location);
+        super(field, location, false);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
             foodLevel = rand.nextInt(PIG_FOOD_VALUE);
@@ -166,7 +166,7 @@ public class Human extends Animal
         int births = breed(field);
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Human young = new Human(false, field, loc);
+            Human young = new Human(false, field, loc, false);
             newHuman.add(young);
         }
     }

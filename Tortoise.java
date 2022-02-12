@@ -42,9 +42,9 @@ public class Tortoise extends Animal
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    public Tortoise(boolean randomAge, Field field, Location location)
+    public Tortoise(boolean randomAge, Field field, Location location, boolean overlap)
     {
-        super(field, location);
+        super(field, location, overlap);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
             foodLevel = rand.nextInt(PLANT_FOOD_VALUE);
@@ -157,7 +157,7 @@ public class Tortoise extends Animal
         int births = breed(field);
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Tortoise young = new Tortoise(false, field, loc);
+            Tortoise young = new Tortoise(false, field, loc, false);
             newTortoises.add(young);
         }
     }

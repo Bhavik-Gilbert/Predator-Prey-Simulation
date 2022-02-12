@@ -19,9 +19,9 @@ public abstract class Animal extends Actor
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    public Animal(Field field, Location location)
+    public Animal(Field field, Location location, boolean overlap)
     {
-        super(field, location);
+        super(field, location, overlap);
         randomGender();
     }
     

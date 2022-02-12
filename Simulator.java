@@ -30,7 +30,7 @@ public class Simulator
     // The probability that a dodo will be created in any given grid position.
     private static final double DODO_CREATION_PROBABILITY = 0.05;    
     // The probability that a plant will be created in any given grid position.
-    private static final double PLANT_CREATION_PROBABILITY = 0;
+    private static final double PLANT_CREATION_PROBABILITY = 0.2;
 
     // List of actors in the field.
     private List<Actor> actors;
@@ -79,7 +79,7 @@ public class Simulator
         view.setColor(Dodo.class, new Color(255,204,51));
         view.setColor(Monkey.class, new Color(51,0,0));
         view.setColor(Tortoise.class, new Color(0,153,0));
-        //view.setColor(Plant.class, Color.GREEN);
+        view.setColor(Plant.class, Color.GREEN);
         
         // Setup a valid starting point.
         reset();
@@ -91,7 +91,7 @@ public class Simulator
      */
     public void runLongSimulation()
     {
-        simulate(100);
+        simulate(10);
     }
     
     /**
@@ -126,7 +126,7 @@ public class Simulator
             }
         }
 
-        delay(500);
+        delay(250);
                
         // Add the newly born actors to the main lists.
         actors.addAll(newActors);
@@ -158,32 +158,32 @@ public class Simulator
             for(int col = 0; col < field.getWidth(); col++) {
                 if (rand.nextDouble() <= DODO_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Dodo dodo = new Dodo(true, field, location);
+                    Dodo dodo = new Dodo(true, field, location, false);
                     actors.add(dodo);
                 }
                 else if(rand.nextDouble() <= HUMAN_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Human human = new Human(true, field, location);
+                    Human human = new Human(true, field, location, false);
                     actors.add(human);
                 }
                 if(rand.nextDouble() <= PIG_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Pig pig = new Pig(true, field, location);
+                    Pig pig = new Pig(true, field, location, false);
                     actors.add(pig);
                 }
                 if (rand.nextDouble() <= MONKEY_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Monkey monkey = new Monkey(true, field, location);
+                    Monkey monkey = new Monkey(true, field, location, false);
                     actors.add(monkey);
                 }
                 if (rand.nextDouble() <= TORTOISE_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Tortoise tortoise = new Tortoise(true, field, location);
+                    Tortoise tortoise = new Tortoise(true, field, location, false);
                     actors.add(tortoise);
                 }
                 if (rand.nextDouble() <= PLANT_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Plant plant = new Plant(true, field, location);
+                    Plant plant = new Plant(true, field, location, true);
                     actors.add(plant);
                 }
                 // else leave the location empty.

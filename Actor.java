@@ -3,7 +3,7 @@ import java.util.List;
 /**
  * Defines what the different characteristics of elements in the simulation must have
  *
- *  Determines it's state of life and location on the field
+ * Determines it's state of life and location on the field
  * Creates existence of action method for subclasses 
  *
  * @author Bhavik Gilbert and Heman Seegolam
@@ -17,15 +17,18 @@ public abstract class Actor
     protected Field field;
     // The actor's position in the field.
     protected Location location;
+    // Whether the actor can overlap with other actors in a particular field
+    protected boolean overlap;
 
     /**
      * Constructor for objects of class Actor
      */
-    public Actor(Field field, Location location)
+    public Actor(Field field, Location location, boolean overlap)
     {
         alive = true;
         this.field = field;
         setLocation(location);
+        this.overlap = overlap;
     }
 
     /**
@@ -109,5 +112,14 @@ public abstract class Actor
     protected Field getField()
     {
         return field;
+    }
+    
+    /**
+     * Return Whether the actor can overlap with other actors.
+     * @return Whether the actor can overlap.
+     */
+    public boolean getOverlap()
+    {
+        return overlap;
     }
 }

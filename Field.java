@@ -124,9 +124,23 @@ public class Field
     {
         List<Location> free = new LinkedList<>();
         List<Location> adjacent = adjacentLocations(location);
-        for(Location next : adjacent) {
-            if(getObjectAt(next) == null) {
-                free.add(next);
+        // if actor at current location allows for overlap (for weather)
+        if ( ( (Actor) getObjectAt(location) ) .getOverlap() ){
+            System.out.println("current object allows overlap");
+            return adjacent;
+        }
+        else{
+            System.out.println("current object does not allow overlap");
+            for(Location next : adjacent) {
+                // if no actor at next location or actor at next location allows for overlap
+                if ( (getObjectAt(next) == null) || ( ( (Actor) getObjectAt(next) ) .getOverlap() ) ) {
+                    free.add(next);
+                    System.out.println("no actor or allowed overlap");
+                }
+                // else{
+                    // System.out.println("else");
+                    // // System.out.println(((Actor) getObjectAt(next)).getOverlap());
+                // }
             }
         }
         return free;
