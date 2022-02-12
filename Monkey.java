@@ -152,6 +152,13 @@ public class Monkey extends Animal
         // New monkeys are born into adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
+        Monkey monkey = (Monkey) field.getObjectAt(getLocation());
+        if (monkey == null){
+            System.out.println("null");
+        }
+        else{
+            System.out.println(monkey.getOverlap());
+        }
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
         int births = breed(field);
         System.out.println(free.size());
