@@ -26,11 +26,11 @@ public class Simulator
     // The probability that a pig will be created in any given grid position.
     private static final double PIG_CREATION_PROBABILITY = 0.05;
     // The probability that a tortoise will be created in any given grid position.
-    private static final double TORTOISE_CREATION_PROBABILITY = 0.05;
+    private static final double TORTOISE_CREATION_PROBABILITY = 0.02;
     // The probability that a dodo will be created in any given grid position.
-    private static final double DODO_CREATION_PROBABILITY = 0.05;    
+    private static final double DODO_CREATION_PROBABILITY = 0.02;    
     // The probability that a plant will be created in any given grid position.
-    private static final double PLANT_CREATION_PROBABILITY = 0.2;
+    private static final double PLANT_CREATION_PROBABILITY = 0.5;
 
     // List of actors in the field.
     private List<Actor> actors;
@@ -79,7 +79,7 @@ public class Simulator
         view.setColor(Dodo.class, new Color(255,204,51));
         view.setColor(Monkey.class, new Color(51,0,0));
         view.setColor(Tortoise.class, new Color(0,153,0));
-        view.setColor(Plant.class, Color.GREEN);
+        //view.setColor(Plant.class, Color.GREEN);
         
         // Setup a valid starting point.
         reset();
@@ -91,7 +91,7 @@ public class Simulator
      */
     public void runLongSimulation()
     {
-        simulate(10);
+        simulate(100);
     }
     
     /**
@@ -161,7 +161,7 @@ public class Simulator
                     Dodo dodo = new Dodo(true, field, location, false);
                     actors.add(dodo);
                 }
-                else if(rand.nextDouble() <= HUMAN_CREATION_PROBABILITY) {
+                if(rand.nextDouble() <= HUMAN_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Human human = new Human(true, field, location, false);
                     actors.add(human);

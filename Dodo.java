@@ -25,7 +25,7 @@ public class Dodo extends Animal
     private static final int MAX_LITTER_SIZE = 2;
     // The food value of a single dodo. In effect, this is the
     // number of steps a dodo can go before it has to eat again.
-    private static final int PLANT_FOOD_VALUE = 10000;
+    private static final int PLANT_FOOD_VALUE = 10;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
     

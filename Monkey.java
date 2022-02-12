@@ -24,7 +24,7 @@ public class Monkey extends Animal
     private static final int MAX_LITTER_SIZE = 2;
     // The food value of a single dodo. In effect, this is the
     // number of steps a monkey can go before it has to eat again.
-    private static final int DODO_FOOD_VALUE = 50;
+    private static final int DODO_FOOD_VALUE = 3;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
     
@@ -152,17 +152,9 @@ public class Monkey extends Animal
         // New monkeys are born into adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
-        Monkey monkey = (Monkey) field.getObjectAt(getLocation());
-        if (monkey == null){
-            System.out.println("null");
-        }
-        else{
-            System.out.println(monkey.getOverlap());
-        }
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
         int births = breed(field);
-        System.out.println(free.size());
-        for(int b = 0; b < births && free.size() > 0; b++) {
+        for (int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
             Monkey young = new Monkey(false, field, loc, false);
             newMonkeys.add(young);

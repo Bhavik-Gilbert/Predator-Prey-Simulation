@@ -24,7 +24,7 @@ public class Pig extends Animal
     private static final int MAX_LITTER_SIZE = 9;
     // The food value of a single dodo. In effect, this is the
     // number of steps a pig can go before it has to eat again.
-    private static final int DODO_FOOD_VALUE = 100;
+    private static final int DODO_FOOD_VALUE = 3;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
     

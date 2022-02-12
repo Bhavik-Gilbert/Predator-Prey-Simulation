@@ -24,8 +24,8 @@ public class Human extends Animal
     private static final int MAX_LITTER_SIZE = 2;
     // The food value of a single pig/dodo. In effect, this is the
     // number of steps a human can go before it has to eat again.
-    private static final int PIG_FOOD_VALUE = 50;
-    private static final int DODO_FOOD_VALUE = 50;
+    private static final int PIG_FOOD_VALUE = 5;
+    private static final int DODO_FOOD_VALUE = 3;
 
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
