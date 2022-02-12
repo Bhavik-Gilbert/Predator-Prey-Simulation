@@ -20,11 +20,14 @@ public class Plant extends Actor
     // The age to which a plant can live.
     private static final int MAX_AGE = 2;
     // The likelihood of a plant breeding.
-    private static final double BREEDING_PROBABILITY = 1;
+    private static final double BREEDING_PROBABILITY = 0.4;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 10;
+    private static final int MAX_LITTER_SIZE = 2;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
+
+    // The number of alive plants at a given time
+    public static int objectCount;
     
     // Individual characteristics (instance fields).
     
@@ -46,6 +49,29 @@ public class Plant extends Actor
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
         }
+
+        incrementPlantCount();
+    }
+    
+    /**
+     * Increments the number of plants alive by 1
+     */
+    private void incrementPlantCount(){
+        objectCount++;
+    }
+
+    /**
+     * Decrements the number of plants alive by 1
+     */
+    private void decrementPlantCount() {
+        objectCount--;
+    }
+
+    /**
+     * Returns the number of plants currently alive
+     */
+    public static int getPlantCount() {
+        return objectCount;
     }
     
     /**
@@ -79,6 +105,7 @@ public class Plant extends Actor
         age++;
         if(age > MAX_AGE) {
             setDead();
+            decrementPlantCount();
         }
     }
     
@@ -96,9 +123,12 @@ public class Plant extends Actor
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
-            Location loc = free.remove(0);
-            Plant young = new Plant(false, field, loc, true);
-            newPlants.add(young);
+            // Avoids overcrowding of the same type 
+            if(!(field.getObjectAt(free.get(0)) instanceof Plant)){
+                Location loc = free.remove(0);
+                Plant young = new Plant(false, field, loc, true);
+                newPlants.add(young);
+            }
         }
     }
         

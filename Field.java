@@ -57,8 +57,9 @@ public class Field
     
     /**
      * Place an actor at the given location.
-     * If there is already an actor at the location it will
-     * be lost.
+     * If there is already an actor at the location it will be lost.
+     * Animals cannot be overwritten by other actors except for by another animal
+     * 
      * @param actor The actor to be placed.
      * @param row Row coordinate of the location.
      * @param col Column coordinate of the location.
@@ -70,14 +71,17 @@ public class Field
     
     /**
      * Place an actor at the given location.
-     * If there is already an actor at the location it will
-     * be lost.
+     * If there is already an actor at the location it will be lost.
+     * Animals cannot be overwritten by other actors except for by another animal
+     * 
      * @param actor The actor to be placed.
      * @param location Where to place the actor.
      */
     public void place(Object actor, Location location)
     {
-        field[location.getRow()][location.getCol()] = actor;
+        if((actor instanceof Animal) || (getObjectAt(location) == null)){
+            field[location.getRow()][location.getCol()] = actor;
+        }
     }
     
     /**
@@ -126,16 +130,16 @@ public class Field
         List<Location> adjacent = adjacentLocations(location);
         // if actor at current location allows for overlap (for weather, disease, etc.)
         if (getObjectAt(location) == null || ((Actor) getObjectAt(location)).getOverlap() ){
-            System.out.println("current object allows overlap");
+            //System.out.println("current object allows overlap");
             return adjacent;
         }
         else{
-            System.out.println("current object does not allow overlap");
+            //System.out.println("current object does not allow overlap");
             for(Location next : adjacent) {
                 // if no actor at next location or actor at next location allows for overlap
                 if ((getObjectAt(next) == null) || (((Actor)getObjectAt(next)).getOverlap() ) ) {
                     free.add(next);
-                    System.out.println("no actor or allowed overlap");
+                    //System.out.println("no actor or allowed overlap");
                 }
             }
         }

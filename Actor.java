@@ -33,11 +33,14 @@ public abstract class Actor
 
     /**
      * Determines whether night or day.
+     * Replaces actor onto field if alive and space available
      * 
      * @param newActors A list to return newly born actors.
      * @param timeOfDay Integer value determining day or night
      */
     public void act(List<Actor> newActors, int timeOfDay) {
+        replaceActor();
+
         switch (timeOfDay) {
             case 0:
                 dayAct(newActors);
@@ -46,6 +49,15 @@ public abstract class Actor
         }
     }
 
+    /**
+     * Used to place alive actors, always non animals,
+     * back onto the board at their location if their space is available
+     */
+    private void replaceActor(){
+        if ((alive) && field.getObjectAt(location) == null) {
+            field.place(this, location);
+        }
+    }
     /**
      * Plays out the actions taken by the actor during the day.
      * 

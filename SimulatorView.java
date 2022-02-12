@@ -68,13 +68,13 @@ public class SimulatorView extends JFrame
     }
     
     /**
-     * Define a color to be used for a given class of animal.
-     * @param animalClass The animal's Class object.
-     * @param color The color to be used for the given class.
+     * Define a color to be used for a given class of actor.
+     * @param actorClass The actor's Class object.
+     * @param color      The color to be used for the given class.
      */
-    public void setColor(Class animalClass, Color color)
+    public void setColor(Class actorClass, Color color)
     {
-        colors.put(animalClass, color);
+        colors.put(actorClass, color);
     }
 
     /**
@@ -86,12 +86,12 @@ public class SimulatorView extends JFrame
     }
 
     /**
-     * @param animalClass An animal class
-     * @return The color to be used for a given class of animal.
+     * @param actorClass An actor class
+     * @return The color to be used for a given class of actor.
      */
-    private Color getColor(Class animalClass)
+    private Color getColor(Class actorClass)
     {
-        Color col = colors.get(animalClass);
+        Color col = colors.get(actorClass);
         if(col == null) {
             // no color defined for this class
             return UNKNOWN_COLOR;
@@ -127,10 +127,10 @@ public class SimulatorView extends JFrame
 
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
-                Object animal = field.getObjectAt(row, col);
-                if(animal != null) {
-                    stats.incrementCount(animal.getClass());
-                    fieldView.drawMark(col, row, getColor(animal.getClass()));
+                Object actor = field.getObjectAt(row, col);
+                if(actor != null) {
+                    stats.incrementCount(actor.getClass());
+                    fieldView.drawMark(col, row, getColor(actor.getClass()));
                 }
                 else {
                     fieldView.drawMark(col, row, EMPTY_COLOR);
