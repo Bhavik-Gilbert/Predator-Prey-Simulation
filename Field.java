@@ -129,7 +129,7 @@ public class Field
         List<Location> free = new LinkedList<>();
         List<Location> adjacent = adjacentLocations(location);
         // if actor at current location allows for overlap (for weather, disease, etc.)
-        if (getObjectAt(location) == null || ((Actor) getObjectAt(location)).getOverlap() ){
+        if (((Actor) getObjectAt(location)).getOverlap() ){
             //System.out.println("current object allows overlap");
             return adjacent;
         }
