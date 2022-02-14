@@ -47,6 +47,23 @@ public class FieldStats
         }
         return buffer.toString();
     }
+
+    /**UNUSED, MADE FOR GRAPH
+     * Get details of what is in the field.
+     * @return A list describing what is in the field.
+     */
+    public HashMap<String,Integer> getPopulationNumerics(Field field) {
+        HashMap<String, Integer> animalDesc = new HashMap<>();
+        if (!countsValid) {
+            generateCounts(field);
+        }
+        for (Class key : counters.keySet()) {
+            Counter info = counters.get(key);
+            animalDesc.put(info.getName(), info.getCount());
+        }
+        return animalDesc;
+    }
+    
     
     /**
      * Invalidate the current set of statistics; reset all 

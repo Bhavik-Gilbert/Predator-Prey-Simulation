@@ -1,6 +1,4 @@
- 
-
-import java.util.List;
+ import java.util.List;
 import java.util.Random;
 
 /**
@@ -26,8 +24,9 @@ public class Plant extends Actor
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
+    // TEMP
     // The number of alive plants at a given time
-    public static int objectCount;
+    private static int objectCount = 0;
     
     // Individual characteristics (instance fields).
     
@@ -54,13 +53,15 @@ public class Plant extends Actor
     }
     
     /**
-     * Increments the number of plants alive by 1
+     * TEMP
+     *  Increments the number of plants alive by 1
      */
     private void incrementPlantCount(){
         objectCount++;
     }
 
     /**
+     * TEMP
      * Decrements the number of plants alive by 1
      */
     private void decrementPlantCount() {
@@ -105,7 +106,17 @@ public class Plant extends Actor
         age++;
         if(age > MAX_AGE) {
             setDead();
-            decrementPlantCount();
+        }
+    }
+
+    @Override
+    public void setDead() {
+        alive = false;
+        decrementPlantCount();
+        if (location != null) {
+            field.clear(location);
+            location = null;
+            field = null;
         }
     }
     

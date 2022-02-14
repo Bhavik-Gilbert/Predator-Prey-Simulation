@@ -127,7 +127,7 @@ public class Simulator
         }
         
         //TEMPORARY - CORRECT PLANT OBJECT COUNTER
-        System.out.println(Plant.objectCount);
+        System.out.println(Plant.getPlantCount());
 
         // Add the newly born actors to the main lists.
         actors.addAll(newActors);

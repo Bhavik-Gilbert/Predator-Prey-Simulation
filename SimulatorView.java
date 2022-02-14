@@ -4,6 +4,14 @@ import javax.swing.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.scene.chart.*;
+import javafx.scene.Group;
+
 /**
  * A graphical view of the simulation grid.
  * The view displays a colored rectangle for each location
@@ -237,6 +245,30 @@ public class SimulatorView extends JFrame
                     g.drawImage(fieldImage, 0, 0, currentSize.width, currentSize.height, null);
                 }
             }
+        }
+    }
+
+    private abstract class PieChartSample extends Application {
+
+        public void start(Stage stage, Map Actors) {
+            Scene scene = new Scene(new Group());
+            stage.setTitle("Population");
+            stage.setWidth(500);
+            stage.setHeight(500);
+
+            ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+                    //actors.forEach((k,v)->{new PieChart.Data(k, v);}));
+                    new PieChart.Data("Grapefruit", 13),
+                    new PieChart.Data("Oranges", 25),
+                    new PieChart.Data("Plums", 10),
+                    new PieChart.Data("Pears", 22),
+                    new PieChart.Data("Apples", 30));
+            final PieChart chart = new PieChart(pieChartData);
+            chart.setTitle("Population");
+
+            ((Group) scene.getRoot()).getChildren().add(chart);
+            stage.setScene(scene);
+            stage.show();
         }
     }
 }
