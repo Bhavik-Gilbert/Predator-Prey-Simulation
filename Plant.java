@@ -90,11 +90,15 @@ public class Plant extends Actor
     
     /**
      * This is what the plant does during the night
+     * It may breed at a decreased rate
      * 
      * @param newPlants A list to return newly born plants.
      */
     public void nightAct(List<Actor> newPlants)
     {
+        if (isAlive()) {
+            giveBirth(newPlants);
+        }
     }
 
     /**
@@ -151,8 +155,16 @@ public class Plant extends Actor
      */
     private int breed()
     {
+        int effect;
+        if(day){
+            effect = 1;
+        }
+        else{
+            effect = 10;
+        }
+
         int births = 0;
-        if(canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
+        if(canBreed() && rand.nextDouble() <= (BREEDING_PROBABILITY / effect)) {
             births = rand.nextInt(MAX_LITTER_SIZE) + 1;
         }
         return births;

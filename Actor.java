@@ -19,6 +19,8 @@ public abstract class Actor
     protected Location location;
     // Whether the actor can overlap with other actors in a particular field
     protected boolean overlap;
+    // Shows whether it is day or night
+    protected boolean day;
 
     /**
      * Constructor for objects of class Actor
@@ -43,8 +45,10 @@ public abstract class Actor
 
         switch (timeOfDay) {
             case 0:
+                day = true;
                 dayAct(newActors);
             case 1:
+                day = false;
                 nightAct(newActors);
         }
     }
