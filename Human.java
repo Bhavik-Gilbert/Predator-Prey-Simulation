@@ -59,7 +59,7 @@ public class Human extends Animal
     
     /**
      * This is what the human does during the day: it hunts for dodos and pigs.
-     *  In the process, it might breed, die of hunger, or die of old age.
+     *  In the process, die of hunger, or die of old age.
      * 
      * @param newHuman A list to return newly born humans.
      */
@@ -67,8 +67,7 @@ public class Human extends Animal
     {
         incrementAge();
         incrementHunger();
-        if(isAlive()) {
-            giveBirth(newHuman);            
+        if(isAlive()) {           
             // Move towards a source of food if found.
             Location newLocation = findFood();
             if(newLocation == null) { 
@@ -87,12 +86,15 @@ public class Human extends Animal
     }
     
     /**
-     * This is what the human does during the night
+     * This is what the human does during the night: Gives birth and Sleeps
      * 
      * @param newHuman A list to return newly born humans.
      */
     public void nightAct(List<Actor> newHuman)
     {
+        if(isAlive()) {
+            giveBirth(newHuman);
+        }
     }
 
     /**

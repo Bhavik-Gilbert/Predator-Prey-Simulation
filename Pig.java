@@ -85,7 +85,8 @@ public class Pig extends Animal
     }
     
     /**
-     * This is what the pig does during the night
+     * This is what the pig does during the 
+     * It sleeps
      * 
      * @param newPigs A list to return newly born pigs.
      */

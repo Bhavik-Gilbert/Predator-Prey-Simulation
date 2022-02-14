@@ -27,7 +27,7 @@ public class Dodo extends Animal
     // number of steps a dodo can go before it has to eat again.
     private static final int PLANT_FOOD_VALUE = 10;
     // The chance of a Dodo attacking a predator in its sleep
-    private static final int ATTACK_CHANCE = 1;
+    private static final float ATTACK_CHANCE = 0.01f;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
     
@@ -90,6 +90,7 @@ public class Dodo extends Animal
     /**
      * This is what the dodos do during the night: 
      * It may attack predators that would kill it during the day
+     * Then it sleeps
      * @param newDodos A list to return newly born Dodos.
      */
     public void nightAct(List<Actor> newDodos)
@@ -97,7 +98,8 @@ public class Dodo extends Animal
         if (isAlive()) {
             // Charges into predator killing it
             Location newLocation = chargePredator();
-            if (newLocation != null && (ATTACK_CHANCE >= rand.nextInt(10))) {
+            if (newLocation != null && (ATTACK_CHANCE >= rand.nextDouble())) {
+                System.out.println("Attack");
                 setLocation(newLocation);
             }
         }

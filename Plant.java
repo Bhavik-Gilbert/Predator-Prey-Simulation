@@ -156,11 +156,11 @@ public class Plant extends Actor
     private int breed()
     {
         int effect;
-        if(day){
+        if(getDay()){
             effect = 1;
         }
         else{
-            effect = 10;
+            effect = 100;
         }
 
         int births = 0;

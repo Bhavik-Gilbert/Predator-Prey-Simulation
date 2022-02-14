@@ -65,8 +65,7 @@ public class Monkey extends Animal
     {
         incrementAge();
         incrementHunger();
-        if(isAlive()) {
-            giveBirth(newMonkeys);            
+        if(isAlive()) {           
             // Move towards a source of food if found.
             Location newLocation = findFood();
             if(newLocation == null) { 
@@ -85,7 +84,7 @@ public class Monkey extends Animal
     }
     
     /**
-     * This is what the monkey does during the night
+     * This is what the monkey does during the night: Sleep
      * 
      * @param newMonkeys A list to return newly born monkeys.
      */

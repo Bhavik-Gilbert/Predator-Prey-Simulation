@@ -86,7 +86,7 @@ public class Tortoise extends Animal
     }
     
     /**
-     * This is what the tortoise does during the night
+     * This is what the tortoise does during the night: Sleep
      * 
      * @param newTortoises A list to return newly born tortoises.
      */

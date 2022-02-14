@@ -120,14 +120,14 @@ public class Simulator
         // Let all actors act.
         for(Iterator<Actor> it = actors.iterator(); it.hasNext(); ) {
             Actor actor = it.next();
-            actor.act(newActors, step%2);
+            actor.act(newActors, step%2, randomWeather());
             if(!actor.isAlive()) {
                 it.remove();
             }
         }
         
         //TEMPORARY - CORRECT PLANT OBJECT COUNTER
-        System.out.println(Plant.getPlantCount());
+        //System.out.println(Plant.getPlantCount());
 
         // Add the newly born actors to the main lists.
         actors.addAll(newActors);
@@ -219,5 +219,13 @@ public class Simulator
         catch (InterruptedException ie) {
             // wake up
         }
+    }
+
+    /**
+     * Generates a random weather from the Weather ENUM
+     */
+    protected Weather randomWeather() {
+        Random rand = Randomizer.getRandom();
+        return Weather.values()[rand.nextInt(Weather.values().length)];
     }
 }

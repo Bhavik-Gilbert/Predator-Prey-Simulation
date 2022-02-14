@@ -19,8 +19,10 @@ public abstract class Actor
     protected Location location;
     // Whether the actor can overlap with other actors in a particular field
     protected boolean overlap;
-    // Shows whether it is day or night
-    protected boolean day;
+    // The current time of day, true day, false night
+    private boolean day;
+    // the current weather condition
+    private Weather weather;
 
     /**
      * Constructor for objects of class Actor
@@ -40,8 +42,9 @@ public abstract class Actor
      * @param newActors A list to return newly born actors.
      * @param timeOfDay Integer value determining day or night
      */
-    public void act(List<Actor> newActors, int timeOfDay) {
+    public void act(List<Actor> newActors, int timeOfDay, Weather weather) {
         replaceActor();
+        setWeather(weather);
 
         switch (timeOfDay) {
             case 0:
@@ -62,6 +65,32 @@ public abstract class Actor
             field.place(this, location);
         }
     }
+
+    /**
+     * Sets the current weather condition in the actor
+     * @param weather The current weather condition
+     */
+    private void setWeather(Weather weather){
+        this.weather = weather;
+    }
+
+    /**
+     * Returns the current time of day 
+     * @return Current time of day, true if day, false if night
+     */
+    protected boolean getDay(){
+        return day;
+    }
+    
+    /**
+     * Returns the current weather condition based of the weather enumerator class
+     * 
+     * @return Current weather condition
+     */
+    protected Weather getWeather() {
+        return weather;
+    }
+    
     /**
      * Plays out the actions taken by the actor during the day.
      * 
