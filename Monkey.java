@@ -15,24 +15,20 @@ public class Monkey extends Animal
     // Characteristics shared by all monkeys (class variables).
     
     // The age at which a monkey can start to breed.
-    private static final int BREEDING_AGE = 3;
+    private static final int BREEDING_AGE = 6;
     // The age to which a monkey can live.
     private static final int MAX_AGE = 50;
     // The likelihood of a monkey breeding.
-    private static final double BREEDING_PROBABILITY = 0.4;
+    private static final double BREEDING_PROBABILITY = 0.8;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 2;
-    // The food value of a single dodo. In effect, this is the
-    // number of steps a monkey can go before it has to eat again.
-    private static final int DODO_FOOD_VALUE = 3;
+    private static final int MAX_LITTER_SIZE = 4;
+    // The base rate which when multiplied by age gives
+    // the number of steps a predator gains when it eats a monkey
+    private static final double MONKEY_FOOD_VALUE = 0.5;
+    // Base starting food level for all monkeys
+    private static final int BASIC_FOOD_LEVEL = 20;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
-    
-    // Individual characteristics (instance fields).
-    // The monkey's age.
-    private int age;
-    // The monkey's food level, which is increased by eating.
-    private int foodLevel;
 
     /**
      * Create a monkey. A monkey can be created as a new born (age zero
@@ -42,16 +38,17 @@ public class Monkey extends Animal
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    public Monkey(boolean randomAge, Field field, Location location, boolean overlap)
+    protected Monkey(boolean randomAge, Field field, Location location, boolean overlap)
     {
         super(field, location, false);
+        setFoodValue(MONKEY_FOOD_VALUE);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
-            foodLevel = rand.nextInt(DODO_FOOD_VALUE);
+            foodLevel = rand.nextInt(BASIC_FOOD_LEVEL);
         }
         else {
             age = 0;
-            foodLevel = DODO_FOOD_VALUE;
+            foodLevel = BASIC_FOOD_LEVEL;
         }
     }
     
@@ -63,9 +60,10 @@ public class Monkey extends Animal
      */
     public void dayAct(List<Actor> newMonkeys)
     {
-        incrementAge();
+        incrementAge(MAX_AGE);
         incrementHunger();
-        if(isAlive()) {           
+        if(isAlive()) {    
+            giveBirth(newMonkeys);       
             // Move towards a source of food if found.
             Location newLocation = findFood();
             if(newLocation == null) { 
@@ -91,28 +89,6 @@ public class Monkey extends Animal
     public void nightAct(List<Actor> newMonkeys)
     {
     }
-
-    /**
-     * Increase the age. This could result in the monkey's death.
-     */
-    private void incrementAge()
-    {
-        age++;
-        if(age > MAX_AGE) {
-            setDead();
-        }
-    }
-    
-    /**
-     * Make this monkey more hungry. This could result in the monkey's death.
-     */
-    private void incrementHunger()
-    {
-        foodLevel--;
-        if(foodLevel <= 0) {
-            setDead();
-        }
-    }
     
     /**
      * Look for dodos adjacent to the current location.
@@ -129,10 +105,10 @@ public class Monkey extends Animal
             Location where = it.next();
             Object actor = field.getObjectAt(where);
             if(actor instanceof Dodo) {
-                Dodo dodo = (Dodo) actor;
-                if(dodo.isAlive()) { 
-                    dodo.setDead();
-                    foodLevel += DODO_FOOD_VALUE;
+                Animal prey = (Animal) actor;
+                if(prey.isAlive()) { 
+                    prey.setDead();
+                    foodLevel += prey.getFoodValue();
                     return where;
                 }
             }

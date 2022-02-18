@@ -16,17 +16,16 @@ public class Plant extends Actor
     // The age at which a plant can start to breed.
     private static final int BREEDING_AGE = 0;
     // The age to which a plant can live.
-    private static final int MAX_AGE = 2;
+    private static final int MAX_AGE = 3;
     // The likelihood of a plant breeding.
     private static final double BREEDING_PROBABILITY = 0.4;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
+    // The base rate which when multiplied by age gives
+    // the number of steps a predator gains when it eats a tortoise
+    private static final double PLANT_FOOD_VALUE = 5;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
-
-    // TEMP
-    // The number of alive plants at a given time
-    private static int objectCount = 0;
     
     // Individual characteristics (instance fields).
     
@@ -48,33 +47,8 @@ public class Plant extends Actor
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
         }
-
-        incrementPlantCount();
-    }
-    
-    /**
-     * TEMP
-     *  Increments the number of plants alive by 1
-     */
-    private void incrementPlantCount(){
-        objectCount++;
     }
 
-    /**
-     * TEMP
-     * Decrements the number of plants alive by 1
-     */
-    private void decrementPlantCount() {
-        objectCount--;
-    }
-
-    /**
-     * Returns the number of plants currently alive
-     */
-    public static int getPlantCount() {
-        return objectCount;
-    }
-    
     /**
      * This is what the plant does during the day. 
      * Sometimes it will breed or die of old age.
@@ -82,7 +56,6 @@ public class Plant extends Actor
      */
     public void dayAct(List<Actor> newPlants)
     {
-        incrementAge();
         if(isAlive()) {
             giveBirth(newPlants);            
         }
@@ -101,29 +74,6 @@ public class Plant extends Actor
         }
     }
 
-    /**
-     * Increase the age.
-     * This could result in the plant's death.
-     */
-    private void incrementAge()
-    {
-        age++;
-        if(age > MAX_AGE) {
-            setDead();
-        }
-    }
-
-    @Override
-    public void setDead() {
-        alive = false;
-        decrementPlantCount();
-        if (location != null) {
-            field.clear(location);
-            location = null;
-            field = null;
-        }
-    }
-    
     /**
      * Check whether or not this plant is to give birth at this step.
      * New births will be made into free adjacent locations.
@@ -178,5 +128,13 @@ public class Plant extends Actor
     private boolean canBreed()
     {
         return age >= BREEDING_AGE;
+    }
+
+    public int getAge(){
+        return age;
+    }
+
+    public double getFoodValue() {
+        return age * PLANT_FOOD_VALUE;
     }
 }

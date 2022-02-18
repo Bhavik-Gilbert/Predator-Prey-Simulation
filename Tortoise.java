@@ -19,21 +19,16 @@ public class Tortoise extends Animal
     // The age to which a tortoise can live.
     private static final int MAX_AGE = 90;
     // The likelihood of a tortoise breeding.
-    private static final double BREEDING_PROBABILITY = 0.8;
+    private static final double BREEDING_PROBABILITY = 0.4;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 10;
-    // The food value of a single plant. In effect, this is the
-    // number of steps a tortoise can go before it has to eat again.
-    private static final int PLANT_FOOD_VALUE = 10;
+    // The base rate which when multiplied by age gives
+    // the number of steps a predator gains when it eats a tortoise
+    private static final double TORTOISE_FOOD_VALUE = 0.3;
+    // Base starting food level for all tortoises
+    private static final int BASIC_FOOD_LEVEL = 20;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
-    
-    // Individual characteristics (instance fields).
-    // The tortoise's age.
-    private int age;
-    // The tortoise's food level, which is increased by eating plants.
-    private int foodLevel;
-
     /**
      * Create a tortoise. A tortoise can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
@@ -42,16 +37,17 @@ public class Tortoise extends Animal
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    public Tortoise(boolean randomAge, Field field, Location location, boolean overlap)
+    protected Tortoise(boolean randomAge, Field field, Location location, boolean overlap)
     {
         super(field, location, overlap);
+        setFoodValue(TORTOISE_FOOD_VALUE);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
-            foodLevel = rand.nextInt(PLANT_FOOD_VALUE);
+            foodLevel = rand.nextInt(BASIC_FOOD_LEVEL);
         }
         else {
             age = 0;
-            foodLevel = PLANT_FOOD_VALUE;
+            foodLevel = BASIC_FOOD_LEVEL;
         }
     }
     
@@ -64,7 +60,7 @@ public class Tortoise extends Animal
      */
     public void dayAct(List<Actor> newTortoises)
     {
-        incrementAge();
+        incrementAge(MAX_AGE);
         incrementHunger();
         if(isAlive()) {
             giveBirth(newTortoises);            
@@ -93,28 +89,6 @@ public class Tortoise extends Animal
     public void nightAct(List<Actor> newTortoises)
     {
     }
-
-    /**
-     * Increase the age. This could result in the tortoise's death.
-     */
-    private void incrementAge()
-    {
-        age++;
-        if(age > MAX_AGE) {
-            setDead();
-        }
-    }
-    
-    /**
-     * Make this tortoise more hungry. This could result in the tortoise's death.
-     */
-    private void incrementHunger()
-    {
-        foodLevel--;
-        if(foodLevel <= 0) {
-            setDead();
-        }
-    }
     
     /**
      * Look for plants adjacent to the current location.
@@ -134,7 +108,7 @@ public class Tortoise extends Animal
                 Plant plant = (Plant) actor;
                 if(plant.isAlive()) { 
                     plant.setDead();
-                    foodLevel += PLANT_FOOD_VALUE;
+                    foodLevel += plant.getFoodValue();
                     return where;
                 }
             }

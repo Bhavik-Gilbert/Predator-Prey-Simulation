@@ -20,17 +20,17 @@ public class Simulator
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 100;
     // The probability that a human will be created in any given grid position.
-    private static final double HUMAN_CREATION_PROBABILITY = 0.05;
+    private static final double HUMAN_CREATION_PROBABILITY = 0.1;
     // The probability that a monkey will be created in any given grid position.
-    private static final double MONKEY_CREATION_PROBABILITY = 0.05;
+    private static final double MONKEY_CREATION_PROBABILITY = 0.1;
     // The probability that a pig will be created in any given grid position.
     private static final double PIG_CREATION_PROBABILITY = 0.05;
     // The probability that a tortoise will be created in any given grid position.
-    private static final double TORTOISE_CREATION_PROBABILITY = 0.02;
+    private static final double TORTOISE_CREATION_PROBABILITY = 0.05;
     // The probability that a dodo will be created in any given grid position.
-    private static final double DODO_CREATION_PROBABILITY = 0.02;    
+    private static final double DODO_CREATION_PROBABILITY = 0.1;    
     // The probability that a plant will be created in any given grid position.
-    private static final double PLANT_CREATION_PROBABILITY = 0.05;
+    private static final double PLANT_CREATION_PROBABILITY = 0.8;
 
     // List of actors in the field.
     private List<Actor> actors;
@@ -125,9 +125,6 @@ public class Simulator
                 it.remove();
             }
         }
-        
-        //TEMPORARY - CORRECT PLANT OBJECT COUNTER
-        //System.out.println(Plant.getPlantCount());
 
         // Add the newly born actors to the main lists.
         actors.addAll(newActors);
@@ -156,54 +153,61 @@ public class Simulator
         Random rand = Randomizer.getRandom();
         field.clear();
         int total;
+        boolean warning = false;
 
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
                 total = 0;
-                if (rand.nextDouble() <= DODO_CREATION_PROBABILITY + total) {
+                if (rand.nextDouble() <= DODO_CREATION_PROBABILITY + total){
                     total += DODO_CREATION_PROBABILITY;
 
                     Location location = new Location(row, col);
                     Dodo dodo = new Dodo(true, field, location, false);
                     actors.add(dodo);
                 }
-                else if(rand.nextDouble() <= HUMAN_CREATION_PROBABILITY + total) {
+                else if(rand.nextDouble() <= HUMAN_CREATION_PROBABILITY + total){
                     total += HUMAN_CREATION_PROBABILITY;
 
                     Location location = new Location(row, col);
                     Human human = new Human(true, field, location, false);
                     actors.add(human);
                 }
-                else if(rand.nextDouble() <= PIG_CREATION_PROBABILITY + total) {
+                else if(rand.nextDouble() <= PIG_CREATION_PROBABILITY + total){
                     total += PIG_CREATION_PROBABILITY;
 
                     Location location = new Location(row, col);
                     Pig pig = new Pig(true, field, location, false);
                     actors.add(pig);
                 }
-                else if (rand.nextDouble() <= MONKEY_CREATION_PROBABILITY + total) {
+                else if (rand.nextDouble() <= MONKEY_CREATION_PROBABILITY + total){
                     total += MONKEY_CREATION_PROBABILITY;
 
                     Location location = new Location(row, col);
                     Monkey monkey = new Monkey(true, field, location, false);
                     actors.add(monkey);
                 }
-                else if (rand.nextDouble() <= TORTOISE_CREATION_PROBABILITY + total) {
+                else if (rand.nextDouble() <= TORTOISE_CREATION_PROBABILITY + total){
                     total += TORTOISE_CREATION_PROBABILITY;
 
                     Location location = new Location(row, col);
                     Tortoise tortoise = new Tortoise(true, field, location, false);
                     actors.add(tortoise);
                 }
-                else if (rand.nextDouble() <= PLANT_CREATION_PROBABILITY + total) {
-                    total += PLANT_CREATION_PROBABILITY;
+                if (rand.nextDouble() <= PLANT_CREATION_PROBABILITY){
 
                     Location location = new Location(row, col);
                     Plant plant = new Plant(true, field, location, true);
                     actors.add(plant);
                 }
                 // else leave the location empty.
+                if(total>1){
+                    warning = true;
+                }
             }
+        }
+
+        if(warning){
+            System.out.println("Your total spawn probability is above 1, there may be some unexpected errors in simulation as a result");
         }
     }
     
