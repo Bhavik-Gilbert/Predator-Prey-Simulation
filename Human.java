@@ -103,15 +103,18 @@ public class Human extends Animal
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
         Iterator<Location> it = adjacent.iterator();
+        Random rand = Randomizer.getRandom();
         while(it.hasNext()) {
             Location where = it.next();
             Object actor = field.getObjectAt(where);
             if(actor instanceof Pig || actor instanceof Dodo) {
-                Animal prey = (Animal) actor; 
-                if(prey.isAlive()) { 
-                    prey.setDead();
-                    foodLevel += prey.getFoodValue();
-                    return where;
+                if (rand.nextDouble() <= EATING_PROBABILITY){
+                    Animal prey = (Animal) actor; 
+                    if(prey.isAlive()) { 
+                        prey.setDead();
+                        foodLevel += prey.getFoodValue();
+                        return where;
+                    }
                 }
             }
         }
@@ -152,5 +155,4 @@ public class Human extends Animal
         }
         return births;
     }
-
 }

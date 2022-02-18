@@ -105,11 +105,13 @@ public class Tortoise extends Animal
             Location where = it.next();
             Object actor = field.getObjectAt(where);
             if(actor instanceof Plant) {
-                Plant plant = (Plant) actor;
-                if(plant.isAlive()) { 
-                    plant.setDead();
-                    foodLevel += plant.getFoodValue();
-                    return where;
+                if (rand.nextDouble() <= EATING_PROBABILITY){
+                    Plant plant = (Plant) actor;
+                    if(plant.isAlive()) { 
+                        plant.setDead();
+                        foodLevel += plant.getFoodValue();
+                        return where;
+                    }
                 }
             }
         }

@@ -31,6 +31,14 @@ public class Simulator
     private static final double DODO_CREATION_PROBABILITY = 0.1;    
     // The probability that a plant will be created in any given grid position.
     private static final double PLANT_CREATION_PROBABILITY = 0.8;
+    // The probability that it is sunny.
+    private static final double SUNNY_PROBABILITY = 0.4;
+    // The probability that it is raining.
+    private static final double RAINY_PROBABILITY = 0.3;
+    // The probability that it is foggy.
+    private static final double FOGGY_PROBABILITY = 0.2;
+    // The probability that it is snowing.
+    private static final double SNOWY_PROBABILITY = 0.1;
 
     // List of actors in the field.
     private List<Actor> actors;
@@ -116,15 +124,19 @@ public class Simulator
         step++;
 
         // Provide space for newborn actors.
-        List<Actor> newActors = new ArrayList<>();        
+        List<Actor> newActors = new ArrayList<>();
+        Weather weather = randomWeather();
+        implementWeather(weather);
         // Let all actors act.
         for(Iterator<Actor> it = actors.iterator(); it.hasNext(); ) {
             Actor actor = it.next();
-            actor.act(newActors, step%2, randomWeather());
+            actor.act(newActors, step%2, weather);
             if(!actor.isAlive()) {
                 it.remove();
             }
         }
+        Plant.resetBreedingProbability();
+        Animal.resetEatingProbability();
 
         // Add the newly born actors to the main lists.
         actors.addAll(newActors);
@@ -230,6 +242,30 @@ public class Simulator
      */
     protected Weather randomWeather() {
         Random rand = Randomizer.getRandom();
-        return Weather.values()[rand.nextInt(Weather.values().length)];
+        if (rand.nextDouble() <= SNOWY_PROBABILITY){
+            System.out.println("\n\nIt is snowing");
+            return Weather.SNOWY;
+        }
+        else if (rand.nextDouble() <= FOGGY_PROBABILITY){
+            System.out.println("\n\nIt is foggy");
+            return Weather.FOGGY;
+        }
+        else if (rand.nextDouble() <= RAINY_PROBABILITY){
+            System.out.println("\n\nIt is raining");
+            return Weather.RAINY;
+        }
+        //else if (rand.nextDouble() <= SUNNY_PROBABILITY){
+        else{
+            System.out.println("\n\nIt is sunny");
+            return Weather.SUNNY;
+        }
+    }
+    
+    /**
+     * Implements the effects of the weather on animals and plants
+     */
+    protected void implementWeather(Weather weather) {
+        Plant.implementWeather(weather);
+        Animal.implementWeather(weather);
     }
 }

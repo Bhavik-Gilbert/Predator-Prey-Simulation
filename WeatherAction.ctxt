@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=WeatherAction
+comment0.text=\n\ Defines\ the\ actions\ that\ occur\ upon\ the\ actors\ under\ different\ weather\ conditions.\n\n\ @author\ Bhavik\ Gilbert\ and\ Heman\ Seegolam\n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=weather
+comment1.target=WeatherAction(Weather)
+comment1.text=\n\ Constructor\ for\ objects\ of\ class\ WeatherAction.\n
+comment2.params=plantGrowthProbability
+comment2.target=void\ sunOnPlants(double)
+comment2.text=\n\ When\ sunny,\ growth\ of\ plants\ is\ increased\ by\ a\ factor.\n\n\ @param\ \ plantGrowthProbability\ \ the\ probabilty\ for\ plant\ growth.\n
+comment3.params=plantGrowthProbability
+comment3.target=void\ rainOnPlants(double)
+comment3.text=\n\ When\ raining,\ growth\ of\ plants\ is\ increased\ by\ a\ factor.\n\n\ @param\ \ plantGrowthProbability\ \ the\ probabilty\ for\ plant\ growth.\n
+comment4.params=plantGrowthProbability
+comment4.target=void\ snowOnPlants(double)
+comment4.text=\n\ When\ snowing,\ growth\ of\ plants\ is\ decreased\ by\ a\ factor.\n\n\ @param\ \ plantGrowthProbability\ \ the\ probabilty\ for\ plant\ growth.\n
+comment5.params=eatingProbability
+comment5.target=void\ fogOnAnimals(double)
+comment5.text=\n\ When\ foggy,\ probability\ that\ a\ predator\ eats\ its\ prey\ is\ decreased\ by\ a\ factor.\n\n\ @param\ \ eatingProbability\ \ the\ probabilty\ that\ a\ predator\ eats\ its\ prey\n
+numComments=6

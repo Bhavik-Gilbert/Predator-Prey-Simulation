@@ -105,11 +105,13 @@ public class Monkey extends Animal
             Location where = it.next();
             Object actor = field.getObjectAt(where);
             if(actor instanceof Dodo) {
-                Animal prey = (Animal) actor;
-                if(prey.isAlive()) { 
-                    prey.setDead();
-                    foodLevel += prey.getFoodValue();
-                    return where;
+                if (rand.nextDouble() <= EATING_PROBABILITY){
+                    Animal prey = (Animal) actor;
+                    if(prey.isAlive()) { 
+                        prey.setDead();
+                        foodLevel += prey.getFoodValue();
+                        return where;
+                    }
                 }
             }
         }

@@ -18,7 +18,8 @@ public class Plant extends Actor
     // The age to which a plant can live.
     private static final int MAX_AGE = 3;
     // The likelihood of a plant breeding.
-    private static final double BREEDING_PROBABILITY = 0.4;
+    private static final double ORIGINAL_BREEDING_PROBABILITY = 0.4;
+    private static double BREEDING_PROBABILITY;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
     // The base rate which when multiplied by age gives
@@ -43,6 +44,7 @@ public class Plant extends Actor
     public Plant(boolean randomAge, Field field, Location location, boolean overlap)
     {
         super(field, location, overlap);
+        BREEDING_PROBABILITY = ORIGINAL_BREEDING_PROBABILITY;
         age = 0;
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
@@ -136,5 +138,54 @@ public class Plant extends Actor
 
     public double getFoodValue() {
         return age * PLANT_FOOD_VALUE;
+    }
+    
+    public static void setBreedingProbability(double breedingProbability){
+        BREEDING_PROBABILITY = breedingProbability;
+    }
+    
+    public static double getBreedingProbability(){
+        return BREEDING_PROBABILITY;
+    }
+    
+    /**
+     * Implement the effects of the weather.
+     * @param weather The weather.
+     */
+    public static void implementWeather(Weather weather)
+    {
+        switch (weather) {
+            case SUNNY:
+                if (BREEDING_PROBABILITY == ORIGINAL_BREEDING_PROBABILITY){
+                    System.out.println("plant breeding probability not yet changed " + BREEDING_PROBABILITY);
+                    WeatherAction.sunOnPlants(BREEDING_PROBABILITY);
+                    System.out.println("plant breeding probability changed to " + BREEDING_PROBABILITY);
+                }
+                break;
+            case RAINY:
+                if (BREEDING_PROBABILITY == ORIGINAL_BREEDING_PROBABILITY){
+                    System.out.println("plant breeding probability not yet changed " + BREEDING_PROBABILITY);
+                    WeatherAction.rainOnPlants(BREEDING_PROBABILITY);
+                    System.out.println("plant breeding probability changed to " + BREEDING_PROBABILITY);
+                }
+                break;
+            case SNOWY:
+                if (BREEDING_PROBABILITY == ORIGINAL_BREEDING_PROBABILITY){
+                    System.out.println("plant breeding probability not yet changed " + BREEDING_PROBABILITY);
+                    WeatherAction.snowOnPlants(BREEDING_PROBABILITY);
+                    System.out.println("plant breeding probability changed to " + BREEDING_PROBABILITY);
+                }
+                break;
+        }
+    }
+    
+    /**
+     * Resets the breeding probability to the original value.
+     * 
+     */
+    public static void resetBreedingProbability()
+    {
+        BREEDING_PROBABILITY = ORIGINAL_BREEDING_PROBABILITY;
+        System.out.println("plantGrowthProbability reset to  " + BREEDING_PROBABILITY);
     }
 }

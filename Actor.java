@@ -21,8 +21,6 @@ public abstract class Actor
     protected boolean overlap;
     // The current time of day, true day, false night
     private boolean day;
-    // the current weather condition
-    private Weather weather;
 
     /**
      * Constructor for objects of class Actor
@@ -44,7 +42,6 @@ public abstract class Actor
      */
     public void act(List<Actor> newActors, int timeOfDay, Weather weather) {
         replaceActor();
-        setWeather(weather);
 
         switch (timeOfDay) {
             case 0:
@@ -67,28 +64,11 @@ public abstract class Actor
     }
 
     /**
-     * Sets the current weather condition in the actor
-     * @param weather The current weather condition
-     */
-    private void setWeather(Weather weather){
-        this.weather = weather;
-    }
-
-    /**
      * Returns the current time of day 
      * @return Current time of day, true if day, false if night
      */
     protected boolean getDay(){
         return day;
-    }
-    
-    /**
-     * Returns the current weather condition based of the weather enumerator class
-     * 
-     * @return Current weather condition
-     */
-    protected Weather getWeather() {
-        return weather;
     }
     
     /**

@@ -21,6 +21,10 @@ public abstract class Animal extends Actor
     // the number of steps a predator gains when it eats this animal
     protected double FOOD_VALUE;
     
+    // the probability that a predator eats its prey.
+    protected static final double ORIGINAL_EATING_PROBABILITY = 0.8;
+    protected static double EATING_PROBABILITY;
+    
     /**
      * Create a new animal at location in field.
      * 
@@ -30,6 +34,7 @@ public abstract class Animal extends Actor
     protected Animal(Field field, Location location, boolean overlap)
     {
         super(field, location, overlap);
+        EATING_PROBABILITY = ORIGINAL_EATING_PROBABILITY;
         randomGender();
     }
     
@@ -115,5 +120,35 @@ public abstract class Animal extends Actor
 
     protected double getFoodValue(){
         return age * FOOD_VALUE;
+    }
+    
+    public static void setEatingProbability(double eatingProbability){
+        EATING_PROBABILITY = eatingProbability;
+    }
+    
+    /**
+     * Implement the effects of the weather.
+     * @param weather The weather.
+     */
+    public static void implementWeather(Weather weather)
+    {
+        switch (weather) {
+            case FOGGY:
+                if (EATING_PROBABILITY == ORIGINAL_EATING_PROBABILITY){
+                    System.out.println("animal eating probability not yet changed " + EATING_PROBABILITY);
+                    WeatherAction.fogOnAnimals(EATING_PROBABILITY);
+                    System.out.println("animal eating probability changed to " + EATING_PROBABILITY);
+                }
+        }
+    }
+    
+    /**
+     * Resets the eating probability to the original value.
+     * 
+     */
+    public static void resetEatingProbability()
+    {
+        EATING_PROBABILITY = ORIGINAL_EATING_PROBABILITY;
+        System.out.println("eatingProbability reset to  " + EATING_PROBABILITY);
     }
 }
