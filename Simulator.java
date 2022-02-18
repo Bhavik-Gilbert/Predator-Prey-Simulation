@@ -95,7 +95,7 @@ public class Simulator
     
     /**
      * Run the simulation from its current state for a reasonably long period,
-     * (4000 steps).
+     * (50 days).
      */
     public void runLongSimulation()
     {
@@ -240,7 +240,7 @@ public class Simulator
     /**
      * Generates a random weather from the Weather ENUM
      */
-    protected Weather randomWeather() {
+    private Weather randomWeather() {
         Random rand = Randomizer.getRandom();
         if (rand.nextDouble() <= SNOWY_PROBABILITY){
             System.out.println("\n\nIt is snowing");
@@ -264,7 +264,7 @@ public class Simulator
     /**
      * Implements the effects of the weather on animals and plants
      */
-    protected void implementWeather(Weather weather) {
+    private void implementWeather(Weather weather) {
         Plant.implementWeather(weather);
         Animal.implementWeather(weather);
     }
