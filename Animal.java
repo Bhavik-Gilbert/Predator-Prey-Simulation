@@ -17,8 +17,9 @@ public abstract class Animal extends Actor
     // The animal's food level, which is increased by eating.
     protected double foodLevel;
 
-    //
-    protected  double FOOD_VALUE;
+    // The base rate which when multiplied by age gives
+    // the number of steps a predator gains when it eats this animal
+    protected double FOOD_VALUE;
     
     /**
      * Create a new animal at location in field.
