@@ -1,6 +1,4 @@
-import java.util.List;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * A class representing shared characteristics of animals.
@@ -17,51 +15,85 @@ public abstract class Animal extends Actor
     protected int age;
     // The animal's food level, which is increased by eating.
     protected double foodLevel;
-
     // The base rate which when multiplied by age gives
     // the number of steps a predator gains when it eats this animal
     protected double FOOD_VALUE;
-    
     // The probability that a predator eats its prey.
-    protected static final double ORIGINAL_EATING_PROBABILITY = 0.8;
-    protected static double EATING_PROBABILITY;
-    
+    protected static final double EATING_PROBABILITY = 0.8;
+    // A map containing values that can effect how the animal reacts based off of the weather
+    protected EnumMap<WeatherEffectTypes, Double> weatherEffect = new EnumMap<>(WeatherEffectTypes.class);
+    // Probability that an animal dies from disease.
+    private double DEATH_FROM_DISEASE_PROBABILITY;
+    private int BREEDING_AGE;
+    private double BREEDING_PROBABILITY;
+    private int MAX_LITTER_SIZE;
+
     // Whether an animal is infected by disease or not.
     protected boolean infected;
-    // Probabilities that an animal dies from disease.
-    private static HashMap<String, Double> DEATH_FROM_DISEASE_PROBABILITY;
+
     
     /**
      * Create a new animal at location in field.
      * 
-     * @param field The field currently occupied.
+     * @param field    The field currently occupied.
      * @param location The location within the field.
+     * @param infected Boolean value determining if the animal is infected or not
+     * 
      */
-    protected Animal(String description, Field field, Location location, boolean overlap, boolean infected)
+    protected Animal(Field field, Location location,boolean infected)
     {
-        super(description, field, location, overlap);
-        EATING_PROBABILITY = ORIGINAL_EATING_PROBABILITY;
+        super(field, location);
         this.infected = infected;
-        DEATH_FROM_DISEASE_PROBABILITY = new HashMap<>();
-        DEATH_FROM_DISEASE_PROBABILITY.put("Human", Human.DEATH_FROM_DISEASE_PROBABILITY);
-        DEATH_FROM_DISEASE_PROBABILITY.put("Dodo", Dodo.DEATH_FROM_DISEASE_PROBABILITY);
-        DEATH_FROM_DISEASE_PROBABILITY.put("Monkey", Monkey.DEATH_FROM_DISEASE_PROBABILITY);
-        DEATH_FROM_DISEASE_PROBABILITY.put("Tortoise", Tortoise.DEATH_FROM_DISEASE_PROBABILITY);
-        DEATH_FROM_DISEASE_PROBABILITY.put("Pig", Pig.DEATH_FROM_DISEASE_PROBABILITY);
+
+        //assigns random gender
         randomGender();
     }
     
     /**
+     * Sets the minimum age the animal can start breeding
+     * 
+     * @param setBreedingAge The minimum age the animal can start breeding
+     */
+    protected void setBreedingAge(int breedingAge)
+    {
+        BREEDING_AGE = breedingAge;
+    }
+
+    /**
+     * Sets the breeding probability of the animal
+     * 
+     * @param breedingProbability The breeding probability of the animal
+     */
+    protected void setBreedingProbability(double breedingProbability) {
+        BREEDING_PROBABILITY = breedingProbability;
+    }
+
+
+    /**
+     * Sets the maximum litter per breeding period for an animal
+     * 
+     * @param maxLitter The maximum litter per breeding period for an animal
+     */
+    protected void setMaxLitter(int maxLitter) {
+        MAX_LITTER_SIZE = maxLitter;
+    }
+
+    /**
      * Sets the gender of the animal
+     * 
      * @param setGender The gender that the animal will be set to
      */
-    private void setGender(Gender gender)
-    {
+    private void setGender(Gender gender) {
         this.gender = gender;
     }
     
-    protected void setFoodValue(double food_value){
-        FOOD_VALUE = food_value;
+    /**
+     * Sets the base number of steps predator gains for eating this animal
+     * 
+     * @param foodValue The base step number
+     */
+    protected void setFoodValue(double foodValue){
+        FOOD_VALUE = foodValue;
     }
     /**
      * Generates a random gender from the Gender ENUM
@@ -82,13 +114,19 @@ public abstract class Animal extends Actor
     }
 
     /**
+     * Retrieves and sets the current weather effect values
+     */
+    protected void setWeatherEffects() {
+        weatherEffect = WeatherAction.weatherOnAnimals(weather);
+    }
+
+    /**
      * An animal can breed if it has reached the breeding age and meets a mate of opposite gender.
      * @param field The field the object is in
-     * @param BREEDING_AGE The minimum age that animal can start breeding
-     * @param age The current age of the animal
+     * 
      * @return Boolean value, true if mate is found and is of age, false otherwise
      */
-    protected boolean canBreed(Field field, int BREEDING_AGE, int age) {
+    protected boolean canBreed(Field field) {
         boolean partner = false;
         // Find all adjacent locations
         List<Location> adjacentLocations = field.adjacentLocations(getLocation()); 
@@ -130,6 +168,10 @@ public abstract class Animal extends Actor
         }
     }
 
+    /**
+     * Calculates the number of steps gained for eating this animal
+     * @return The number of steps gained for eating this animal
+     */
     protected double getFoodValue(){
         return age * FOOD_VALUE;
     }
@@ -137,9 +179,12 @@ public abstract class Animal extends Actor
     /**
      * Look for prey / plants adjacent to the current location.
      * Only the first live prey or plant is eaten.
+     * Food level is increased by the prey's mass if animal eats prey
+     * 
+     * @param listOfPrey A list of prey that this animal feeds on
      * @return Where food was found, or null if it wasn't.
      */
-    protected Location findFood(List<String> listOfPrey)
+    protected Location findFood(List<ActorTypes> listOfPrey)
     {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
@@ -149,60 +194,110 @@ public abstract class Animal extends Actor
             Object object = field.getObjectAt(where);
             if (object != null){
                 Actor actor = (Actor) object;
-                // if actor type is in list of prey for predator
-                if (listOfPrey.contains(actor.getDescription())){
-                    if (rand.nextDouble() <= EATING_PROBABILITY){
-                        if(actor.isAlive()) { 
-                            actor.setDead();
-                            foodLevel += actor.getFoodValue();
-                            return where;
-                        }
-                    }
+                // if actor type is in list of prey for predator, prey is alive and probability for eating met
+                if ((listOfPrey.contains(actor.getDescription())) && (rand.nextDouble() <= EATING_PROBABILITY * effectHuntingProbability()) && (actor.isAlive())) { 
+                    actor.setDead();
+                    foodLevel += actor.getFoodValue();
+                    return where;
                 }
             }
         }
         return null;
     }
     
-    public static void setEatingProbability(double eatingProbability){
-        EATING_PROBABILITY = eatingProbability;
-    }
-    
-    /**
-     * Implement the effects of the weather.
-     * @param weather The weather.
-     */
-    public static void implementWeather(Weather weather)
-    {
-        switch (weather) {
-            case FOGGY:
-                if (EATING_PROBABILITY == ORIGINAL_EATING_PROBABILITY){
-                    System.out.println("animal eating probability not yet changed " + EATING_PROBABILITY);
-                    WeatherAction.fogOnAnimals(EATING_PROBABILITY);
-                    System.out.println("animal eating probability changed to " + EATING_PROBABILITY);
-                }
-        }
-    }
-    
-    /**
-     * Resets the eating probability to the original value.
-     * 
-     */
-    public static void resetEatingProbability()
-    {
-        EATING_PROBABILITY = ORIGINAL_EATING_PROBABILITY;
-        System.out.println("eatingProbability reset to  " + EATING_PROBABILITY);
-    }
-    
     /**
      * Implements the effects of disease infection on animals
      * 
      */
-    public void infection()
+    protected void infection()
     {
-        double deathFromDiseaseProbability = DEATH_FROM_DISEASE_PROBABILITY.get(getDescription());
+        double deathFromDiseaseProbability = DEATH_FROM_DISEASE_PROBABILITY;
         if (rand.nextDouble() <= deathFromDiseaseProbability){
             setDead();
         }
+    }
+
+    /**
+     * Sets DEATH_FROM_DISEASE_PROBABILITY to individual animal type death probability
+     * 
+     * @param deathProbability Animal death by disease probability
+     */
+    protected void setDeathByDiseaseProbability(double deathProbability)
+    {
+        DEATH_FROM_DISEASE_PROBABILITY = deathProbability;
+    }
+
+    /**
+     * Generate a number representing the number of births, if it can breed.
+     * 
+     * @param field The field the object is currently in
+     * @return The number of births (may be zero).
+     */
+    protected int breed(Field field) 
+    {
+        int births = 0;
+        if (canBreed(field) && rand.nextDouble() <= BREEDING_PROBABILITY * effectBreedingProbability()) {
+            births = rand.nextInt(MAX_LITTER_SIZE) + 1;
+        }
+        return births;
+    }
+
+    /**
+     * Check whether or not this human is to give birth at this step.
+     * New births will be made into free adjacent locations.
+     * 
+     * @param newAnimal A list to return newly born animal.
+     */
+    protected void giveBirth(List<Actor> newAnimal) {
+        // New human are born into adjacent locations.
+        // Get a list of adjacent free locations.
+        Field field = getField();
+        List<Location> free = field.getFreeAdjacentLocations(getLocation());
+        int births = breed(field);
+        for (int b = 0; b < births && free.size() > 0; b++) {
+            Location loc = free.remove(0);
+            ActorTypes type = this.getDescription();
+
+            if(ActorTypes.HUMAN.equals(type)){
+                Human young = new Human(false, field, loc, false);
+                newAnimal.add(young);
+            }
+            else if(ActorTypes.DODO.equals(type)){
+                Dodo young = new Dodo(false, field, loc, false);
+                newAnimal.add(young);
+            }
+            else if(ActorTypes.MONKEY.equals(type)){
+                Monkey young = new Monkey(false, field, loc, false);
+                newAnimal.add(young);
+            }
+            else if(ActorTypes.PIG.equals(type)){
+                Pig young = new Pig(false, field, loc, false);
+                newAnimal.add(young);
+            }
+            else if(ActorTypes.TORTOISE.equals(type)){
+                Tortoise young = new Tortoise(false, field, loc, false);
+                newAnimal.add(young);
+            }
+        }
+    }
+
+    /**
+     * Retrieves the breeding probability modifier
+     * Calculated by current weather conditions
+     * 
+     * @return Breeding probability modifier
+     */
+    private double effectBreedingProbability() {
+        return weatherEffect.get(WeatherEffectTypes.BREED);
+    }
+
+    /**
+     * Retrieves the feeding probability modifier
+     * Calculated by current weather conditions
+     * 
+     * @return Feeding probability modifier
+     */
+    private double effectHuntingProbability() {
+        return weatherEffect.get(WeatherEffectTypes.HUNT);
     }
 }

@@ -16,9 +16,9 @@ public class Simulator
 {
     // Constants representing configuration information for the simulation.
     // The default width for the grid.
-    private static final int DEFAULT_WIDTH = 150;
+    private static final int DEFAULT_WIDTH = 99;
     // The default depth of the grid.
-    private static final int DEFAULT_DEPTH = 100;
+    private static final int DEFAULT_DEPTH = 66;
     // The probability that a human will be created in any given grid position.
     private static final double HUMAN_CREATION_PROBABILITY = 0.1;
     // The probability that a monkey will be created in any given grid position.
@@ -32,13 +32,13 @@ public class Simulator
     // The probability that a plant will be created in any given grid position.
     private static final double PLANT_CREATION_PROBABILITY = 0.8;
     // The probability that it is sunny.
-    private static final double SUNNY_PROBABILITY = 0.4;
+    private static final double SUNNY_PROBABILITY = 0.55;
     // The probability that it is raining.
     private static final double RAINY_PROBABILITY = 0.3;
     // The probability that it is foggy.
-    private static final double FOGGY_PROBABILITY = 0.2;
+    private static final double FOGGY_PROBABILITY = 0.1;
     // The probability that it is snowing.
-    private static final double SNOWY_PROBABILITY = 0.1;
+    private static final double SNOWY_PROBABILITY = 0.05;
     // The probability that a disease particle will be created in any given grid position.
     private static final double DISEASE_CREATION_PROBABILITY = 0.05;
 
@@ -127,8 +127,8 @@ public class Simulator
 
         // Provide space for newborn actors.
         List<Actor> newActors = new ArrayList<>();
+        // Changes weather every step
         Weather weather = randomWeather();
-        implementWeather(weather);
         // Let all actors act.
         for(Iterator<Actor> it = actors.iterator(); it.hasNext(); ) {
             Actor actor = it.next();
@@ -137,8 +137,6 @@ public class Simulator
                 it.remove();
             }
         }
-        Plant.resetBreedingProbability();
-        Animal.resetEatingProbability();
 
         // Add the newly born actors to the main lists.
         actors.addAll(newActors);
@@ -166,61 +164,70 @@ public class Simulator
     {
         Random rand = Randomizer.getRandom();
         field.clear();
-        int total;
-        boolean warning = false;
         int infectedCount = 0;
+
+        //Gathers running probability for use in creation
+        double[] totalProbabilities = {DODO_CREATION_PROBABILITY, HUMAN_CREATION_PROBABILITY, PIG_CREATION_PROBABILITY, MONKEY_CREATION_PROBABILITY, TORTOISE_CREATION_PROBABILITY};
+        totalProbabilities =  getTotalProbability(totalProbabilities);
         
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
                 // Populate with animals and plants as per their probabilities    
-                total = 0;
                 Location location = new Location(row, col);
                 boolean infected = false;
+
+                if (rand.nextDouble() <= totalProbabilities[0]){
+                    Dodo dodo = new Dodo(true, field, location, infected);
+                    actors.add(dodo);
+                }
+                else if(rand.nextDouble() <= totalProbabilities[1]){
+                    Human human = new Human(true, field, location, infected);
+                    actors.add(human);
+                }
+                else if(rand.nextDouble() <= totalProbabilities[2]){
+                    Pig pig = new Pig(true, field, location, infected);
+                    actors.add(pig);
+                }
+                else if (rand.nextDouble() <= totalProbabilities[3]){
+                    Monkey monkey = new Monkey(true, field, location, infected);
+                    actors.add(monkey);
+                }
+                else if (rand.nextDouble() <= totalProbabilities[4]){
+                    Tortoise tortoise = new Tortoise( true, field, location, infected);
+                    actors.add(tortoise);
+                }
+
+                if (rand.nextDouble() <= PLANT_CREATION_PROBABILITY){
+                    Plant plant = new Plant(true, field, location);
+                    actors.add(plant);
+                }
                 if (rand.nextDouble() <= DISEASE_CREATION_PROBABILITY){
                     infected = true;
                     infectedCount += 1;
-                }
-                if (rand.nextDouble() <= DODO_CREATION_PROBABILITY + total){
-                    total += DODO_CREATION_PROBABILITY;
-                    Dodo dodo = new Dodo("Dodo", true, field, location, false, infected);
-                    actors.add(dodo);
-                }
-                else if(rand.nextDouble() <= HUMAN_CREATION_PROBABILITY + total){
-                    total += HUMAN_CREATION_PROBABILITY;
-                    Human human = new Human("Human", true, field, location, false, infected);
-                    actors.add(human);
-                }
-                else if(rand.nextDouble() <= PIG_CREATION_PROBABILITY + total){
-                    total += PIG_CREATION_PROBABILITY;
-                    Pig pig = new Pig("Pig", true, field, location, false, infected);
-                    actors.add(pig);
-                }
-                else if (rand.nextDouble() <= MONKEY_CREATION_PROBABILITY + total){
-                    total += MONKEY_CREATION_PROBABILITY;
-                    Monkey monkey = new Monkey("Monkey", true, field, location, false, infected);
-                    actors.add(monkey);
-                }
-                else if (rand.nextDouble() <= TORTOISE_CREATION_PROBABILITY + total){
-                    total += TORTOISE_CREATION_PROBABILITY;
-                    Tortoise tortoise = new Tortoise("Tortoise", true, field, location, false, infected);
-                    actors.add(tortoise);
-                }
-                if (rand.nextDouble() <= PLANT_CREATION_PROBABILITY){
-                    Plant plant = new Plant("Plant", true, field, location, true);
-                    actors.add(plant);
-                }
-                // else leave the location empty.
-                if(total>1){
-                    warning = true;
                 }
             }
         }
 
         System.out.println(infectedCount);
         
-        if(warning){
+        // Gives warning if spawn probability is above 1
+        if(totalProbabilities[totalProbabilities.length-1] > 1){
             System.out.println("Your total spawn probability is above 1, there may be some unexpected errors in simulation as a result");
         }
+    }
+
+    /**
+     * Generates running total probability list based on input
+     * 
+     * @param total Probability list
+     * @return Running total probability list
+    */
+    private double[] getTotalProbability(double[] total){
+        for(int i=0; i < total.length-1; i++){
+            total[i+1]+=total[i];
+        }
+
+        return total;
     }
     
     /**
@@ -242,30 +249,27 @@ public class Simulator
      */
     private Weather randomWeather() {
         Random rand = Randomizer.getRandom();
-        if (rand.nextDouble() <= SNOWY_PROBABILITY){
-            System.out.println("\n\nIt is snowing");
+
+        double[] totalProbabilities = {SNOWY_PROBABILITY, FOGGY_PROBABILITY, RAINY_PROBABILITY, SUNNY_PROBABILITY};
+        totalProbabilities =  getTotalProbability(totalProbabilities);
+
+        if (rand.nextDouble() <= totalProbabilities[0]){
             return Weather.SNOWY;
         }
-        else if (rand.nextDouble() <= FOGGY_PROBABILITY){
-            System.out.println("\n\nIt is foggy");
+        else if (rand.nextDouble() <= totalProbabilities[1]){
             return Weather.FOGGY;
         }
-        else if (rand.nextDouble() <= RAINY_PROBABILITY){
-            System.out.println("\n\nIt is raining");
+        else if (rand.nextDouble() <= totalProbabilities[2]){
             return Weather.RAINY;
         }
-        //else if (rand.nextDouble() <= SUNNY_PROBABILITY){
-        else{
-            System.out.println("\n\nIt is sunny");
+        else if (rand.nextDouble() <= totalProbabilities[3]){
             return Weather.SUNNY;
         }
-    }
-    
-    /**
-     * Implements the effects of the weather on animals and plants
-     */
-    private void implementWeather(Weather weather) {
-        Plant.implementWeather(weather);
-        Animal.implementWeather(weather);
+
+        if (totalProbabilities[totalProbabilities.length-1] != 1) {
+            System.out.println("Your total weather probability is not equal to 1, there may be some unexpected errors in simulation as a result");
+        }
+
+        return Weather.SUNNY;
     }
 }

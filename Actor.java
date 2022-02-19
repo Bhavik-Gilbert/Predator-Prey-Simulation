@@ -13,7 +13,7 @@ import java.util.Random;
 public abstract class Actor
 {
     // Description of type of actor
-    protected String description;
+    protected ActorTypes description;
     // Whether the actor is alive or not.
     protected boolean alive;
     // The actor's field.
@@ -24,30 +24,36 @@ public abstract class Actor
     protected boolean overlap;
     // The current time of day, true day, false night
     private boolean day;
+
+    protected Weather weather;
     // A shared random number generator to control breeding and disease infection effects.
     protected static final Random rand = Randomizer.getRandom();
 
     /**
      * Constructor for objects of class Actor
+     * 
+     * @param field The field the actor is currently in
+     * @param location The actors location on the field
      */
-    public Actor(String description, Field field, Location location, boolean overlap)
+    public Actor(Field field, Location location)
     {
-        this.description = description;
         alive = true;
         this.field = field;
         setLocation(location);
-        this.overlap = overlap;
     }
 
     /**
      * Determines whether night or day.
      * Replaces actor onto field if alive and space available
+     * Sets current weather and determines effects
      * 
      * @param newActors A list to return newly born actors.
      * @param timeOfDay Integer value determining day or night
      */
     public void act(List<Actor> newActors, int timeOfDay, Weather weather) {
         replaceActor();
+        this.weather = weather;
+        setWeatherEffects();
 
         switch (timeOfDay) {
             case 0:
@@ -60,7 +66,7 @@ public abstract class Actor
     }
 
     /**
-     * Used to place alive actors, always non animals,
+     * Used to place alive actors,
      * back onto the board at their location if their space is available
      */
     private void replaceActor(){
@@ -73,7 +79,7 @@ public abstract class Actor
      * Returns the description of the actor
      * @return The description of the actor
      */
-    protected String getDescription(){
+    protected ActorTypes getDescription(){
         return description;
     }
     
@@ -104,6 +110,16 @@ public abstract class Actor
      * 
      */
     protected abstract double getFoodValue();
+
+    /**
+     * Sets current weather effects values
+     * 
+     */
+    protected abstract void setWeatherEffects();
+
+    protected void setOverlap(boolean overlap){
+        this.overlap = overlap;
+    }
 
     /**
      * Check whether the actor is alive or not.

@@ -28,25 +28,36 @@ public class Human extends Animal
     // Base starting food level for all humans
     private static final int BASIC_FOOD_LEVEL = 20;
     // Probability that a human dies from disease.
-    protected static final double DEATH_FROM_DISEASE_PROBABILITY = 0.05;
+    private static final double HUMAN_DEATH_FROM_DISEASE_PROBABILITY = 0.05;
     // List of all human prey.
-    protected static List<String> LIST_OF_PREY;
+    private final ArrayList<ActorTypes> LIST_OF_PREY = new ArrayList<>(){
+        {
+            add(ActorTypes.DODO);
+            add(ActorTypes.PIG);
+        }
+    };
 
     /**
      * Create a human. A human can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
      * 
      * @param randomAge If true, the human will have random age and hunger level.
-     * @param field The field currently occupied.
-     * @param location The location within the field.
+     * @param field     The field currently occupied.
+     * @param location  The location within the field.
+     * @param infected  Boolean value determining if the animal is infected or not
      */
-    protected Human(String description, boolean randomAge, Field field, Location location, boolean overlap, boolean infected)
+    protected Human(boolean randomAge, Field field, Location location, boolean infected)
     {
-        super(description, field, location, false, infected);
-        LIST_OF_PREY = new ArrayList<>();
-        LIST_OF_PREY.add("Dodo");
-        LIST_OF_PREY.add("Pig");
+        super(field, location, infected);
+        setOverlap(false);
         setFoodValue(HUMAN_FOOD_VALUE);
+        description = ActorTypes.HUMAN;
+        setDeathByDiseaseProbability(HUMAN_DEATH_FROM_DISEASE_PROBABILITY);
+        setBreedingAge(BREEDING_AGE);
+        setBreedingProbability(BREEDING_PROBABILITY);
+        setMaxLitter(MAX_LITTER_SIZE);
+        
+
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
             foodLevel = rand.nextInt(BASIC_FOOD_LEVEL);
@@ -63,7 +74,7 @@ public class Human extends Animal
      * 
      * @param newHuman A list to return newly born humans.
      */
-    public void dayAct(List<Actor> newHuman)
+    protected void dayAct(List<Actor> newHuman)
     {
         incrementAge(MAX_AGE);
         incrementHunger();
@@ -91,56 +102,11 @@ public class Human extends Animal
      * 
      * @param newHuman A list to return newly born humans.
      */
-    public void nightAct(List<Actor> newHuman)
+    protected void nightAct(List<Actor> newHuman)
     {
         super.infection();
         if(isAlive()) {
             giveBirth(newHuman);
         }
-    }
-    
-    /**
-     * Check whether or not this human is to give birth at this step.
-     * New births will be made into free adjacent locations.
-     * 
-     * @param newHuman A list to return newly born human.
-     */
-    private void giveBirth(List<Actor> newHuman)
-    {
-        // New human are born into adjacent locations.
-        // Get a list of adjacent free locations.
-        Field field = getField();
-        List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed(field);
-        for(int b = 0; b < births && free.size() > 0; b++) {
-            Location loc = free.remove(0);
-            Human young = new Human("Human", false, field, loc, false, false);
-            newHuman.add(young);
-        }
-    }
-        
-    /**
-     * Generate a number representing the number of births, if it can breed.
-     * 
-     * @param field The field the object is currently in
-     * @return The number of births (may be zero).
-     */
-    private int breed(Field field)
-    {
-        int births = 0;
-        if(canBreed(field, BREEDING_AGE, age) && rand.nextDouble() <= BREEDING_PROBABILITY) {
-            births = rand.nextInt(MAX_LITTER_SIZE) + 1;
-        }
-        return births;
-    }
-    
-    /**
-     * Return the death from disease probability
-     * 
-     * @return The death from disease probability
-     */
-    public static double getDeathFromDiseaseProbability()
-    {
-        return DEATH_FROM_DISEASE_PROBABILITY;
     }
 }

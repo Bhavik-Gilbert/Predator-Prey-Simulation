@@ -1,4 +1,3 @@
-
 /**
  * Defines the different weather conditions that can occur
  *

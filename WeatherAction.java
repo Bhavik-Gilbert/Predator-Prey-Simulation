@@ -1,3 +1,4 @@
+import java.util.*;
 
 /**
  * Defines the actions that occur upon the actors under different weather conditions.
@@ -6,54 +7,87 @@
  * @version (a version number or a date)
  */
 public class WeatherAction
-{
-    private Weather weather;
+{  
+    // Map of weather conditions with numerical values for different weather effects on plants breeding
+    private static final EnumMap<Weather, Double> plantBreedEffect = new EnumMap<>(Weather.class){{
+        put(Weather.SUNNY, 1.5);
+        put(Weather.RAINY, 1.25);
+        put(Weather.SNOWY, 0.5);
+    }};
+
+    // Map of weather conditions with numerical values for different weather effects on animals breeding
+    private static final EnumMap<Weather, Double> animalBreedEffect = new EnumMap<>(Weather.class) {
+        {
+            put(Weather.SUNNY, 1.5);
+            put(Weather.RAINY, 0.75);
+            put(Weather.SNOWY, 0.5);
+            put(Weather.FOGGY, 0.75);
+        }
+    };
+
+    // Map of weather conditions with numerical values for different weather effects on animals feeding
+    private static final EnumMap<Weather, Double> animalHuntEffect = new EnumMap<>(Weather.class) {
+        {
+            put(Weather.RAINY, 0.5);
+            put(Weather.SNOWY, 0.25);
+            put(Weather.FOGGY, 0.5);
+        }
+    };
 
     /**
-     * Constructor for objects of class WeatherAction.
+     * No weather objects are constructed
      */
-    public WeatherAction(Weather weather)
+    public WeatherAction()
     {
-        this.weather = weather;
     }
 
     /**
-     * When sunny, growth of plants is increased by a factor.
-     *
-     * @param  plantGrowthProbability  the probabilty for plant growth.
+     * Returns a Map of modifiers for plants based on the actions they take
+     * If weather condition has no modifier, it is set to 1
+     * 
+     * @param weather The current weather
+     * @return The Map of actions and their current modifiers
      */
-    public static void sunOnPlants(double plantGrowthProbability)
+    public static EnumMap<WeatherEffectTypes, Double> weatherOnPlants(Weather weather)
     {
-        Plant.setBreedingProbability(plantGrowthProbability * 1.5);
+        EnumMap<WeatherEffectTypes, Double> weatherEffect = new EnumMap<>(WeatherEffectTypes.class);
+
+        if (plantBreedEffect.get(weather) != null) {
+            weatherEffect.put(WeatherEffectTypes.BREED, plantBreedEffect.get(weather));
+        }
+        else {
+            weatherEffect.put(WeatherEffectTypes.BREED, 1.0);
+        }
+
+        return weatherEffect;
     }
+
     
     /**
-     * When raining, growth of plants is increased by a factor.
-     *
-     * @param  plantGrowthProbability  the probabilty for plant growth.
+     * Returns a Map of modifiers for animals based on the actions they take
+     * If weather condition has no modifier, it is set to 1
+     * 
+     * @param weather The current weather
+     * @return The Map of actions and their current modifiers
      */
-    public static void rainOnPlants(double plantGrowthProbability)
+    public static EnumMap<WeatherEffectTypes, Double> weatherOnAnimals(Weather weather)
     {
-        Plant.setBreedingProbability(plantGrowthProbability * 1.25);
-    }
-    
-    /**
-     * When snowing, growth of plants is decreased by a factor.
-     *
-     * @param  plantGrowthProbability  the probabilty for plant growth.
-     */
-    public static void snowOnPlants(double plantGrowthProbability)
-    {
-        Plant.setBreedingProbability(plantGrowthProbability / 2);
-    }
-    
-    /**
-     * When foggy, probability that a predator eats its prey is decreased by a factor.
-     *
-     * @param  eatingProbability  the probabilty that a predator eats its prey
-     */
-    public static void fogOnAnimals(double eatingProbability)
-    {
-        Animal.setEatingProbability(eatingProbability / 2);
+        EnumMap<WeatherEffectTypes, Double> weatherEffect = new EnumMap<>(WeatherEffectTypes.class);
+        
+        if(animalBreedEffect.get(weather) != null){
+            weatherEffect.put(WeatherEffectTypes.BREED, animalBreedEffect.get(weather));
+        }
+        else{
+            weatherEffect.put(WeatherEffectTypes.BREED, 1.0);
+        }
+
+        if (animalHuntEffect.get(weather) != null) {
+            weatherEffect.put(WeatherEffectTypes.HUNT, animalHuntEffect.get(weather));
+        } 
+        else {
+            weatherEffect.put(WeatherEffectTypes.HUNT, 1.0);
+        }
+
+        return weatherEffect;
     }
 }

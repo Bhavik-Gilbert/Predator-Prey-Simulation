@@ -30,24 +30,35 @@ public class Dodo extends Animal
     // The chance of a Dodo attacking a predator in its sleep
     private static final double ATTACK_CHANCE = 0.01;
     // Probability that a dodo dies from disease.
-    protected static final double DEATH_FROM_DISEASE_PROBABILITY = 0.02;
+    protected static final double DODO_DEATH_FROM_DISEASE_PROBABILITY = 0.02;
     // List of all dodo prey.
-    protected static List<String> LIST_OF_PREY;
+    private final ArrayList<ActorTypes> LIST_OF_PREY = new ArrayList<>() {
+        {
+            add(ActorTypes.PLANT);
+        }
+    };
 
     /**
      * Create a dodo. A dodo can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
      * 
      * @param randomAge If true, the dodo will have random age and hunger level.
-     * @param field The field currently occupied.
-     * @param location The location within the field.
+     * @param field     The field currently occupied.
+     * @param location  The location within the field.
+     * @param overlap   Whether or not an actor is allowed to overlap with other actors
+     * @param infected  Boolean value determining if the animal is infected or not
      */
-    protected Dodo(String description, boolean randomAge, Field field, Location location, boolean overlap, boolean infected)
+    protected Dodo(boolean randomAge, Field field, Location location, boolean infected)
     {
-        super(description, field, location, overlap, infected);
-        LIST_OF_PREY = new ArrayList<>();
-        LIST_OF_PREY.add("Plant");
+        super(field, location, infected);
+        setOverlap(false);
+        description = ActorTypes.DODO;
         setFoodValue(DODO_FOOD_VALUE);
+        setDeathByDiseaseProbability(DODO_DEATH_FROM_DISEASE_PROBABILITY);
+        setBreedingAge(BREEDING_AGE);
+        setBreedingProbability(BREEDING_PROBABILITY);
+        setMaxLitter(MAX_LITTER_SIZE);
+
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
             foodLevel = rand.nextInt(BASIC_FOOD_LEVEL);
@@ -64,7 +75,7 @@ public class Dodo extends Animal
      * 
      * @param newDodos A list to return newly born Dodos.
      */
-    public void dayAct(List<Actor> newDodos)
+    protected void dayAct(List<Actor> newDodos)
     {
         incrementAge(MAX_AGE);
         incrementHunger();
@@ -94,9 +105,8 @@ public class Dodo extends Animal
      * Then it sleeps
      * @param newDodos A list to return newly born Dodos.
      */
-    public void nightAct(List<Actor> newDodos)
+    protected void nightAct(List<Actor> newDodos)
     {
-        super.infection();
         if (isAlive()) {
             // Charges into predator killing it
             Location newLocation = chargePredator();
@@ -106,6 +116,7 @@ public class Dodo extends Animal
         }
     }
     
+    //NEEDS REFACTORING
     private Location chargePredator(){
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
@@ -128,37 +139,4 @@ public class Dodo extends Animal
         return null;
     }
     
-    /**
-     * Check whether or not this dodo is to give birth at this step.
-     * New births will be made into free adjacent locations.
-     * @param newDodos A list to return newly born Dodos.
-     */
-    private void giveBirth(List<Actor> newDodos)
-    {
-        // New Dodos are born into adjacent locations.
-        // Get a list of adjacent free locations.
-        Field field = getField();
-        List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed(field);
-        for(int b = 0; b < births && free.size() > 0; b++) {
-            Location loc = free.remove(0);
-            Dodo young = new Dodo("Dodo", false, field, loc, false, false);
-            newDodos.add(young);
-        }
-    }
-        
-    /**
-     * Generate a number representing the number of births,
-     * if it can breed.
-     * @param field The field the dodo is currently in
-     * @return The number of births (may be zero).
-     */
-    private int breed(Field field)
-    {
-        int births = 0;
-        if(canBreed(field, BREEDING_AGE, age) && rand.nextDouble() <= BREEDING_PROBABILITY) {
-            births = rand.nextInt(MAX_LITTER_SIZE) + 1;
-        }
-        return births;
-    }
 }

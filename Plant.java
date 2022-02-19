@@ -1,4 +1,4 @@
-import java.util.List;
+import java.util.*;
 
 /**
  * A simple model of a plant.
@@ -17,13 +17,14 @@ public class Plant extends Actor
     // The age to which a plant can live.
     private static final int MAX_AGE = 3;
     // The likelihood of a plant breeding.
-    private static final double ORIGINAL_BREEDING_PROBABILITY = 0.4;
-    private static double BREEDING_PROBABILITY;
+    private static final double BREEDING_PROBABILITY = 0.4;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
     // The base rate which when multiplied by age gives
     // the number of steps a predator gains when it eats a tortoise
     private static final double PLANT_FOOD_VALUE = 5;
+    // A map containing values that can effect how the plant reacts based off of the weather
+    private EnumMap<WeatherEffectTypes, Double> weatherEffect = new EnumMap<>(WeatherEffectTypes.class);
     
     // Individual characteristics (instance fields).
     
@@ -35,14 +36,17 @@ public class Plant extends Actor
      * zero (a new born) or with a random age.
      * 
      * @param randomAge If true, the plant will have a random age.
-     * @param field The field currently occupied.
-     * @param location The location within the field.
+     * @param field     The field currently occupied.
+     * @param location  The location within the field.
+     * @param overlap   Whether or not an actor is allowed to overlap with other actors
      */
-    public Plant(String description, boolean randomAge, Field field, Location location, boolean overlap)
+    public Plant(boolean randomAge, Field field, Location location)
     {
-        super(description, field, location, overlap);
-        BREEDING_PROBABILITY = ORIGINAL_BREEDING_PROBABILITY;
+        super(field, location);
+        setOverlap(true);
         age = 0;
+        description = ActorTypes.PLANT;
+
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
         }
@@ -74,6 +78,13 @@ public class Plant extends Actor
     }
 
     /**
+     * Retrieves and sets the current weather effect values
+     */
+    protected void setWeatherEffects(){
+        weatherEffect = WeatherAction.weatherOnPlants(weather);
+    }
+
+    /**
      * Check whether or not this plant is to give birth at this step.
      * New births will be made into free adjacent locations.
      * 
@@ -90,7 +101,7 @@ public class Plant extends Actor
             // Avoids overcrowding of the same type 
             if(!(field.getObjectAt(free.get(0)) instanceof Plant)){
                 Location loc = free.remove(0);
-                Plant young = new Plant("Plant", false, field, loc, true);
+                Plant young = new Plant(false, field, loc);
                 newPlants.add(young);
             }
         }
@@ -104,19 +115,30 @@ public class Plant extends Actor
      */
     private int breed()
     {
-        int effect;
-        if(getDay()){
-            effect = 1;
-        }
-        else{
-            effect = 100;
-        }
-
         int births = 0;
-        if(canBreed() && rand.nextDouble() <= (BREEDING_PROBABILITY / effect)) {
+
+        if(canBreed() && rand.nextDouble() <= (BREEDING_PROBABILITY * effectBreedingProbability())) {
             births = rand.nextInt(MAX_LITTER_SIZE) + 1;
         }
         return births;
+    }
+
+    /**
+     * Retrieves the breeding probability modifier
+     * Calculated by time of day and current weather conditions
+     * 
+     * @return Breeding probability modifier
+     */
+    private double effectBreedingProbability(){
+        double dayEffect;
+
+        if (getDay()) {
+            dayEffect = 1;
+        } else {
+            dayEffect = 0.01;
+        }
+
+        return dayEffect * weatherEffect.get(WeatherEffectTypes.BREED);
     }
 
     /**
@@ -129,60 +151,12 @@ public class Plant extends Actor
         return age >= BREEDING_AGE;
     }
 
-    public int getAge(){
-        return age;
-    }
-
+    /**
+     * Calculates the number of steps gained for eating this plant
+     * 
+     * @return The number of steps gained for eating this plant
+     */
     public double getFoodValue() {
         return age * PLANT_FOOD_VALUE;
-    }
-    
-    public static void setBreedingProbability(double breedingProbability){
-        BREEDING_PROBABILITY = breedingProbability;
-    }
-    
-    public static double getBreedingProbability(){
-        return BREEDING_PROBABILITY;
-    }
-    
-    /**
-     * Implement the effects of the weather.
-     * @param weather The weather.
-     */
-    public static void implementWeather(Weather weather)
-    {
-        switch (weather) {
-            case SUNNY:
-                if (BREEDING_PROBABILITY == ORIGINAL_BREEDING_PROBABILITY){
-                    System.out.println("plant breeding probability not yet changed " + BREEDING_PROBABILITY);
-                    WeatherAction.sunOnPlants(BREEDING_PROBABILITY);
-                    System.out.println("plant breeding probability changed to " + BREEDING_PROBABILITY);
-                }
-                break;
-            case RAINY:
-                if (BREEDING_PROBABILITY == ORIGINAL_BREEDING_PROBABILITY){
-                    System.out.println("plant breeding probability not yet changed " + BREEDING_PROBABILITY);
-                    WeatherAction.rainOnPlants(BREEDING_PROBABILITY);
-                    System.out.println("plant breeding probability changed to " + BREEDING_PROBABILITY);
-                }
-                break;
-            case SNOWY:
-                if (BREEDING_PROBABILITY == ORIGINAL_BREEDING_PROBABILITY){
-                    System.out.println("plant breeding probability not yet changed " + BREEDING_PROBABILITY);
-                    WeatherAction.snowOnPlants(BREEDING_PROBABILITY);
-                    System.out.println("plant breeding probability changed to " + BREEDING_PROBABILITY);
-                }
-                break;
-        }
-    }
-    
-    /**
-     * Resets the breeding probability to the original value.
-     * 
-     */
-    public static void resetBreedingProbability()
-    {
-        BREEDING_PROBABILITY = ORIGINAL_BREEDING_PROBABILITY;
-        System.out.println("plantGrowthProbability reset to  " + BREEDING_PROBABILITY);
     }
 }

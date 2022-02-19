@@ -28,24 +28,35 @@ public class Pig extends Animal
     // Base starting food level for all pigs
     private static final int BASIC_FOOD_LEVEL = 20;
     // Probability that a pig dies from disease.
-    protected static final double DEATH_FROM_DISEASE_PROBABILITY = 0.02;
+    protected static final double PIG_DEATH_FROM_DISEASE_PROBABILITY = 0.02;
     // List of all pig prey.
-    protected static List<String> LIST_OF_PREY;
+    private final ArrayList<ActorTypes> LIST_OF_PREY = new ArrayList<>() {
+        {
+            add(ActorTypes.DODO);
+        }
+    };
 
     /**
      * Create a pig. A pig can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
      * 
      * @param randomAge If true, the pig will have random age and hunger level.
-     * @param field The field currently occupied.
-     * @param location The location within the field.
+     * @param field     The field currently occupied.
+     * @param location  The location within the field.
+     * @param overlap   Whether or not an actor is allowed to overlap with other actors
+     * @param infected  Boolean value determining if the animal is infected or not
      */
-    protected Pig(String description, boolean randomAge, Field field, Location location, boolean overlap, boolean infected)
+    protected Pig(boolean randomAge, Field field, Location location, boolean infected)
     {
-        super(description, field, location, overlap, infected);
-        LIST_OF_PREY = new ArrayList<>();
-        LIST_OF_PREY.add("Dodo");
+        super(field, location, infected);
+        setOverlap(false);
+        description = ActorTypes.PIG;
         setFoodValue(PIG_FOOD_VALUE);
+        setDeathByDiseaseProbability(PIG_DEATH_FROM_DISEASE_PROBABILITY);
+        setBreedingAge(BREEDING_AGE);
+        setBreedingProbability(BREEDING_PROBABILITY);
+        setMaxLitter(MAX_LITTER_SIZE);
+
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
             foodLevel = rand.nextInt(BASIC_FOOD_LEVEL);
@@ -62,7 +73,7 @@ public class Pig extends Animal
      * 
      * @param newPigs A list to return newly born pigs.
      */
-    public void dayAct(List<Actor> newPigs)
+    protected void dayAct(List<Actor> newPigs)
     {
         incrementAge(MAX_AGE);
         incrementHunger();
@@ -92,44 +103,8 @@ public class Pig extends Animal
      * 
      * @param newPigs A list to return newly born pigs.
      */
-    public void nightAct(List<Actor> newPigs)
+    protected void nightAct(List<Actor> newPigs)
     {
         super.infection();
     }
-    
-    /**
-     * Check whether or not this pig is to give birth at this step.
-     * New births will be made into free adjacent locations.
-     * 
-     * @param newPigs A list to return newly born pigs.
-     */
-    private void giveBirth(List<Actor> newPigs)
-    {
-        // New pigs are born into adjacent locations.
-        // Get a list of adjacent free locations.
-        Field field = getField();
-        List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed(field);
-        for(int b = 0; b < births && free.size() > 0; b++) {
-            Location loc = free.remove(0);
-            Pig young = new Pig("Pig", false, field, loc, false, false);
-            newPigs.add(young);
-        }
-    }
-        
-    /**
-     * Generate a number representing the number of births, 
-     * if it can breed.
-     * 
-     * @return The number of births (may be zero).
-     */
-    private int breed(Field field)
-    {
-        int births = 0;
-        if(canBreed(field, BREEDING_AGE, age) && rand.nextDouble() <= BREEDING_PROBABILITY) {
-            births = rand.nextInt(MAX_LITTER_SIZE) + 1;
-        }
-        return births;
-    }
-
 }
