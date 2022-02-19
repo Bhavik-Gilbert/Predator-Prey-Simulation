@@ -39,6 +39,8 @@ public class Simulator
     private static final double FOGGY_PROBABILITY = 0.2;
     // The probability that it is snowing.
     private static final double SNOWY_PROBABILITY = 0.1;
+    // The probability that a disease particle will be created in any given grid position.
+    private static final double DISEASE_CREATION_PROBABILITY = 0.05;
 
     // List of actors in the field.
     private List<Actor> actors;
@@ -166,49 +168,45 @@ public class Simulator
         field.clear();
         int total;
         boolean warning = false;
-
+        int infectedCount = 0;
+        
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
+                // Populate with animals and plants as per their probabilities    
                 total = 0;
+                Location location = new Location(row, col);
+                boolean infected = false;
+                if (rand.nextDouble() <= DISEASE_CREATION_PROBABILITY){
+                    infected = true;
+                    infectedCount += 1;
+                }
                 if (rand.nextDouble() <= DODO_CREATION_PROBABILITY + total){
                     total += DODO_CREATION_PROBABILITY;
-
-                    Location location = new Location(row, col);
-                    Dodo dodo = new Dodo(true, field, location, false);
+                    Dodo dodo = new Dodo("Dodo", true, field, location, false, infected);
                     actors.add(dodo);
                 }
                 else if(rand.nextDouble() <= HUMAN_CREATION_PROBABILITY + total){
                     total += HUMAN_CREATION_PROBABILITY;
-
-                    Location location = new Location(row, col);
-                    Human human = new Human(true, field, location, false);
+                    Human human = new Human("Human", true, field, location, false, infected);
                     actors.add(human);
                 }
                 else if(rand.nextDouble() <= PIG_CREATION_PROBABILITY + total){
                     total += PIG_CREATION_PROBABILITY;
-
-                    Location location = new Location(row, col);
-                    Pig pig = new Pig(true, field, location, false);
+                    Pig pig = new Pig("Pig", true, field, location, false, infected);
                     actors.add(pig);
                 }
                 else if (rand.nextDouble() <= MONKEY_CREATION_PROBABILITY + total){
                     total += MONKEY_CREATION_PROBABILITY;
-
-                    Location location = new Location(row, col);
-                    Monkey monkey = new Monkey(true, field, location, false);
+                    Monkey monkey = new Monkey("Monkey", true, field, location, false, infected);
                     actors.add(monkey);
                 }
                 else if (rand.nextDouble() <= TORTOISE_CREATION_PROBABILITY + total){
                     total += TORTOISE_CREATION_PROBABILITY;
-
-                    Location location = new Location(row, col);
-                    Tortoise tortoise = new Tortoise(true, field, location, false);
+                    Tortoise tortoise = new Tortoise("Tortoise", true, field, location, false, infected);
                     actors.add(tortoise);
                 }
                 if (rand.nextDouble() <= PLANT_CREATION_PROBABILITY){
-
-                    Location location = new Location(row, col);
-                    Plant plant = new Plant(true, field, location, true);
+                    Plant plant = new Plant("Plant", true, field, location, true);
                     actors.add(plant);
                 }
                 // else leave the location empty.
@@ -218,6 +216,8 @@ public class Simulator
             }
         }
 
+        System.out.println(infectedCount);
+        
         if(warning){
             System.out.println("Your total spawn probability is above 1, there may be some unexpected errors in simulation as a result");
         }

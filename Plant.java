@@ -1,5 +1,4 @@
- import java.util.List;
-import java.util.Random;
+import java.util.List;
 
 /**
  * A simple model of a plant.
@@ -25,8 +24,6 @@ public class Plant extends Actor
     // The base rate which when multiplied by age gives
     // the number of steps a predator gains when it eats a tortoise
     private static final double PLANT_FOOD_VALUE = 5;
-    // A shared random number generator to control breeding.
-    private static final Random rand = Randomizer.getRandom();
     
     // Individual characteristics (instance fields).
     
@@ -41,9 +38,9 @@ public class Plant extends Actor
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    public Plant(boolean randomAge, Field field, Location location, boolean overlap)
+    public Plant(String description, boolean randomAge, Field field, Location location, boolean overlap)
     {
-        super(field, location, overlap);
+        super(description, field, location, overlap);
         BREEDING_PROBABILITY = ORIGINAL_BREEDING_PROBABILITY;
         age = 0;
         if(randomAge) {
@@ -93,7 +90,7 @@ public class Plant extends Actor
             // Avoids overcrowding of the same type 
             if(!(field.getObjectAt(free.get(0)) instanceof Plant)){
                 Location loc = free.remove(0);
-                Plant young = new Plant(false, field, loc, true);
+                Plant young = new Plant("Plant", false, field, loc, true);
                 newPlants.add(young);
             }
         }

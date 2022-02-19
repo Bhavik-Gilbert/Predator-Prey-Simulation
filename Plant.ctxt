@@ -1,8 +1,8 @@
 #BlueJ class context
 comment0.target=Plant
 comment0.text=\n\ A\ simple\ model\ of\ a\ plant.\n\ Plants\ age,\ move,\ breed,\ and\ die.\n\ \n\ @author\ David\ J.\ Barnes\ and\ Michael\ K\u00F6lling\n\ @author\ Bhavik\ Gilbert\ and\ Heman\ Seegolam\n\ @version\ 2016.02.29\ (2)\n
-comment1.params=randomAge\ field\ location\ overlap
-comment1.target=Plant(boolean,\ Field,\ Location,\ boolean)
+comment1.params=description\ randomAge\ field\ location\ overlap
+comment1.target=Plant(java.lang.String,\ boolean,\ Field,\ Location,\ boolean)
 comment1.text=\n\ Create\ a\ new\ plant.\ A\ plant\ may\ be\ created\ with\ age\n\ zero\ (a\ new\ born)\ or\ with\ a\ random\ age.\n\ \n\ @param\ randomAge\ If\ true,\ the\ plant\ will\ have\ a\ random\ age.\n\ @param\ field\ The\ field\ currently\ occupied.\n\ @param\ location\ The\ location\ within\ the\ field.\n
 comment10.params=
 comment10.target=double\ getBreedingProbability()

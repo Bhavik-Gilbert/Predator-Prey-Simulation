@@ -1,6 +1,6 @@
 import java.util.List;
 import java.util.Iterator;
-import java.util.Random;
+import java.util.ArrayList;
 
 /**
  * A simple model of a tortoise.
@@ -27,8 +27,11 @@ public class Tortoise extends Animal
     private static final double TORTOISE_FOOD_VALUE = 0.3;
     // Base starting food level for all tortoises
     private static final int BASIC_FOOD_LEVEL = 20;
-    // A shared random number generator to control breeding.
-    private static final Random rand = Randomizer.getRandom();
+    // Probability that a tortoise dies from disease.
+    protected static final double DEATH_FROM_DISEASE_PROBABILITY = 0.01;
+    // List of all tortoise prey.
+    protected static List<String> LIST_OF_PREY;
+    
     /**
      * Create a tortoise. A tortoise can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
@@ -37,9 +40,11 @@ public class Tortoise extends Animal
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    protected Tortoise(boolean randomAge, Field field, Location location, boolean overlap)
+    protected Tortoise(String description, boolean randomAge, Field field, Location location, boolean overlap, boolean infected)
     {
-        super(field, location, overlap);
+        super(description, field, location, overlap, infected);
+        LIST_OF_PREY = new ArrayList<>();
+        LIST_OF_PREY.add("Plant");
         setFoodValue(TORTOISE_FOOD_VALUE);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
@@ -62,10 +67,11 @@ public class Tortoise extends Animal
     {
         incrementAge(MAX_AGE);
         incrementHunger();
+        super.infection();
         if(isAlive()) {
             giveBirth(newTortoises);            
             // Move towards a source of food if found.
-            Location newLocation = findFood();
+            Location newLocation = super.findFood(LIST_OF_PREY);
             if(newLocation == null) { 
                 // No food found - try to move to a free location.
                 newLocation = getField().freeAdjacentLocation(getLocation());
@@ -88,34 +94,7 @@ public class Tortoise extends Animal
      */
     public void nightAct(List<Actor> newTortoises)
     {
-    }
-    
-    /**
-     * Look for plants adjacent to the current location.
-     * Only the first live plant is eaten.
-     * 
-     * @return Where food was found, or null if it wasn't.
-     */
-    private Location findFood()
-    {
-        Field field = getField();
-        List<Location> adjacent = field.adjacentLocations(getLocation());
-        Iterator<Location> it = adjacent.iterator();
-        while(it.hasNext()) {
-            Location where = it.next();
-            Object actor = field.getObjectAt(where);
-            if(actor instanceof Plant) {
-                if (rand.nextDouble() <= EATING_PROBABILITY){
-                    Plant plant = (Plant) actor;
-                    if(plant.isAlive()) { 
-                        plant.setDead();
-                        foodLevel += plant.getFoodValue();
-                        return where;
-                    }
-                }
-            }
-        }
-        return null;
+        super.infection();
     }
     
     /**
@@ -133,7 +112,7 @@ public class Tortoise extends Animal
         int births = breed(field);
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Tortoise young = new Tortoise(false, field, loc, false);
+            Tortoise young = new Tortoise("Tortoise", false, field, loc, false, false);
             newTortoises.add(young);
         }
     }

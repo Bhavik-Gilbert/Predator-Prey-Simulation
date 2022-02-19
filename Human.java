@@ -1,6 +1,6 @@
 import java.util.List;
 import java.util.Iterator;
-import java.util.Random;
+import java.util.ArrayList;
 
 /**
  * A simple model of a human.
@@ -27,8 +27,10 @@ public class Human extends Animal
     private static final double HUMAN_FOOD_VALUE = 0.3;
     // Base starting food level for all humans
     private static final int BASIC_FOOD_LEVEL = 20;
-    // A shared random number generator to control breeding.
-    private static final Random rand = Randomizer.getRandom();
+    // Probability that a human dies from disease.
+    protected static final double DEATH_FROM_DISEASE_PROBABILITY = 0.05;
+    // List of all human prey.
+    protected static List<String> LIST_OF_PREY;
 
     /**
      * Create a human. A human can be created as a new born (age zero
@@ -38,9 +40,12 @@ public class Human extends Animal
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    protected Human(boolean randomAge, Field field, Location location, boolean overlap)
+    protected Human(String description, boolean randomAge, Field field, Location location, boolean overlap, boolean infected)
     {
-        super(field, location, false);
+        super(description, field, location, false, infected);
+        LIST_OF_PREY = new ArrayList<>();
+        LIST_OF_PREY.add("Dodo");
+        LIST_OF_PREY.add("Pig");
         setFoodValue(HUMAN_FOOD_VALUE);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
@@ -62,9 +67,10 @@ public class Human extends Animal
     {
         incrementAge(MAX_AGE);
         incrementHunger();
+        super.infection();
         if(isAlive()) {           
             // Move towards a source of food if found.
-            Location newLocation = findFood();
+            Location newLocation = super.findFood(LIST_OF_PREY);
             if(newLocation == null) { 
                 // No food found - try to move to a free location.
                 newLocation = getField().freeAdjacentLocation(getLocation());
@@ -87,38 +93,10 @@ public class Human extends Animal
      */
     public void nightAct(List<Actor> newHuman)
     {
+        super.infection();
         if(isAlive()) {
             giveBirth(newHuman);
         }
-    }
-    
-    /**
-     * Look for dodos and pigs adjacent to the current location.
-     * Only the first live dodo or  pig is eaten.
-     * 
-     * @return Where food was found, or null if it wasn't.
-     */
-    private Location findFood()
-    {
-        Field field = getField();
-        List<Location> adjacent = field.adjacentLocations(getLocation());
-        Iterator<Location> it = adjacent.iterator();
-        Random rand = Randomizer.getRandom();
-        while(it.hasNext()) {
-            Location where = it.next();
-            Object actor = field.getObjectAt(where);
-            if(actor instanceof Pig || actor instanceof Dodo) {
-                if (rand.nextDouble() <= EATING_PROBABILITY){
-                    Animal prey = (Animal) actor; 
-                    if(prey.isAlive()) { 
-                        prey.setDead();
-                        foodLevel += prey.getFoodValue();
-                        return where;
-                    }
-                }
-            }
-        }
-        return null;
     }
     
     /**
@@ -136,7 +114,7 @@ public class Human extends Animal
         int births = breed(field);
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Human young = new Human(false, field, loc, false);
+            Human young = new Human("Human", false, field, loc, false, false);
             newHuman.add(young);
         }
     }
@@ -154,5 +132,15 @@ public class Human extends Animal
             births = rand.nextInt(MAX_LITTER_SIZE) + 1;
         }
         return births;
+    }
+    
+    /**
+     * Return the death from disease probability
+     * 
+     * @return The death from disease probability
+     */
+    public static double getDeathFromDiseaseProbability()
+    {
+        return DEATH_FROM_DISEASE_PROBABILITY;
     }
 }

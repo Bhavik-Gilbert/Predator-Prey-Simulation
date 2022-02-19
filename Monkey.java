@@ -1,6 +1,6 @@
 import java.util.List;
 import java.util.Iterator;
-import java.util.Random;
+import java.util.ArrayList;
 
 /**
  * A simple model of a monkey.
@@ -27,8 +27,10 @@ public class Monkey extends Animal
     private static final double MONKEY_FOOD_VALUE = 0.5;
     // Base starting food level for all monkeys
     private static final int BASIC_FOOD_LEVEL = 20;
-    // A shared random number generator to control breeding.
-    private static final Random rand = Randomizer.getRandom();
+    // Probability that a monkey dies from disease.
+    protected static final double DEATH_FROM_DISEASE_PROBABILITY = 0.05;
+    // List of all monkey prey.
+    protected static List<String> LIST_OF_PREY;
 
     /**
      * Create a monkey. A monkey can be created as a new born (age zero
@@ -38,9 +40,11 @@ public class Monkey extends Animal
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    protected Monkey(boolean randomAge, Field field, Location location, boolean overlap)
+    protected Monkey(String description, boolean randomAge, Field field, Location location, boolean overlap, boolean infected)
     {
-        super(field, location, false);
+        super(description, field, location, false, infected);
+        LIST_OF_PREY = new ArrayList<>();
+        LIST_OF_PREY.add("Dodo");
         setFoodValue(MONKEY_FOOD_VALUE);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
@@ -62,10 +66,11 @@ public class Monkey extends Animal
     {
         incrementAge(MAX_AGE);
         incrementHunger();
+        super.infection();
         if(isAlive()) {    
             giveBirth(newMonkeys);       
             // Move towards a source of food if found.
-            Location newLocation = findFood();
+            Location newLocation = super.findFood(LIST_OF_PREY);
             if(newLocation == null) { 
                 // No food found - try to move to a free location.
                 newLocation = getField().freeAdjacentLocation(getLocation());
@@ -88,34 +93,7 @@ public class Monkey extends Animal
      */
     public void nightAct(List<Actor> newMonkeys)
     {
-    }
-    
-    /**
-     * Look for dodos adjacent to the current location.
-     * Only the first live dodo is eaten.
-     * 
-     * @return Where food was found, or null if it wasn't.
-     */
-    private Location findFood()
-    {
-        Field field = getField();
-        List<Location> adjacent = field.adjacentLocations(getLocation());
-        Iterator<Location> it = adjacent.iterator();
-        while(it.hasNext()) {
-            Location where = it.next();
-            Object actor = field.getObjectAt(where);
-            if(actor instanceof Dodo) {
-                if (rand.nextDouble() <= EATING_PROBABILITY){
-                    Animal prey = (Animal) actor;
-                    if(prey.isAlive()) { 
-                        prey.setDead();
-                        foodLevel += prey.getFoodValue();
-                        return where;
-                    }
-                }
-            }
-        }
-        return null;
+        super.infection();
     }
     
     /**
@@ -133,7 +111,7 @@ public class Monkey extends Animal
         int births = breed(field);
         for (int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Monkey young = new Monkey(false, field, loc, false);
+            Monkey young = new Monkey("Monkey", false, field, loc, false, false);
             newMonkeys.add(young);
         }
     }

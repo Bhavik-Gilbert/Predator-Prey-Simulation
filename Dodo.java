@@ -1,6 +1,6 @@
 import java.util.List;
 import java.util.Iterator;
-import java.util.Random;
+import java.util.ArrayList;
 
 /**
  * A simple model of a dodo.
@@ -29,8 +29,10 @@ public class Dodo extends Animal
     private static final int BASIC_FOOD_LEVEL = 20;
     // The chance of a Dodo attacking a predator in its sleep
     private static final double ATTACK_CHANCE = 0.01;
-    // A shared random number generator to control breeding.
-    private static final Random rand = Randomizer.getRandom();
+    // Probability that a dodo dies from disease.
+    protected static final double DEATH_FROM_DISEASE_PROBABILITY = 0.02;
+    // List of all dodo prey.
+    protected static List<String> LIST_OF_PREY;
 
     /**
      * Create a dodo. A dodo can be created as a new born (age zero
@@ -40,9 +42,11 @@ public class Dodo extends Animal
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    protected Dodo(boolean randomAge, Field field, Location location, boolean overlap)
+    protected Dodo(String description, boolean randomAge, Field field, Location location, boolean overlap, boolean infected)
     {
-        super(field, location, overlap);
+        super(description, field, location, overlap, infected);
+        LIST_OF_PREY = new ArrayList<>();
+        LIST_OF_PREY.add("Plant");
         setFoodValue(DODO_FOOD_VALUE);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
@@ -64,10 +68,11 @@ public class Dodo extends Animal
     {
         incrementAge(MAX_AGE);
         incrementHunger();
+        super.infection();
         if(isAlive()) {
             giveBirth(newDodos);            
             // Move towards a source of food if found.
-            Location newLocation = findFood();
+            Location newLocation = super.findFood(LIST_OF_PREY);
             if(newLocation == null) { 
                 // No food found - try to move to a free location.
                 newLocation = getField().freeAdjacentLocation(getLocation());
@@ -91,6 +96,7 @@ public class Dodo extends Animal
      */
     public void nightAct(List<Actor> newDodos)
     {
+        super.infection();
         if (isAlive()) {
             // Charges into predator killing it
             Location newLocation = chargePredator();
@@ -121,30 +127,6 @@ public class Dodo extends Animal
 
         return null;
     }
-    /**
-     * Look for plants adjacent to the current location.
-     * Only the first live plant is eaten.
-     * @return Where food was found, or null if it wasn't.
-     */
-    private Location findFood()
-    {
-        Field field = getField();
-        List<Location> adjacent = field.adjacentLocations(getLocation());
-        Iterator<Location> it = adjacent.iterator();
-        while(it.hasNext()) {
-            Location where = it.next();
-            Object actor = field.getObjectAt(where);
-            if(actor instanceof Plant) {
-                Plant plant = (Plant) actor;
-                if(plant.isAlive()) { 
-                    plant.setDead();
-                    foodLevel += plant.getFoodValue();
-                    return where;
-                }
-            }
-        }
-        return null;
-    }
     
     /**
      * Check whether or not this dodo is to give birth at this step.
@@ -160,7 +142,7 @@ public class Dodo extends Animal
         int births = breed(field);
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Dodo young = new Dodo(false, field, loc, false);
+            Dodo young = new Dodo("Dodo", false, field, loc, false, false);
             newDodos.add(young);
         }
     }

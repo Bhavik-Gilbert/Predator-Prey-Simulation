@@ -1,5 +1,6 @@
 import java.util.List;
-import java.util.Random;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * A class representing shared characteristics of animals.
@@ -21,9 +22,14 @@ public abstract class Animal extends Actor
     // the number of steps a predator gains when it eats this animal
     protected double FOOD_VALUE;
     
-    // the probability that a predator eats its prey.
+    // The probability that a predator eats its prey.
     protected static final double ORIGINAL_EATING_PROBABILITY = 0.8;
     protected static double EATING_PROBABILITY;
+    
+    // Whether an animal is infected by disease or not.
+    protected boolean infected;
+    // Probabilities that an animal dies from disease.
+    private static HashMap<String, Double> DEATH_FROM_DISEASE_PROBABILITY;
     
     /**
      * Create a new animal at location in field.
@@ -31,10 +37,17 @@ public abstract class Animal extends Actor
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    protected Animal(Field field, Location location, boolean overlap)
+    protected Animal(String description, Field field, Location location, boolean overlap, boolean infected)
     {
-        super(field, location, overlap);
+        super(description, field, location, overlap);
         EATING_PROBABILITY = ORIGINAL_EATING_PROBABILITY;
+        this.infected = infected;
+        DEATH_FROM_DISEASE_PROBABILITY = new HashMap<>();
+        DEATH_FROM_DISEASE_PROBABILITY.put("Human", Human.DEATH_FROM_DISEASE_PROBABILITY);
+        DEATH_FROM_DISEASE_PROBABILITY.put("Dodo", Dodo.DEATH_FROM_DISEASE_PROBABILITY);
+        DEATH_FROM_DISEASE_PROBABILITY.put("Monkey", Monkey.DEATH_FROM_DISEASE_PROBABILITY);
+        DEATH_FROM_DISEASE_PROBABILITY.put("Tortoise", Tortoise.DEATH_FROM_DISEASE_PROBABILITY);
+        DEATH_FROM_DISEASE_PROBABILITY.put("Pig", Pig.DEATH_FROM_DISEASE_PROBABILITY);
         randomGender();
     }
     
@@ -56,7 +69,6 @@ public abstract class Animal extends Actor
      */
     protected void randomGender()
     {
-        Random rand = Randomizer.getRandom();
         setGender(Gender.values()[rand.nextInt(Gender.values().length)]);
     }            
     
@@ -122,6 +134,36 @@ public abstract class Animal extends Actor
         return age * FOOD_VALUE;
     }
     
+    /**
+     * Look for prey / plants adjacent to the current location.
+     * Only the first live prey or plant is eaten.
+     * @return Where food was found, or null if it wasn't.
+     */
+    protected Location findFood(List<String> listOfPrey)
+    {
+        Field field = getField();
+        List<Location> adjacent = field.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+            Location where = it.next();
+            Object object = field.getObjectAt(where);
+            if (object != null){
+                Actor actor = (Actor) object;
+                // if actor type is in list of prey for predator
+                if (listOfPrey.contains(actor.getDescription())){
+                    if (rand.nextDouble() <= EATING_PROBABILITY){
+                        if(actor.isAlive()) { 
+                            actor.setDead();
+                            foodLevel += actor.getFoodValue();
+                            return where;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    
     public static void setEatingProbability(double eatingProbability){
         EATING_PROBABILITY = eatingProbability;
     }
@@ -150,5 +192,17 @@ public abstract class Animal extends Actor
     {
         EATING_PROBABILITY = ORIGINAL_EATING_PROBABILITY;
         System.out.println("eatingProbability reset to  " + EATING_PROBABILITY);
+    }
+    
+    /**
+     * Implements the effects of disease infection on animals
+     * 
+     */
+    public void infection()
+    {
+        double deathFromDiseaseProbability = DEATH_FROM_DISEASE_PROBABILITY.get(getDescription());
+        if (rand.nextDouble() <= deathFromDiseaseProbability){
+            setDead();
+        }
     }
 }

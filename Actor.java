@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Random;
 
 /**
  * Defines what the different characteristics of elements in the simulation must have
@@ -11,6 +12,8 @@ import java.util.List;
  */
 public abstract class Actor
 {
+    // Description of type of actor
+    protected String description;
     // Whether the actor is alive or not.
     protected boolean alive;
     // The actor's field.
@@ -21,12 +24,15 @@ public abstract class Actor
     protected boolean overlap;
     // The current time of day, true day, false night
     private boolean day;
+    // A shared random number generator to control breeding and disease infection effects.
+    protected static final Random rand = Randomizer.getRandom();
 
     /**
      * Constructor for objects of class Actor
      */
-    public Actor(Field field, Location location, boolean overlap)
+    public Actor(String description, Field field, Location location, boolean overlap)
     {
+        this.description = description;
         alive = true;
         this.field = field;
         setLocation(location);
@@ -64,6 +70,14 @@ public abstract class Actor
     }
 
     /**
+     * Returns the description of the actor
+     * @return The description of the actor
+     */
+    protected String getDescription(){
+        return description;
+    }
+    
+    /**
      * Returns the current time of day 
      * @return Current time of day, true if day, false if night
      */
@@ -84,6 +98,12 @@ public abstract class Actor
      * @param newActors A list to return newly born actors.
      */
     protected abstract void nightAct(List<Actor> newActors);
+    
+    /**
+     * Gets food value of animal or plants
+     * 
+     */
+    protected abstract double getFoodValue();
 
     /**
      * Check whether the actor is alive or not.
