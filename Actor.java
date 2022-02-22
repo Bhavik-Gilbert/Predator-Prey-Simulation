@@ -24,7 +24,7 @@ public abstract class Actor
     protected boolean overlap;
     // The current time of day, true day, false night
     private boolean day;
-
+    // The current weather conditions in the field
     protected Weather weather;
     // A shared random number generator to control breeding and disease infection effects.
     protected static final Random rand = Randomizer.getRandom();

@@ -4,7 +4,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.awt.Color;
 
 /**
@@ -152,6 +151,8 @@ public class Simulator
 
         // Adds new actors to actors list
         newActors.forEach(actor ->  actors.add(actor));
+
+        System.out.println(actors.size());
 
         // Updates GUI text
         String info = weather.toString();
