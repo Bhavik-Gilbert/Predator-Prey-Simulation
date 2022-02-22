@@ -79,8 +79,15 @@ public class Dodo extends Animal
     {
         incrementAge(MAX_AGE);
         incrementHunger();
-        super.infection();
+
+        if(infected){
+            dieInfection();
+        }
+        
         if(isAlive()) {
+            if (infected) {
+                spreadVirus();
+            }
             giveBirth(newDodos);            
             // Move towards a source of food if found.
             Location newLocation = super.findFood(LIST_OF_PREY);
@@ -107,7 +114,14 @@ public class Dodo extends Animal
      */
     protected void nightAct(List<Actor> newDodos)
     {
+        if (infected) {
+            dieInfection();
+        }
+
         if (isAlive()) {
+            if (infected) {
+                spreadVirus();
+            }
             // Charges into predator killing it
             Location newLocation = chargePredator();
             if (newLocation != null && (ATTACK_CHANCE >= rand.nextDouble())) {

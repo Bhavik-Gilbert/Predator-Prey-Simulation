@@ -152,8 +152,6 @@ public class Simulator
         // Adds new actors to actors list
         newActors.forEach(actor ->  actors.add(actor));
 
-        System.out.println(actors.size());
-
         // Updates GUI text
         String info = weather.toString();
         view.showStatus(step, field, info);
@@ -183,7 +181,6 @@ public class Simulator
     {
         Random rand = Randomizer.getRandom();
         field.clear();
-        int infectedCount = 0;
 
         //Gathers running probability for use in creation
         double[] totalProbabilities = {DODO_CREATION_PROBABILITY, HUMAN_CREATION_PROBABILITY, PIG_CREATION_PROBABILITY, MONKEY_CREATION_PROBABILITY, TORTOISE_CREATION_PROBABILITY};
@@ -194,6 +191,15 @@ public class Simulator
                 // Populate with animals and plants as per their probabilities    
                 Location location = new Location(row, col);
                 boolean infected = false;
+
+                if (rand.nextDouble() <= DISEASE_CREATION_PROBABILITY) {
+                    infected = true;
+                }
+                
+                if (rand.nextDouble() <= PLANT_CREATION_PROBABILITY) {
+                    Plant plant = new Plant(true, field, location);
+                    actors.add(plant);
+                }
 
                 if (rand.nextDouble() <= totalProbabilities[0]){
                     Dodo dodo = new Dodo(true, field, location, infected);
@@ -215,19 +221,8 @@ public class Simulator
                     Tortoise tortoise = new Tortoise( true, field, location, infected);
                     actors.add(tortoise);
                 }
-
-                if (rand.nextDouble() <= PLANT_CREATION_PROBABILITY){
-                    Plant plant = new Plant(true, field, location);
-                    actors.add(plant);
-                }
-                if (rand.nextDouble() <= DISEASE_CREATION_PROBABILITY){
-                    infected = true;
-                    infectedCount += 1;
-                }
             }
         }
-
-        System.out.println(infectedCount);
         
         // Gives warning if spawn probability is above 1
         if(totalProbabilities[totalProbabilities.length-1] > 1){

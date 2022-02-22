@@ -77,8 +77,13 @@ public class Pig extends Animal
     {
         incrementAge(MAX_AGE);
         incrementHunger();
-        super.infection();
+        if (infected) {
+            dieInfection();
+        }
         if(isAlive()) {
+            if (infected) {
+                spreadVirus();
+            }
             giveBirth(newPigs);            
             // Move towards a source of food if found.
             Location newLocation = super.findFood(LIST_OF_PREY);
@@ -105,6 +110,8 @@ public class Pig extends Animal
      */
     protected void nightAct(List<Actor> newPigs)
     {
-        super.infection();
+        if (infected) {
+            dieInfection();
+        }
     }
 }

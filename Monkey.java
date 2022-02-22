@@ -76,8 +76,15 @@ public class Monkey extends Animal
     {
         incrementAge(MAX_AGE);
         incrementHunger();
-        super.infection();
+        
+        if (infected) {
+            dieInfection();
+        }
+
         if(isAlive()) {    
+            if (infected) {
+                spreadVirus();
+            }
             giveBirth(newMonkeys);       
             // Move towards a source of food if found.
             Location newLocation = super.findFood(LIST_OF_PREY);
@@ -103,6 +110,8 @@ public class Monkey extends Animal
      */
     protected void nightAct(List<Actor> newMonkeys)
     {
-        super.infection();
+        if (infected) {
+            dieInfection();
+        }
     }
 }

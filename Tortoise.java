@@ -78,8 +78,13 @@ public class Tortoise extends Animal
     {
         incrementAge(MAX_AGE);
         incrementHunger();
-        super.infection();
+        if (infected) {
+            dieInfection();
+        }
         if(isAlive()) {
+            if (infected) {
+                spreadVirus();
+            }
             giveBirth(newTortoises);            
             // Move towards a source of food if found.
             Location newLocation = super.findFood(LIST_OF_PREY);
@@ -105,6 +110,5 @@ public class Tortoise extends Animal
      */
     public void nightAct(List<Actor> newTortoises)
     {
-        super.infection();
     }
 }

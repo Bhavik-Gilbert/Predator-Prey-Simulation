@@ -78,9 +78,14 @@ public class Human extends Animal
     {
         incrementAge(MAX_AGE);
         incrementHunger();
-        super.infection();
+        if (infected) {
+            dieInfection();
+        }
         
-        if(isAlive()) {           
+        if(isAlive()) {   
+            if(infected){
+                spreadVirus();
+            }        
             // Move towards a source of food if found.
             Location newLocation = super.findFood(LIST_OF_PREY);
             if(newLocation == null) { 
@@ -105,7 +110,10 @@ public class Human extends Animal
      */
     protected void nightAct(List<Actor> newHuman)
     {
-        super.infection();
+        if (infected) {
+            dieInfection();
+        }
+
         if(isAlive()) {
             giveBirth(newHuman);
         }
