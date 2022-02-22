@@ -1,16 +1,13 @@
 #BlueJ class context
 comment0.target=Tortoise
 comment0.text=\r\n\ A\ simple\ model\ of\ a\ tortoise.\r\n\ Tortoises\ age,\ move,\ eat\ plants,\ and\ die.\r\n\ \r\n\ @author\ David\ J.\ Barnes\ and\ Michael\ K\u00F6lling\r\n\ @author\ Bhavik\ Gilbert\ and\ Heman\ Seegolam\r\n\ @version\ 2016.02.29\ (2)\r\n
-comment1.params=randomAge\ field\ location\ overlap\ infected
-comment1.target=Tortoise(boolean,\ Field,\ Location,\ boolean,\ boolean)
-comment1.text=\r\n\ Create\ a\ tortoise.\ A\ tortoise\ can\ be\ created\ as\ a\ new\ born\ (age\ zero\r\n\ and\ not\ hungry)\ or\ with\ a\ random\ age\ and\ food\ level.\r\n\ \r\n\ @param\ randomAge\ If\ true,\ the\ tortoise\ will\ have\ random\ age\ and\ hunger\ level.\r\n\ @param\ field\ The\ field\ currently\ occupied.\r\n\ @param\ location\ The\ location\ within\ the\ field.\r\n
+comment1.params=randomAge\ field\ location\ infected
+comment1.target=Tortoise(boolean,\ Field,\ Location,\ boolean)
+comment1.text=\r\n\ Create\ a\ tortoise.\ A\ tortoise\ can\ be\ created\ as\ a\ new\ born\ (age\ zero\r\n\ and\ not\ hungry)\ or\ with\ a\ random\ age\ and\ food\ level.\r\n\ \r\n\ @param\ randomAge\ If\ true,\ the\ tortoise\ will\ have\ random\ age\ and\ hunger\ level.\r\n\ @param\ field\ \ \ \ \ The\ field\ currently\ occupied.\r\n\ @param\ location\ \ The\ location\ within\ the\ field.\r\n\ @param\ overlap\ \ \ Whether\ or\ not\ an\ actor\ is\ allowed\ to\ overlap\ with\ other\ actors\r\n\ @param\ infected\ \ Boolean\ value\ determining\ if\ the\ animal\ is\ infected\ or\ not\r\n
 comment2.params=newTortoises
 comment2.target=void\ dayAct(java.util.List)
 comment2.text=\r\n\ This\ is\ what\ the\ tortoise\ does\ during\ the\ day\:\ it\ hunts\ for\r\n\ plants.\ In\ the\ process,\ it\ might\ breed,\ die\ of\ hunger,\r\n\ or\ die\ of\ old\ age.\r\n\ \r\n\ @param\ newTortoises\ A\ list\ to\ return\ newly\ born\ tortoises.\r\n
 comment3.params=newTortoises
 comment3.target=void\ nightAct(java.util.List)
 comment3.text=\r\n\ This\ is\ what\ the\ tortoise\ does\ during\ the\ night\:\ Sleep\r\n\ \r\n\ @param\ newTortoises\ A\ list\ to\ return\ newly\ born\ tortoises.\r\n
-comment4.params=newTortoises
-comment4.target=void\ giveBirth(java.util.List)
-comment4.text=\r\n\ Check\ whether\ or\ not\ this\ tortoise\ is\ to\ give\ birth\ at\ this\ step.\r\n\ New\ births\ will\ be\ made\ into\ free\ adjacent\ locations.\r\n\ \r\n\ @param\ newTortoises\ A\ list\ to\ return\ newly\ born\ tortoises.\r\n
-numComments=5
+numComments=4

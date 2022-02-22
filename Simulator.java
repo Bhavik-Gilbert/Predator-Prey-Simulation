@@ -1,4 +1,7 @@
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,7 +33,7 @@ public class Simulator
     // The probability that a dodo will be created in any given grid position.
     private static final double DODO_CREATION_PROBABILITY = 0.1;    
     // The probability that a plant will be created in any given grid position.
-    private static final double PLANT_CREATION_PROBABILITY = 0.8;
+    private static final double PLANT_CREATION_PROBABILITY = 0.1;
     // The probability that it is sunny.
     private static final double SUNNY_PROBABILITY = 0.55;
     // The probability that it is raining.
@@ -48,9 +51,14 @@ public class Simulator
     private Field field;
     // The current step of the simulation.
     private int step;
+    // The number of steps the simulation will make
+    private int numSteps;
+    // Time delay between steps in milliseconds
+    private int timeDelay = 1000;
     // A graphical view of the simulation.
     private SimulatorView view;
-    
+    // Thread scheduler for time delays, using the number of threads available for runtime
+    ScheduledExecutorService executorService = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
     //runs main simulation
     public static void main(String[] args) {
         Simulator simulator = new Simulator();
@@ -107,14 +115,13 @@ public class Simulator
     /**
      * Run the simulation from its current state for the given number of steps.
      * Stop before the given number of steps if it ceases to be viable.
+     * 
      * @param numSteps The number of steps to run for.
      */
     public void simulate(int numSteps)
     {
-        for(int step = 1; step <= numSteps && view.isViable(field); step++) {
-            simulateOneStep();
-            delay(60);   // uncomment this to run more slowly
-        }
+        this.numSteps = numSteps;
+        executorService.scheduleAtFixedRate(this::simulateOneStep, 0, timeDelay, TimeUnit.MILLISECONDS);
     }
     
     /**
@@ -127,21 +134,30 @@ public class Simulator
 
         // Provide space for newborn actors.
         List<Actor> newActors = new ArrayList<>();
+        List<Actor> deadActors = new ArrayList<>();
         // Changes weather every step
         Weather weather = randomWeather();
-        // Let all actors act.
-        for(Iterator<Actor> it = actors.iterator(); it.hasNext(); ) {
-            Actor actor = it.next();
-            actor.act(newActors, step%2, weather);
-            if(!actor.isAlive()) {
-                it.remove();
+
+
+        // Let all actors act.      
+        actors.forEach(actor -> {
+            actor.act(newActors, step % 2, weather);
+            if (!actor.isAlive()) {
+                deadActors.add(actor);
             }
-        }
+        });
 
-        // Add the newly born actors to the main lists.
-        actors.addAll(newActors);
+        // Removes dead actors from actors list
+        deadActors.forEach(actor -> actors.remove(actor));
 
-        view.showStatus(step, field);
+        // Adds new actors to actors list
+        newActors.forEach(actor ->  actors.add(actor));
+
+        // Updates GUI text
+        String info = weather.toString();
+        view.showStatus(step, field, info);
+
+        checkSimulationEnd();
     }
         
     /**
@@ -152,9 +168,11 @@ public class Simulator
         step = 0;
         actors.clear();
         populate();
-        
+
+        Weather weather = randomWeather();
+        String info = weather.toString();
         // Show the starting state in the view.
-        view.showStatus(step, field);
+        view.showStatus(step, field, info);
     }
     
     /**
@@ -231,17 +249,23 @@ public class Simulator
     }
     
     /**
-     * Pause for a given time.
-     * @param millisec  The time to pause for, in milliseconds
+     * Checks if the simulation should be ended
+     * Dictated by the number of sets set to be shown
      */
-    private void delay(int millisec)
+    private void checkSimulationEnd(){
+        if(numSteps == step){
+            stopSimulation();
+        }
+    }
+
+    /**
+     * Stops the current simulation
+     */
+    public void stopSimulation()
     {
-        try {
-            Thread.sleep(millisec);
-        }
-        catch (InterruptedException ie) {
-            // wake up
-        }
+    
+        executorService.shutdownNow();
+        
     }
 
     /**

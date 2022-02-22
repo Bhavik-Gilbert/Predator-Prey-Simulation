@@ -79,6 +79,7 @@ public class Human extends Animal
         incrementAge(MAX_AGE);
         incrementHunger();
         super.infection();
+        
         if(isAlive()) {           
             // Move towards a source of food if found.
             Location newLocation = super.findFood(LIST_OF_PREY);

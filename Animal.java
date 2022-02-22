@@ -127,25 +127,24 @@ public abstract class Animal extends Actor
      * @return Boolean value, true if mate is found and is of age, false otherwise
      */
     protected boolean canBreed(Field field) {
-        boolean partner = false;
         // Find all adjacent locations
         List<Location> adjacentLocations = field.adjacentLocations(getLocation()); 
-        while (adjacentLocations.size() > 0) {
-            // Retrieves object at location
-            Object actor = field.getObjectAt(adjacentLocations.get(0));
+        // List of potential partners
+        List<Animal> partnerList = new ArrayList<>();
+
+        adjacentLocations.forEach(adjacentLocation -> {
+            Object actor = field.getObjectAt(adjacentLocation);
             if (actor instanceof Animal) {
                 Animal animal = (Animal) actor;
                 // Check for same species and opposite gender
                 if (this.getClass().equals(animal.getClass()) && !(this.getGender().equals(animal.getGender()))) {
-                    partner = true;
-                    break;
+                    partnerList.add(animal);
                 }
             }
-            // Removes checked object from list
-            adjacentLocations.remove(0);
-        }
+        });
+        
 
-        return age >= BREEDING_AGE && partner;
+        return age >= BREEDING_AGE && !partnerList.isEmpty();
     }
 
     /**

@@ -1,19 +1,13 @@
 #BlueJ class context
 comment0.target=Human
 comment0.text=\r\n\ A\ simple\ model\ of\ a\ human.\r\n\ Human\ age,\ move,\ eat\ dodos\ and\ pigs,\ and\ die.\r\n\ \r\n\ @author\ David\ J.\ Barnes\ and\ Michael\ K\u00F6lling\r\n\ @author\ Bhavik\ Gilbert\ and\ Heman\ Seegolam\r\n\ @version\ 2016.02.29\ (2)\r\n
-comment1.params=randomAge\ field\ location\ overlap\ infected
-comment1.target=Human(boolean,\ Field,\ Location,\ boolean,\ boolean)
-comment1.text=\r\n\ Create\ a\ human.\ A\ human\ can\ be\ created\ as\ a\ new\ born\ (age\ zero\r\n\ and\ not\ hungry)\ or\ with\ a\ random\ age\ and\ food\ level.\r\n\ \r\n\ @param\ randomAge\ If\ true,\ the\ human\ will\ have\ random\ age\ and\ hunger\ level.\r\n\ @param\ field\ The\ field\ currently\ occupied.\r\n\ @param\ location\ The\ location\ within\ the\ field.\r\n
+comment1.params=randomAge\ field\ location\ infected
+comment1.target=Human(boolean,\ Field,\ Location,\ boolean)
+comment1.text=\r\n\ Create\ a\ human.\ A\ human\ can\ be\ created\ as\ a\ new\ born\ (age\ zero\r\n\ and\ not\ hungry)\ or\ with\ a\ random\ age\ and\ food\ level.\r\n\ \r\n\ @param\ randomAge\ If\ true,\ the\ human\ will\ have\ random\ age\ and\ hunger\ level.\r\n\ @param\ field\ \ \ \ \ The\ field\ currently\ occupied.\r\n\ @param\ location\ \ The\ location\ within\ the\ field.\r\n\ @param\ infected\ \ Boolean\ value\ determining\ if\ the\ animal\ is\ infected\ or\ not\r\n
 comment2.params=newHuman
 comment2.target=void\ dayAct(java.util.List)
 comment2.text=\r\n\ This\ is\ what\ the\ human\ does\ during\ the\ day\:\ it\ hunts\ for\ dodos\ and\ pigs.\r\n\ \ In\ the\ process,\ die\ of\ hunger,\ or\ die\ of\ old\ age.\r\n\ \r\n\ @param\ newHuman\ A\ list\ to\ return\ newly\ born\ humans.\r\n
 comment3.params=newHuman
 comment3.target=void\ nightAct(java.util.List)
 comment3.text=\r\n\ This\ is\ what\ the\ human\ does\ during\ the\ night\:\ Gives\ birth\ and\ Sleeps\r\n\ \r\n\ @param\ newHuman\ A\ list\ to\ return\ newly\ born\ humans.\r\n
-comment4.params=newHuman
-comment4.target=void\ giveBirth(java.util.List)
-comment4.text=\r\n\ Check\ whether\ or\ not\ this\ human\ is\ to\ give\ birth\ at\ this\ step.\r\n\ New\ births\ will\ be\ made\ into\ free\ adjacent\ locations.\r\n\ \r\n\ @param\ newHuman\ A\ list\ to\ return\ newly\ born\ human.\r\n
-comment5.params=
-comment5.target=double\ getDeathFromDiseaseProbability()
-comment5.text=\r\n\ Return\ the\ death\ from\ disease\ probability\r\n\ \r\n\ @return\ The\ death\ from\ disease\ probability\r\n
-numComments=6
+numComments=4

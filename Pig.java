@@ -19,7 +19,7 @@ public class Pig extends Animal
     // The age to which a pig can live.
     private static final int MAX_AGE = 40;
     // The likelihood of a pig breeding.
-    private static final double BREEDING_PROBABILITY = 0.7;
+    private static final double BREEDING_PROBABILITY = 0.5;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 9;
     // The base rate which when multiplied by age gives
