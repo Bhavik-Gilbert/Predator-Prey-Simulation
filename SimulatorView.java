@@ -36,8 +36,10 @@ public class SimulatorView extends JFrame
     private JLabel stepLabel, timeLabel, population, infoLabel;
     private FieldView fieldView;
     
-    // A map for storing colors for participants in the simulation
+    // A map for storing the current colors for participants in the simulation
     private Map<Class, Color> colors;
+    // A map for storing colors for participants in the simulation
+    private Map<Class, Color> baseColors;
     // A statistics object computing and storing simulation information
     private FieldStats stats;
 
@@ -67,9 +69,35 @@ public class SimulatorView extends JFrame
             infoPane.add(stepLabel, BorderLayout.WEST);
             infoPane.add(timeLabel, BorderLayout.EAST);
             infoPane.add(infoLabel, BorderLayout.CENTER);
+
+        /**
+        JPanel buttonPane = new JPanel(new BorderLayout());
+            JPanel buttonPane1 = new JPanel(new BorderLayout());
+            JPanel buttonPane2 = new JPanel(new BorderLayout());
+            JPanel buttonPane3 = new JPanel(new BorderLayout());
+
+            buttonPane.add(buttonPane1, BorderLayout.NORTH);
+            buttonPane.add(buttonPane2, BorderLayout.CENTER);
+            buttonPane.add(buttonPane3, BorderLayout.SOUTH);
+
+                buttonPane1.add(plant, BorderLayout.NORTH)
+                buttonPane1.add(animal, BorderLayout.CENTER)
+                buttonPane1.add(dodo, BorderLayout.SOUTH)
+
+                buttonPane2.add(tortoise, BorderLayout.NORTH)
+                buttonPane2.add(human, BorderLayout.CENTER)
+                buttonPane2.add(monkey, BorderLayout.SOUTH)
+
+                buttonPane3.add(pig, BorderLayout.NORTH)
+                buttonPane3.add(unused, BorderLayout.CENTER)
+                buttonPane3.add(unused, BorderLayout.SOUTH)
+        */
+            
+
         contents.add(infoPane, BorderLayout.NORTH);
         contents.add(fieldView, BorderLayout.CENTER);
         contents.add(population, BorderLayout.SOUTH);
+        //contents.add(buttonPane, BorderLayout.WEST);
         pack();
         setVisible(true);
     }
@@ -82,6 +110,24 @@ public class SimulatorView extends JFrame
     public void setColor(Class actorClass, Color color)
     {
         colors.put(actorClass, color);
+        baseColors.put(actorClass, color);
+    }
+
+    /**
+     * UNUSED CURRENTLY
+     * Toggles the colour of the actor between clear and coloured
+     * 
+     * @param actorClass The actor's Class object
+     * @param clear Boolean stating if the colour is cleared or not
+     */
+    public void changeColor(Class actorClass, boolean clear)
+    {
+        if(clear){
+            colors.replace(actorClass, EMPTY_COLOR);
+        }
+        else{
+            colors.replace(actorClass, baseColors.get(actorClass));
+        }
     }
 
     /**
