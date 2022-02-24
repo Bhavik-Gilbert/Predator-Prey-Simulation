@@ -191,7 +191,7 @@ public abstract class Animal extends Actor
      * @param listOfPrey A list of prey that this animal feeds on
      * @return Where food was found, or null if it wasn't.
      */
-    protected Location findFood(List<ActorTypes> listOfPrey)
+    protected Location findFood(List<Class> listOfPrey)
     {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
@@ -202,7 +202,7 @@ public abstract class Animal extends Actor
             if (object != null){
                 Actor actor = (Actor) object;
                 // if actor type is in list of prey for predator, prey is alive and probability for eating met
-                if ((listOfPrey.contains(actor.getDescription())) && (rand.nextDouble() <= EATING_PROBABILITY * effectHuntingProbability()) && (actor.isAlive())) { 
+                if ((listOfPrey.contains(actor.getClass())) && (rand.nextDouble() <= EATING_PROBABILITY * effectHuntingProbability()) && (actor.isAlive())) { 
                     actor.setDead();
                     foodLevel += actor.getFoodValue();
                     if(actor instanceof Animal){
@@ -249,25 +249,25 @@ public abstract class Animal extends Actor
         int births = breed(field);
         for (int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            ActorTypes type = this.getDescription();
+            Class type = this.getClass();
 
-            if(ActorTypes.HUMAN.equals(type)){
+            if(Human.class.equals(type)){
                 Human young = new Human(false, field, loc, false);
                 newAnimal.add(young);
             }
-            else if(ActorTypes.DODO.equals(type)){
+            else if(Dodo.class.equals(type)){
                 Dodo young = new Dodo(false, field, loc, false);
                 newAnimal.add(young);
             }
-            else if(ActorTypes.MONKEY.equals(type)){
+            else if(Monkey.class.equals(type)){
                 Monkey young = new Monkey(false, field, loc, false);
                 newAnimal.add(young);
             }
-            else if(ActorTypes.PIG.equals(type)){
+            else if(Pig.class.equals(type)){
                 Pig young = new Pig(false, field, loc, false);
                 newAnimal.add(young);
             }
-            else if(ActorTypes.TORTOISE.equals(type)){
+            else if(Tortoise.class.equals(type)){
                 Tortoise young = new Tortoise(false, field, loc, false);
                 newAnimal.add(young);
             }

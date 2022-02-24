@@ -18,7 +18,7 @@ public class Pig extends Animal
     // The age to which a pig can live.
     private static final int MAX_AGE = 40;
     // The likelihood of a pig breeding.
-    private static final double BREEDING_PROBABILITY = 0.5;
+    private static final double BREEDING_PROBABILITY = 0.6;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 9;
     // The base rate which when multiplied by age gives
@@ -29,9 +29,9 @@ public class Pig extends Animal
     // Probability that a pig dies from disease.
     private static final double PIG_DEATH_FROM_DISEASE_PROBABILITY = 0.02;
     // List of all pig prey.
-    private final ArrayList<ActorTypes> LIST_OF_PREY = new ArrayList<>() {
+    private final ArrayList<Class> LIST_OF_PREY = new ArrayList<>() {
         {
-            add(ActorTypes.DODO);
+            add(Dodo.class);
         }
     };
 
@@ -49,7 +49,6 @@ public class Pig extends Animal
     {
         super(field, location, infected);
         setOverlap(false);
-        description = ActorTypes.PIG;
         setFoodValue(PIG_FOOD_VALUE);
         setDeathByDiseaseProbability(PIG_DEATH_FROM_DISEASE_PROBABILITY);
         setBreedingAge(BREEDING_AGE);

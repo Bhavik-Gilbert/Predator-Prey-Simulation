@@ -22,15 +22,15 @@ public class Simulator
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 66;
     // The probability that a human will be created in any given grid position.
-    private static final double HUMAN_CREATION_PROBABILITY = 0.1;
+    private static final double HUMAN_CREATION_PROBABILITY = 0.01;
     // The probability that a monkey will be created in any given grid position.
-    private static final double MONKEY_CREATION_PROBABILITY = 0.1;
+    private static final double MONKEY_CREATION_PROBABILITY = 0.01;
     // The probability that a pig will be created in any given grid position.
-    private static final double PIG_CREATION_PROBABILITY = 0.05;
+    private static final double PIG_CREATION_PROBABILITY = 0.1;
     // The probability that a tortoise will be created in any given grid position.
     private static final double TORTOISE_CREATION_PROBABILITY = 0.05;
     // The probability that a dodo will be created in any given grid position.
-    private static final double DODO_CREATION_PROBABILITY = 0.1;    
+    private static final double DODO_CREATION_PROBABILITY = 0.3;    
     // The probability that a plant will be created in any given grid position.
     private static final double PLANT_CREATION_PROBABILITY = 0.1;
     // The probability that it is sunny.
@@ -57,7 +57,22 @@ public class Simulator
     // A graphical view of the simulation.
     private SimulatorView view;
     // Thread scheduler for time delays, using the number of threads available for runtime
-    ScheduledExecutorService executorService = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
+    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
+
+    // State of simulation
+    // Dictates if the simulation is paused or not
+    private boolean paused;
+    // Dictates if the steps are finished or not
+    private boolean stopped;
+    // Dictates if the simulation is finished or not
+    private boolean shutdown;
+    // Has pause message been shown
+    private boolean pauseMessage;
+    // Has stop message been shown
+    private boolean stopMessage;
+    // Has viable message been shown
+    private boolean viableMessage;
+    
     //runs main simulation
     public static void main(String[] args) {
         Simulator simulator = new Simulator();
@@ -88,27 +103,37 @@ public class Simulator
         
         actors = new ArrayList<>();
         field = new Field(depth, width);
+        this.numSteps = 0;
 
         // Create a view of the state of each location in the field.
-        view = new SimulatorView(depth, width);
+        view = new SimulatorView(depth, width, this);
         view.setColor(Pig.class, new Color(255,102,102));
         view.setColor(Human.class, new Color(153,102,0));
         view.setColor(Dodo.class, new Color(255,204,51));
         view.setColor(Monkey.class, new Color(51,0,0));
         view.setColor(Tortoise.class, new Color(0,153,0));
         view.setColor(Plant.class, Color.GREEN);
-        
+
         // Setup a valid starting point.
         reset();
+
+        paused = false;
+        stopped = false;
+        shutdown = false;
+        pauseMessage = false;
+        stopMessage = false;
+        viableMessage = false;
     }
     
     /**
      * Run the simulation from its current state for a reasonably long period,
-     * (50 days).
+     * (200 days).
      */
     public void runLongSimulation()
     {
-        simulate(100);
+        simulate(400);
+        stopped = false;
+        paused = false;
     }
     
     /**
@@ -118,17 +143,57 @@ public class Simulator
      * @param numSteps The number of steps to run for.
      */
     public void simulate(int numSteps)
-    {
-        this.numSteps = numSteps;
-        executorService.scheduleAtFixedRate(this::simulateOneStep, 0, timeDelay, TimeUnit.MILLISECONDS);
+    {   
+        if(!shutdown){
+            this.numSteps += numSteps;
+            executorService.scheduleAtFixedRate(this::simulateStep, 0, timeDelay, TimeUnit.MILLISECONDS);
+        }
+        else{
+            System.out.println("You've shutdown the executor, create a new object to run anymore simulations");
+        }
     }
     
     /**
-     * Run the simulation from its current state for a single step.
+     * Runs method to simulate a single step if conditions met
+     * Conditions: not paused, simulation steps not reached, executor open, field viable
+     */
+    public void simulateStep(){
+        if(!paused && !stopped && view.isViable(field)){
+            simulateOneStep();
+            checkSimulationEnd();
+
+            pauseMessage = false;
+            stopMessage = false;
+        }
+
+        if(stopped && !stopMessage){
+            System.out.println("The simulation has been stopped, start the simulation to run anymore simulations");
+            stopMessage = true;
+        }
+        if(paused && !pauseMessage){
+            System.out.println("You've paused the simulation, unpause the simualtion to continue running");
+            pauseMessage = true;
+        }
+        if (!view.isViable(field) && !viableMessage) {
+            System.out.println("The simulation has been stopped as there is one animal species left, reset the field to continue simulating");
+            pauseMessage = true;
+        }
+    }
+
+    /**
+     * Sets stopped and paused to false
+     */
+    public void start(){
+        stopped = false;
+        paused = false;
+    }
+    
+    /**
+     * Run the simulation from its current state for a single step
      * Iterate over the whole field updating the state of each actor
      */
-    public void simulateOneStep()
-    {
+    private void simulateOneStep()
+    {   
         step++;
 
         // Provide space for newborn actors.
@@ -155,8 +220,6 @@ public class Simulator
         // Updates GUI text
         String info = weather.toString();
         view.showStatus(step, field, info);
-
-        checkSimulationEnd();
     }
         
     /**
@@ -165,6 +228,7 @@ public class Simulator
     public void reset()
     {
         step = 0;
+        stopped = true;
         actors.clear();
         populate();
 
@@ -172,6 +236,8 @@ public class Simulator
         String info = weather.toString();
         // Show the starting state in the view.
         view.showStatus(step, field, info);
+
+        viableMessage = false;
     }
     
     /**
@@ -253,15 +319,29 @@ public class Simulator
             stopSimulation();
         }
     }
-
+    
     /**
      * Stops the current simulation
      */
     public void stopSimulation()
     {
-    
-        executorService.shutdownNow();
-        
+        stopped = true;
+    }
+
+    /**
+     * Shutdown the simulator executor
+     */
+    public void shutdownSimulation() {
+        stopped = true;
+        shutdown = true;
+        executorService.shutdown();
+    }
+
+    /**
+     * Sets paused value of simulation
+     */
+    public void setPauseSimulation(boolean pause) {
+        paused = pause;
     }
 
     /**

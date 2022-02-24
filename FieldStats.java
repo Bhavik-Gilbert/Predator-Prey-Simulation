@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * This class collects and provides some statistical data on the state
@@ -11,10 +12,12 @@ import java.util.HashMap;
  */
 public class FieldStats
 {
-    // Counters for each type of entity (fox, rabbit, etc.) in the simulation.
+    // Counters for each type of entity in the simulation.
     private HashMap<Class, Counter> counters;
     // Whether the counters are currently up to date.
     private boolean countsValid;
+    // What actors to ignore in viability of running
+    private ArrayList<Class> ignoreViable;
 
     /**
      * Construct a FieldStats object.
@@ -25,6 +28,8 @@ public class FieldStats
         // we might find
         counters = new HashMap<>();
         countsValid = true;
+        ignoreViable = new ArrayList<>();
+        ignoreViable.add(Plant.class);
     }
 
     /**
@@ -113,18 +118,22 @@ public class FieldStats
         if(!countsValid) {
             generateCounts(field);
         }
+
         for(Class key : counters.keySet()) {
-            Counter info = counters.get(key);
-            if(info.getCount() > 0) {
-                nonZero++;
+            if(!(ignoreViable.contains(key))){
+                Counter info = counters.get(key);
+                if(info.getCount() > 0){
+                    nonZero++;
+                }
             }
         }
+        
         return nonZero > 1;
     }
     
     /**
-     * Generate counts of the number of foxes and rabbits.
-     * These are not kept up to date as foxes and rabbits
+     * Generate counts of the number of actors
+     * These are not kept up to date a actors
      * are placed in the field, but only when a request
      * is made for the information.
      * @param field The field to generate the stats for.

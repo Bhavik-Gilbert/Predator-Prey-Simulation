@@ -18,7 +18,7 @@ public class Monkey extends Animal
     // The age to which a monkey can live.
     private static final int MAX_AGE = 50;
     // The likelihood of a monkey breeding.
-    private static final double BREEDING_PROBABILITY = 0.8;
+    private static final double BREEDING_PROBABILITY = 0.6;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 4;
     // The base rate which when multiplied by age gives
@@ -29,9 +29,9 @@ public class Monkey extends Animal
     // Probability that a monkey dies from disease.
     private static final double MONKEY_DEATH_FROM_DISEASE_PROBABILITY = 0.05;
     // List of all monkey prey.
-    private final ArrayList<ActorTypes> LIST_OF_PREY = new ArrayList<>() {
+    private final ArrayList<Class> LIST_OF_PREY = new ArrayList<>() {
         {
-            add(ActorTypes.DODO);
+            add(Dodo.class);
         }
     };
 
@@ -49,7 +49,6 @@ public class Monkey extends Animal
     {
         super(field, location, infected);
         setOverlap(false);
-        description = ActorTypes.MONKEY;
         setFoodValue(MONKEY_FOOD_VALUE);
         setDeathByDiseaseProbability(MONKEY_DEATH_FROM_DISEASE_PROBABILITY);
         setBreedingAge(BREEDING_AGE);

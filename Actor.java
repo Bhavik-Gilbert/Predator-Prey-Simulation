@@ -12,8 +12,6 @@ import java.util.Random;
  */
 public abstract class Actor
 {
-    // Description of type of actor
-    protected ActorTypes description;
     // Whether the actor is alive or not.
     protected boolean alive;
     // The actor's field.
@@ -73,14 +71,6 @@ public abstract class Actor
         if ((alive) && field.getObjectAt(location) == null) {
             field.place(this, location);
         }
-    }
-
-    /**
-     * Returns the description of the actor
-     * @return The description of the actor
-     */
-    protected ActorTypes getDescription(){
-        return description;
     }
     
     /**

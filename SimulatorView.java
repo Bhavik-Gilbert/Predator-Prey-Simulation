@@ -1,4 +1,7 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -33,7 +36,9 @@ public class SimulatorView extends JFrame
     private final String DAY_PREFIX = "Day: ";
     private final String TIME_PREFIX = "Time: ";
     private final String POPULATION_PREFIX = "Population: ";
-    private JLabel stepLabel, timeLabel, population, infoLabel;
+    private JLabel stepLabel, timeLabel, population, infoLabel, visibleLabel, controlLabel;
+    private JButton plantButton, humanButton, monkeyButton, pigButton, tortoiseButton, dodoButton, resetClearButton, shutSimulationButton, 
+    startSimulationButton, pauseSimulationButton, playSimulationButton, resetSimulationButton, longSimulationButton;
     private FieldView fieldView;
     
     // A map for storing the current colors for participants in the simulation
@@ -48,18 +53,114 @@ public class SimulatorView extends JFrame
      * @param height The simulation's height.
      * @param width  The simulation's width.
      */
-    public SimulatorView(int height, int width)
+    public SimulatorView(int height, int width, Simulator simulator)
     {
         stats = new FieldStats();
         colors = new LinkedHashMap<>();
         baseColors = new LinkedHashMap<>();
 
         setTitle("Predator and Prey Simulation");
+        
         stepLabel = new JLabel(DAY_PREFIX, JLabel.CENTER);
         timeLabel = new JLabel(TIME_PREFIX, JLabel.CENTER);
         infoLabel = new JLabel("  ", JLabel.CENTER);
         population = new JLabel(POPULATION_PREFIX, JLabel.CENTER);
+        visibleLabel= new JLabel("Visibility Controls", JLabel.CENTER);
+        controlLabel = new JLabel("Simulator Controls", JLabel.CENTER);
+
+        plantButton = new JButton("Plant");
+        plantButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                changeColor(Plant.class);
+            }
+        });
+
+        dodoButton = new JButton("Dodo");
+        dodoButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                changeColor(Dodo.class);
+            }
+        });
+
+        tortoiseButton = new JButton("Tortoise");
+        tortoiseButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                changeColor(Tortoise.class);
+            }
+        });
+
+        humanButton = new JButton("Human");
+        humanButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                changeColor(Human.class);
+            }
+        });
+
+        monkeyButton = new JButton("Monkey");
+        monkeyButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                changeColor(Monkey.class);
+            }
+        });
+
+        pigButton = new JButton("Pig");
+        pigButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                changeColor(Pig.class);
+            }
+        });
+
+        resetClearButton = new JButton("Reset Colours");
+        resetClearButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                resetViewColor();
+            }
+        });
         
+        shutSimulationButton = new JButton("Shutdown Simulatior");
+        shutSimulationButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                simulator.shutdownSimulation();
+            }
+        });
+
+        startSimulationButton = new JButton("Start Up Simulation");
+        startSimulationButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                simulator.start();
+            }
+        });
+
+        resetSimulationButton = new JButton("Reset Field");
+        resetSimulationButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                simulator.reset();
+            }
+        });
+
+        longSimulationButton = new JButton("Long Simulation");
+        longSimulationButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                simulator.runLongSimulation();
+            }
+        });
+
+        pauseSimulationButton = new JButton("Pause Simulation");
+        pauseSimulationButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                simulator.setPauseSimulation(true);
+            }
+        });
+
+        playSimulationButton= new JButton("Play Simulation");
+        playSimulationButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                simulator.setPauseSimulation(false);
+            }
+        });
+
+        
+
         setLocation(100, 50);
         
         fieldView = new FieldView(height, width);
@@ -71,34 +172,56 @@ public class SimulatorView extends JFrame
             infoPane.add(timeLabel, BorderLayout.EAST);
             infoPane.add(infoLabel, BorderLayout.CENTER);
 
-        /**
+        
         JPanel buttonPane = new JPanel(new BorderLayout());
-            JPanel buttonPane1 = new JPanel(new BorderLayout());
-            JPanel buttonPane2 = new JPanel(new BorderLayout());
-            JPanel buttonPane3 = new JPanel(new BorderLayout());
+            JPanel northButtonPane = new JPanel(new BorderLayout());
+            buttonPane.add(northButtonPane, BorderLayout.NORTH);
 
-            buttonPane.add(buttonPane1, BorderLayout.NORTH);
-            buttonPane.add(buttonPane2, BorderLayout.CENTER);
-            buttonPane.add(buttonPane3, BorderLayout.SOUTH);
+                JPanel northButtonPane1 = new JPanel(new BorderLayout());
+                JPanel northButtonPane2 = new JPanel(new BorderLayout());
+                JPanel northButtonPane3 = new JPanel(new BorderLayout());
+                
+                northButtonPane.add(northButtonPane1, BorderLayout.NORTH);
+                northButtonPane.add(northButtonPane2, BorderLayout.CENTER);
+                northButtonPane.add(northButtonPane3, BorderLayout.SOUTH);
 
-                buttonPane1.add(plant, BorderLayout.NORTH)
-                buttonPane1.add(animal, BorderLayout.CENTER)
-                buttonPane1.add(dodo, BorderLayout.SOUTH)
+                    northButtonPane1.add(visibleLabel, BorderLayout.NORTH);
+                    northButtonPane1.add(plantButton, BorderLayout.CENTER);
+                    northButtonPane1.add(dodoButton, BorderLayout.SOUTH);
 
-                buttonPane2.add(tortoise, BorderLayout.NORTH)
-                buttonPane2.add(human, BorderLayout.CENTER)
-                buttonPane2.add(monkey, BorderLayout.SOUTH)
+                    northButtonPane2.add(tortoiseButton, BorderLayout.NORTH);
+                    northButtonPane2.add(humanButton, BorderLayout.CENTER);
+                    northButtonPane2.add(monkeyButton, BorderLayout.SOUTH);
 
-                buttonPane3.add(pig, BorderLayout.NORTH)
-                buttonPane3.add(unused, BorderLayout.CENTER)
-                buttonPane3.add(unused, BorderLayout.SOUTH)
-        */
+                    northButtonPane3.add(pigButton, BorderLayout.NORTH);
+                    northButtonPane3.add(resetClearButton, BorderLayout.CENTER);
+            
+            JPanel southButtonPane = new JPanel(new BorderLayout());
+            buttonPane.add(southButtonPane, BorderLayout.SOUTH);
+
+                JPanel southButtonPane1 = new JPanel(new BorderLayout());
+                JPanel southButtonPane2 = new JPanel(new BorderLayout());
+                JPanel southButtonPane3 = new JPanel(new BorderLayout());
+                southButtonPane.add(southButtonPane1, BorderLayout.NORTH);
+                southButtonPane.add(southButtonPane2, BorderLayout.CENTER);
+                southButtonPane.add(southButtonPane3, BorderLayout.SOUTH);
+
+                southButtonPane1.add(controlLabel, BorderLayout.NORTH);
+                southButtonPane1.add(resetSimulationButton, BorderLayout.SOUTH);
+
+                southButtonPane2.add(playSimulationButton, BorderLayout.NORTH);
+                southButtonPane2.add(pauseSimulationButton, BorderLayout.CENTER);
+
+                southButtonPane3.add(startSimulationButton, BorderLayout.NORTH);
+                southButtonPane3.add(longSimulationButton, BorderLayout.NORTH);
+                southButtonPane3.add(shutSimulationButton, BorderLayout.SOUTH);
+                
             
 
         contents.add(infoPane, BorderLayout.NORTH);
         contents.add(fieldView, BorderLayout.CENTER);
         contents.add(population, BorderLayout.SOUTH);
-        //contents.add(buttonPane, BorderLayout.WEST);
+        contents.add(buttonPane, BorderLayout.EAST);
         pack();
         setVisible(true);
     }
@@ -115,12 +238,11 @@ public class SimulatorView extends JFrame
     }
 
     /**
-     * UNUSED CURRENTLY
      * Toggles the colour of the actor between clear and coloured
      * 
      * @param actorClass The actor's Class object
      */
-    public void changeColor(Class actorClass)
+    private void changeColor(Class actorClass)
     {
         if(EMPTY_COLOR.equals(colors.get(actorClass))){
             colors.replace(actorClass, baseColors.get(actorClass));
@@ -128,6 +250,10 @@ public class SimulatorView extends JFrame
         else{
             colors.replace(actorClass, EMPTY_COLOR);
         }
+    }
+
+    private void resetViewColor(){
+        baseColors.forEach((key,entry) -> colors.replace(key,entry)); 
     }
 
     /**

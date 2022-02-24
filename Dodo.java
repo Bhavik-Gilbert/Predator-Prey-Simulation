@@ -32,9 +32,9 @@ public class Dodo extends Animal
     // Probability that a dodo dies from disease.
     private static final double DODO_DEATH_FROM_DISEASE_PROBABILITY = 0.02;
     // List of all dodo prey.
-    private final ArrayList<ActorTypes> LIST_OF_PREY = new ArrayList<>() {
+    private final ArrayList<Class> LIST_OF_PREY = new ArrayList<>() {
         {
-            add(ActorTypes.PLANT);
+            add(Plant.class);
         }
     };
 
@@ -52,7 +52,6 @@ public class Dodo extends Animal
     {
         super(field, location, infected);
         setOverlap(false);
-        description = ActorTypes.DODO;
         setFoodValue(DODO_FOOD_VALUE);
         setDeathByDiseaseProbability(DODO_DEATH_FROM_DISEASE_PROBABILITY);
         setBreedingAge(BREEDING_AGE);

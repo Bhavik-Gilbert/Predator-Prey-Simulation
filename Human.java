@@ -18,7 +18,7 @@ public class Human extends Animal
     // The age to which a human can live.
     private static final int MAX_AGE = 90;
     // The likelihood of a human breeding.
-    private static final double BREEDING_PROBABILITY = 0.8;
+    private static final double BREEDING_PROBABILITY = 0.2;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
     // The base rate which when multiplied by age gives
@@ -29,10 +29,10 @@ public class Human extends Animal
     // Probability that a human dies from disease.
     private static final double HUMAN_DEATH_FROM_DISEASE_PROBABILITY = 0.05;
     // List of all human prey.
-    private final ArrayList<ActorTypes> LIST_OF_PREY = new ArrayList<>(){
+    private final ArrayList<Class> LIST_OF_PREY = new ArrayList<>(){
         {
-            add(ActorTypes.DODO);
-            add(ActorTypes.PIG);
+            add(Dodo.class);
+            add(Pig.class);
         }
     };
 
@@ -50,7 +50,6 @@ public class Human extends Animal
         super(field, location, infected);
         setOverlap(false);
         setFoodValue(HUMAN_FOOD_VALUE);
-        description = ActorTypes.HUMAN;
         setDeathByDiseaseProbability(HUMAN_DEATH_FROM_DISEASE_PROBABILITY);
         setBreedingAge(BREEDING_AGE);
         setBreedingProbability(BREEDING_PROBABILITY);

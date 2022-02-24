@@ -45,7 +45,6 @@ public class Plant extends Actor
         super(field, location);
         setOverlap(true);
         age = 0;
-        description = ActorTypes.PLANT;
 
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);

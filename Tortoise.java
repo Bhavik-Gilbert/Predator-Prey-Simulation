@@ -29,9 +29,9 @@ public class Tortoise extends Animal
     // Probability that a tortoise dies from disease.
     private static final double TORTOISE_DEATH_FROM_DISEASE_PROBABILITY = 0.01;
     // List of all tortoise prey.
-    private final ArrayList<ActorTypes> LIST_OF_PREY = new ArrayList<>() {
+    private final ArrayList<Class> LIST_OF_PREY = new ArrayList<>() {
         {
-            add(ActorTypes.PLANT);
+            add(Plant.class);
         }
     };
     
@@ -50,7 +50,6 @@ public class Tortoise extends Animal
         super(field, location, infected);
         setOverlap(false);
         setFoodValue(TORTOISE_FOOD_VALUE);
-        description = ActorTypes.TORTOISE;
         setDeathByDiseaseProbability(TORTOISE_DEATH_FROM_DISEASE_PROBABILITY);
         setBreedingAge(BREEDING_AGE);
         setBreedingProbability(BREEDING_PROBABILITY);

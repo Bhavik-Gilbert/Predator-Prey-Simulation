@@ -24,5 +24,5 @@ comment7.target=boolean\ isViable(Field)
 comment7.text=\r\n\ Determine\ whether\ the\ simulation\ is\ still\ viable.\r\n\ I.e.,\ should\ it\ continue\ to\ run.\r\n\ @return\ true\ If\ there\ is\ more\ than\ one\ species\ alive.\r\n
 comment8.params=field
 comment8.target=void\ generateCounts(Field)
-comment8.text=\r\n\ Generate\ counts\ of\ the\ number\ of\ foxes\ and\ rabbits.\r\n\ These\ are\ not\ kept\ up\ to\ date\ as\ foxes\ and\ rabbits\r\n\ are\ placed\ in\ the\ field,\ but\ only\ when\ a\ request\r\n\ is\ made\ for\ the\ information.\r\n\ @param\ field\ The\ field\ to\ generate\ the\ stats\ for.\r\n
+comment8.text=\r\n\ Generate\ counts\ of\ the\ number\ of\ actors\r\n\ These\ are\ not\ kept\ up\ to\ date\ a\ actors\r\n\ are\ placed\ in\ the\ field,\ but\ only\ when\ a\ request\r\n\ is\ made\ for\ the\ information.\r\n\ @param\ field\ The\ field\ to\ generate\ the\ stats\ for.\r\n
 numComments=9
