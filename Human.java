@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.Iterator;
 import java.util.ArrayList;
 
 /**
@@ -69,8 +68,8 @@ public class Human extends Animal
     }
     
     /**
-     * This is what the human does during the day: it hunts for dodos and pigs.
-     *  In the process, die of hunger, or die of old age.
+     * This is what the human does during the day: it hunts for dodos and pigs
+     * In the process it might move, die of hunger, die of infection, get cured, spread an infection, or die of old age.
      * 
      * @param newHuman A list to return newly born humans.
      */
@@ -78,14 +77,13 @@ public class Human extends Animal
     {
         incrementAge(MAX_AGE);
         incrementHunger();
-        if (infected) {
-            dieInfection();
-        }
+        dieInfection();
+        
         
         if(isAlive()) {   
-            if(infected){
-                spreadVirus();
-            }        
+            cureInfected();
+            spreadVirus();
+               
             // Move towards a source of food if found.
             Location newLocation = super.findFood(LIST_OF_PREY);
             if(newLocation == null) { 
@@ -105,17 +103,19 @@ public class Human extends Animal
     
     /**
      * This is what the human does during the night: Gives birth and Sleeps
+     * In the process it might, die of infection, spread an infection or get cured
      * 
      * @param newHuman A list to return newly born humans.
      */
     protected void nightAct(List<Actor> newHuman)
     {
-        if (infected) {
-            dieInfection();
-        }
+        dieInfection();
+        
 
         if(isAlive()) {
             giveBirth(newHuman);
+            cureInfected();
+            spreadVirus();    
         }
     }
 }

@@ -52,6 +52,7 @@ public class SimulatorView extends JFrame
     {
         stats = new FieldStats();
         colors = new LinkedHashMap<>();
+        baseColors = new LinkedHashMap<>();
 
         setTitle("Predator and Prey Simulation");
         stepLabel = new JLabel(DAY_PREFIX, JLabel.CENTER);
@@ -118,15 +119,14 @@ public class SimulatorView extends JFrame
      * Toggles the colour of the actor between clear and coloured
      * 
      * @param actorClass The actor's Class object
-     * @param clear Boolean stating if the colour is cleared or not
      */
-    public void changeColor(Class actorClass, boolean clear)
+    public void changeColor(Class actorClass)
     {
-        if(clear){
-            colors.replace(actorClass, EMPTY_COLOR);
+        if(EMPTY_COLOR.equals(colors.get(actorClass))){
+            colors.replace(actorClass, baseColors.get(actorClass));
         }
         else{
-            colors.replace(actorClass, baseColors.get(actorClass));
+            colors.replace(actorClass, EMPTY_COLOR);
         }
     }
 

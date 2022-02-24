@@ -30,7 +30,7 @@ public class Dodo extends Animal
     // The chance of a Dodo attacking a predator in its sleep
     private static final double ATTACK_CHANCE = 0.01;
     // Probability that a dodo dies from disease.
-    protected static final double DODO_DEATH_FROM_DISEASE_PROBABILITY = 0.02;
+    private static final double DODO_DEATH_FROM_DISEASE_PROBABILITY = 0.02;
     // List of all dodo prey.
     private final ArrayList<ActorTypes> LIST_OF_PREY = new ArrayList<>() {
         {
@@ -70,8 +70,8 @@ public class Dodo extends Animal
     }
     
     /**
-     * This is what the dodo does during the day: it looks for plants
-     * In the process, it might breed, die of hunger, or die of old age.
+     * This is what the dodo does during the day: it looks for plants and tries to breed
+     * In the process it might move, die of hunger, die of infection, get cured, spread an infection, or die of old age.
      * 
      * @param newDodos A list to return newly born Dodos.
      */
@@ -79,16 +79,14 @@ public class Dodo extends Animal
     {
         incrementAge(MAX_AGE);
         incrementHunger();
-
-        if(infected){
-            dieInfection();
-        }
+        dieInfection();
         
-        if(isAlive()) {
-            if (infected) {
-                spreadVirus();
-            }
-            giveBirth(newDodos);            
+        
+        if(isAlive()) {            
+            giveBirth(newDodos);   
+            cureInfected();
+            spreadVirus();
+
             // Move towards a source of food if found.
             Location newLocation = super.findFood(LIST_OF_PREY);
             if(newLocation == null) { 
@@ -107,21 +105,20 @@ public class Dodo extends Animal
     }
     
     /**
-     * This is what the dodos do during the night: 
-     * It may attack predators that would kill it during the day
-     * Then it sleeps
+     * This is what the dodos do during the night:  Sleeps and Attacks predators
+     * In the process it might, die of infection or spread an infection
      * @param newDodos A list to return newly born Dodos.
      */
     protected void nightAct(List<Actor> newDodos)
     {
-        if (infected) {
-            dieInfection();
-        }
+        
+        dieInfection();
+        
 
         if (isAlive()) {
-            if (infected) {
-                spreadVirus();
-            }
+            cureInfected();
+            spreadVirus();
+            
             // Charges into predator killing it
             Location newLocation = chargePredator();
             if (newLocation != null && (ATTACK_CHANCE >= rand.nextDouble())) {
@@ -138,8 +135,8 @@ public class Dodo extends Animal
         while(it.hasNext()) {
             Location where = it.next();
             Object actor = field.getObjectAt(where);
-            if((actor instanceof Human) || (actor instanceof Pig) || (actor instanceof Monkey)) {
-                if (rand.nextDouble() <= EATING_PROBABILITY){
+            if((actor instanceof Human) || (actor instanceof Pig) || (actor instanceof Monkey)){
+                if(rand.nextDouble() <= ATTACK_CHANCE){
                     Animal prey = (Animal) actor;
                     if(prey.isAlive()) { 
                         prey.setDead();

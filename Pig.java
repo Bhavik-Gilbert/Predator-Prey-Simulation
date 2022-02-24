@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.Iterator;
 import java.util.ArrayList;
 
 /**
@@ -28,7 +27,7 @@ public class Pig extends Animal
     // Base starting food level for all pigs
     private static final int BASIC_FOOD_LEVEL = 20;
     // Probability that a pig dies from disease.
-    protected static final double PIG_DEATH_FROM_DISEASE_PROBABILITY = 0.02;
+    private static final double PIG_DEATH_FROM_DISEASE_PROBABILITY = 0.02;
     // List of all pig prey.
     private final ArrayList<ActorTypes> LIST_OF_PREY = new ArrayList<>() {
         {
@@ -68,8 +67,8 @@ public class Pig extends Animal
     }
     
     /**
-     * This is what the pig does during the day: it hunts for dodos. 
-     * In the process, it might breed, die of hunger, or die of old age.
+     * This is what the pig does during the day: it hunts for dodos and tries to breed
+     * In the process it might move, die of hunger, die of infection, get cured, spread an infection, or die of old age.
      * 
      * @param newPigs A list to return newly born pigs.
      */
@@ -77,14 +76,12 @@ public class Pig extends Animal
     {
         incrementAge(MAX_AGE);
         incrementHunger();
-        if (infected) {
-            dieInfection();
-        }
+        dieInfection();
+        
         if(isAlive()) {
-            if (infected) {
-                spreadVirus();
-            }
-            giveBirth(newPigs);            
+            giveBirth(newPigs);     
+            cureInfected();
+            spreadVirus();       
             // Move towards a source of food if found.
             Location newLocation = super.findFood(LIST_OF_PREY);
             if(newLocation == null) { 
@@ -103,15 +100,13 @@ public class Pig extends Animal
     }
     
     /**
-     * This is what the pig does during the 
-     * It sleeps
+     * This is what the pig does during the night: Sleeps
+     * In the process it might, die of infection
      * 
      * @param newPigs A list to return newly born pigs.
      */
     protected void nightAct(List<Actor> newPigs)
     {
-        if (infected) {
-            dieInfection();
-        }
+        dieInfection();
     }
 }

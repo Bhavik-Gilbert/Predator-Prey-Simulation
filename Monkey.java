@@ -27,7 +27,7 @@ public class Monkey extends Animal
     // Base starting food level for all monkeys
     private static final int BASIC_FOOD_LEVEL = 20;
     // Probability that a monkey dies from disease.
-    protected static final double MONKEY_DEATH_FROM_DISEASE_PROBABILITY = 0.05;
+    private static final double MONKEY_DEATH_FROM_DISEASE_PROBABILITY = 0.05;
     // List of all monkey prey.
     private final ArrayList<ActorTypes> LIST_OF_PREY = new ArrayList<>() {
         {
@@ -67,8 +67,8 @@ public class Monkey extends Animal
     }
     
     /**
-     * This is what the monkey does during the day: it hunts for dodos. 
-     * In the process, it might breed, die of hunger, or die of old age.
+     * This is what the monkey does during the day: it hunts for dodos and tries to breed
+     * In the process it might move, die of hunger, die of infection, get cured, spread an infection, or die of old age.
      *
      * @param newMonkeys A list to return newly born monkeys.
      */
@@ -76,16 +76,13 @@ public class Monkey extends Animal
     {
         incrementAge(MAX_AGE);
         incrementHunger();
-        
-        if (infected) {
-            dieInfection();
-        }
+        dieInfection();
 
         if(isAlive()) {    
-            if (infected) {
-                spreadVirus();
-            }
-            giveBirth(newMonkeys);       
+            giveBirth(newMonkeys); 
+            cureInfected();
+            spreadVirus();
+
             // Move towards a source of food if found.
             Location newLocation = super.findFood(LIST_OF_PREY);
             if(newLocation == null) { 
@@ -104,14 +101,13 @@ public class Monkey extends Animal
     }
     
     /**
-     * This is what the monkey does during the night: Sleep
+     * This is what the monkey does during the night: Sleeps
+     * In the process it might, die of infection
      * 
      * @param newMonkeys A list to return newly born monkeys.
      */
     protected void nightAct(List<Actor> newMonkeys)
     {
-        if (infected) {
-            dieInfection();
-        }
+        dieInfection();
     }
 }

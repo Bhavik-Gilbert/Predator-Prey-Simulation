@@ -1,4 +1,6 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
 
 /**
  * A class representing shared characteristics of animals.
@@ -10,18 +12,18 @@ import java.util.*;
 public abstract class Animal extends Actor
 {
     // The animal's gender.
-    protected Gender gender;
+    private Gender gender;
     // The animal's age.
     protected int age;
     // The animal's food level, which is increased by eating.
     protected double foodLevel;
     // The base rate which when multiplied by age gives
     // the number of steps a predator gains when it eats this animal
-    protected double FOOD_VALUE;
+    private double FOOD_VALUE;
     // The probability that a predator eats its prey.
-    protected static final double EATING_PROBABILITY = 0.8;
+    private static final double EATING_PROBABILITY = 0.8;
     // A map containing values that can effect how the animal reacts based off of the weather
-    protected EnumMap<WeatherEffectTypes, Double> weatherEffect = new EnumMap<>(WeatherEffectTypes.class);
+    private EnumMap<WeatherEffectTypes, Double> weatherEffect = new EnumMap<>(WeatherEffectTypes.class);
     // Probability that an animal dies from disease.
     private double DEATH_FROM_DISEASE_PROBABILITY;
     // Minimum breeding age
@@ -32,6 +34,8 @@ public abstract class Animal extends Actor
     private int MAX_LITTER_SIZE;
     // Probability that an infected animal spreads the virus
     private double VIRUS_SPREAD_PROBABILITY = 0.1;
+    // The probability that an infected animal gets cured
+    private double CURE_INFECTION_PROBABILITY = 0.15;
 
     // Whether an animal is infected by disease or not.
     protected boolean infected;
@@ -103,7 +107,7 @@ public abstract class Animal extends Actor
      * Generates a random gender from the Gender ENUM
      * Call setGender to give animal this random gender
      */
-    protected void randomGender()
+    private void randomGender()
     {
         setGender(Gender.values()[rand.nextInt(Gender.values().length)]);
     }            
@@ -112,7 +116,7 @@ public abstract class Animal extends Actor
      * Gets the gender of the animal
      * @return Gender of the animal
      */
-    protected Gender getGender()
+    private Gender getGender()
     {
         return gender;
     }
@@ -130,7 +134,7 @@ public abstract class Animal extends Actor
      * 
      * @return Boolean value, true if mate is found and is of age, false otherwise
      */
-    protected boolean canBreed(Field field) {
+    private boolean canBreed(Field field) {
         // Find all adjacent locations
         List<Location> adjacentLocations = field.adjacentLocations(getLocation()); 
         // List of potential partners
@@ -191,9 +195,9 @@ public abstract class Animal extends Actor
     {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
-        Iterator<Location> it = adjacent.iterator();
-        while(it.hasNext()) {
-            Location where = it.next();
+        List<Location> availablePrey = new ArrayList<>();
+
+        adjacent.forEach(where -> {
             Object object = field.getObjectAt(where);
             if (object != null){
                 Actor actor = (Actor) object;
@@ -203,37 +207,17 @@ public abstract class Animal extends Actor
                     foodLevel += actor.getFoodValue();
                     if(actor instanceof Animal){
                         Animal animal = (Animal) actor;
-                        if(animal.getInfected()){
-                            this.infected = animal.getInfected();
-                        }
+                        this.infected = this.infected || animal.getInfected();
                     }
-                    return where;
+                    availablePrey.add(where);
                 }
             }
+        });
+
+        if(!availablePrey.isEmpty()){
+            return availablePrey.get(0);
         }
         return null;
-    }
-    
-    /**
-     * Implements the effects of disease infection on animals
-     * 
-     */
-    protected void dieInfection()
-    {
-        double deathFromDiseaseProbability = DEATH_FROM_DISEASE_PROBABILITY;
-        if (rand.nextDouble() <= deathFromDiseaseProbability){
-            setDead();
-        }
-    }
-
-    /**
-     * Sets DEATH_FROM_DISEASE_PROBABILITY to individual animal type death probability
-     * 
-     * @param deathProbability Animal death by disease probability
-     */
-    protected void setDeathByDiseaseProbability(double deathProbability)
-    {
-        DEATH_FROM_DISEASE_PROBABILITY = deathProbability;
     }
 
     /**
@@ -242,7 +226,7 @@ public abstract class Animal extends Actor
      * @param field The field the object is currently in
      * @return The number of births (may be zero).
      */
-    protected int breed(Field field) 
+    private int breed(Field field) 
     {
         int births = 0;
         if (canBreed(field) && rand.nextDouble() <= BREEDING_PROBABILITY * effectBreedingProbability()) {
@@ -291,21 +275,23 @@ public abstract class Animal extends Actor
     }
 
     /**
-     * Checks for adjacent animals, providing the chance for them to be infected
+     * If infected, checks for adjacent animals, providing the chance for them to be infected
      */
     protected void spreadVirus(){
-        List<Location> adjacentLocations = field.adjacentLocations(getLocation());
+        if (infected) {
+            List<Location> adjacentLocations = field.adjacentLocations(getLocation());
 
-        adjacentLocations.forEach(adjacent -> {
-            Object object = field.getObjectAt(adjacent);
-            if(object instanceof Animal){
-                Animal animal = (Animal) object;
-                if(rand.nextDouble() > VIRUS_SPREAD_PROBABILITY){
-                    animal.infect();
+            adjacentLocations.forEach(adjacent -> {
+                Object object = field.getObjectAt(adjacent);
+                if(object instanceof Animal){
+                    Animal animal = (Animal) object;
+                    if(rand.nextDouble() > VIRUS_SPREAD_PROBABILITY){
+                        animal.infect();
+                    }
                 }
-            }
-            
-        });
+                
+            });
+        }
     }
 
     /**
@@ -322,6 +308,38 @@ public abstract class Animal extends Actor
     private boolean getInfected() {
         return this.infected;
     }   
+
+    /**
+     * If infected, runs the chance for the animal to be cured of infection
+     */
+    protected void cureInfected() {
+        if (infected) {
+            this.infected =  rand.nextDouble() > CURE_INFECTION_PROBABILITY;
+        }
+    }
+
+    /**
+     * If infected , implements the effects of disease infection on animals
+     * 
+     */
+    protected void dieInfection() {
+        if (infected) {
+            double deathFromDiseaseProbability = DEATH_FROM_DISEASE_PROBABILITY;
+            if (rand.nextDouble() <= deathFromDiseaseProbability) {
+                setDead();
+            }
+        }
+    }
+
+    /**
+     * Sets DEATH_FROM_DISEASE_PROBABILITY to individual animal type death
+     * probability
+     * 
+     * @param deathProbability Animal death by disease probability
+     */
+    protected void setDeathByDiseaseProbability(double deathProbability) {
+        DEATH_FROM_DISEASE_PROBABILITY = deathProbability;
+    }
 
     /**
      * Retrieves the breeding probability modifier

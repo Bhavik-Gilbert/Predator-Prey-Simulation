@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.Iterator;
 import java.util.ArrayList;
 
 /**
@@ -28,7 +27,7 @@ public class Tortoise extends Animal
     // Base starting food level for all tortoises
     private static final int BASIC_FOOD_LEVEL = 20;
     // Probability that a tortoise dies from disease.
-    protected static final double TORTOISE_DEATH_FROM_DISEASE_PROBABILITY = 0.01;
+    private static final double TORTOISE_DEATH_FROM_DISEASE_PROBABILITY = 0.01;
     // List of all tortoise prey.
     private final ArrayList<ActorTypes> LIST_OF_PREY = new ArrayList<>() {
         {
@@ -68,24 +67,22 @@ public class Tortoise extends Animal
     }
     
     /**
-     * This is what the tortoise does during the day: it hunts for
-     * plants. In the process, it might breed, die of hunger,
-     * or die of old age.
+     * This is what the dodo does during the day: it looks for plants and tries to breed
+     * In the process it might move, die of hunger, die of infection, get cured, spread an infection, or die of old age.
      * 
      * @param newTortoises A list to return newly born tortoises.
      */
-    public void dayAct(List<Actor> newTortoises)
+    protected void dayAct(List<Actor> newTortoises)
     {
         incrementAge(MAX_AGE);
         incrementHunger();
-        if (infected) {
-            dieInfection();
-        }
+        dieInfection();
+        
         if(isAlive()) {
-            if (infected) {
-                spreadVirus();
-            }
-            giveBirth(newTortoises);            
+            giveBirth(newTortoises);
+            cureInfected();
+            spreadVirus();      
+
             // Move towards a source of food if found.
             Location newLocation = super.findFood(LIST_OF_PREY);
             if(newLocation == null) { 
@@ -104,11 +101,16 @@ public class Tortoise extends Animal
     }
     
     /**
-     * This is what the tortoise does during the night: Sleep
+     * This is what the tortoise does during the night: Sleeps
+     * In the process it might, get cured or spread an infection
      * 
      * @param newTortoises A list to return newly born tortoises.
      */
-    public void nightAct(List<Actor> newTortoises)
+    protected void nightAct(List<Actor> newTortoises)
     {
+        if(alive){
+            cureInfected();
+            spreadVirus();
+        } 
     }
 }
