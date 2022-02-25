@@ -283,16 +283,18 @@ public class SimulatorView extends JFrame
     /**
      * Show the current status of the field.
      * @param step Which iteration step it is.
+     * @param totalDays The number of steps the simulator is running for
      * @param field The field whose status is to be displayed.
+     * @param info Other information of the board such as weather
      */
-    public void showStatus(int step, Field field, String info)
+    public void showStatus(int step, int totalSteps, Field field, String info)
     {
         if(!isVisible()) {
             setVisible(true);
         }
         
         // Displays day number
-        stepLabel.setText(DAY_PREFIX + (step+1)/2);
+        stepLabel.setText(DAY_PREFIX + (step+1)/2 + "/" + totalSteps/2);
         // Computes and displays time of day
         String time = "";
         if(step%2 == 0){

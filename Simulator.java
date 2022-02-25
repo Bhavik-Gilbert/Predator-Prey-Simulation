@@ -131,9 +131,8 @@ public class Simulator
      */
     public void runLongSimulation()
     {
-        simulate(400);
-        stopped = false;
-        paused = false;
+        simulate(10);
+        start();
     }
     
     /**
@@ -158,12 +157,16 @@ public class Simulator
      * Conditions: not paused, simulation steps not reached, executor open, field viable
      */
     public void simulateStep(){
+        System.out.println(step);
+        System.out.println("run");
         if(!paused && !stopped && view.isViable(field)){
             simulateOneStep();
             checkSimulationEnd();
 
             pauseMessage = false;
             stopMessage = false;
+
+            return;
         }
 
         if(stopped && !stopMessage){
@@ -178,14 +181,6 @@ public class Simulator
             System.out.println("The simulation has been stopped as there is one animal species left, reset the field to continue simulating");
             pauseMessage = true;
         }
-    }
-
-    /**
-     * Sets stopped and paused to false
-     */
-    public void start(){
-        stopped = false;
-        paused = false;
     }
     
     /**
@@ -219,7 +214,7 @@ public class Simulator
 
         // Updates GUI text
         String info = weather.toString();
-        view.showStatus(step, field, info);
+        view.showStatus(step, numSteps, field, info);
     }
         
     /**
@@ -235,7 +230,7 @@ public class Simulator
         Weather weather = randomWeather();
         String info = weather.toString();
         // Show the starting state in the view.
-        view.showStatus(step, field, info);
+        view.showStatus(step, numSteps, field, info);
 
         viableMessage = false;
     }
@@ -318,6 +313,14 @@ public class Simulator
         if(numSteps == step){
             stopSimulation();
         }
+    }
+
+    /**
+     * Sets stopped and paused to false
+     */
+    public void start() {
+        stopped = false;
+        paused = false;
     }
     
     /**
