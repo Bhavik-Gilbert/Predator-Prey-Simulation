@@ -1,9 +1,9 @@
 
 /**
- * Defines the different genders animals can have 
+ * Defines the different genders animals can have
  *
  * @author Bhavik Gilbert and Heman Seegolam
- * @version (version number or date here)
+ * @version (28/02/2022)
  */
 public enum Gender
 {

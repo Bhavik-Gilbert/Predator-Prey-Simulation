@@ -6,9 +6,8 @@ import java.util.ArrayList;
  * A simple model of a dodo.
  * Dodos age, move, reproduce, eat plants, and die.
  * 
- * @author David J. Barnes and Michael Kölling
  * @author Bhavik Gilbert and Heman Seegolam
- * @version 2016.02.29 (2)
+ * @version (28/02/2022)
  */
 public class Dodo extends Animal
 {

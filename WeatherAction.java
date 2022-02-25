@@ -1,10 +1,10 @@
-import java.util.*;
-
+import java.util.EnumMap;
 /**
- * Defines the actions that occur upon the actors under different weather conditions.
+ * Defines the actions that occur upon the actors under different weather
+ * conditions.
  *
  * @author Bhavik Gilbert and Heman Seegolam
- * @version (a version number or a date)
+ * @version (28/02/2022)
  */
 public class WeatherAction
 {  

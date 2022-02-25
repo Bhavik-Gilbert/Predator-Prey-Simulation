@@ -2,7 +2,7 @@
  * Defines the different weather conditions that can occur
  *
  * @author Bhavik Gilbert and Heman Seegolam
- * @version (version number or date here)
+ * @version (28/02/2022)
  */
 public enum Weather
 {

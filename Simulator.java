@@ -1,6 +1,4 @@
 import java.util.Random;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.List;
 import java.util.ArrayList;
@@ -10,9 +8,8 @@ import java.awt.Color;
  * A simple predator-prey simulator, based on a rectangular field
  * containing dodos, humans, monkeys, tortoises and pigs.
  * 
- * @author David J. Barnes and Michael Kölling
  * @author Bhavik Gilbert and Heman Seegolam
- * @version 2016.02.29 (2)
+ * @version (28/02/2022)
  */
 public class Simulator
 {
@@ -56,8 +53,8 @@ public class Simulator
     private int timeDelay = 1000;
     // A graphical view of the simulation.
     private SimulatorView view;
-    // Thread scheduler for time delays, using the number of threads available for runtime
-    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
+    // Thread scheduler to control the number of threads the simulator can use
+    private Executor executorService = new Executor(Runtime.getRuntime().availableProcessors());
 
     // State of simulation
     // Dictates if the simulation is paused or not
@@ -66,12 +63,6 @@ public class Simulator
     private boolean stopped;
     // Dictates if the simulation is finished or not
     private boolean shutdown;
-    // Has pause message been shown
-    private boolean pauseMessage;
-    // Has stop message been shown
-    private boolean stopMessage;
-    // Has viable message been shown
-    private boolean viableMessage;
     
     //runs main simulation
     public static void main(String[] args) {
@@ -120,9 +111,6 @@ public class Simulator
         paused = false;
         stopped = false;
         shutdown = false;
-        pauseMessage = false;
-        stopMessage = false;
-        viableMessage = false;
     }
     
     /**
@@ -131,8 +119,15 @@ public class Simulator
      */
     public void runLongSimulation()
     {
+        simulate(400);
+    }
+
+    /**
+     * Run the simulation from its current state for a short period,
+     * (5 days).
+     */
+    public void runShortSimulation() {
         simulate(10);
-        start();
     }
     
     /**
@@ -143,9 +138,12 @@ public class Simulator
      */
     public void simulate(int numSteps)
     {   
+        start();
+        
         if(!shutdown){
             this.numSteps += numSteps;
-            executorService.scheduleAtFixedRate(this::simulateStep, 0, timeDelay, TimeUnit.MILLISECONDS);
+            // executor service implementation for thread execution control
+            executorService.scheduleWithFixedDelay(this::simulateStep, 0, 1, TimeUnit.NANOSECONDS);
         }
         else{
             System.out.println("You've shutdown the executor, create a new object to run anymore simulations");
@@ -156,31 +154,28 @@ public class Simulator
      * Runs method to simulate a single step if conditions met
      * Conditions: not paused, simulation steps not reached, executor open, field viable
      */
-    public void simulateStep(){
-        System.out.println(step);
-        System.out.println("run");
+    private void simulateStep(){
         if(!paused && !stopped && view.isViable(field)){
             simulateOneStep();
             checkSimulationEnd();
 
-            pauseMessage = false;
-            stopMessage = false;
+            delay(timeDelay);
 
             return;
         }
 
-        if(stopped && !stopMessage){
+        if(stopped){
             System.out.println("The simulation has been stopped, start the simulation to run anymore simulations");
-            stopMessage = true;
         }
-        if(paused && !pauseMessage){
+        if(paused){
             System.out.println("You've paused the simulation, unpause the simualtion to continue running");
-            pauseMessage = true;
         }
-        if (!view.isViable(field) && !viableMessage) {
+        if (!view.isViable(field)) {
             System.out.println("The simulation has been stopped as there is one animal species left, reset the field to continue simulating");
-            pauseMessage = true;
         }
+
+        //pauses execution across all threads
+        executorService.pause();
     }
     
     /**
@@ -223,7 +218,10 @@ public class Simulator
     public void reset()
     {
         step = 0;
+        numSteps = 0;
+        // stops simulator
         stopped = true;
+
         actors.clear();
         populate();
 
@@ -231,8 +229,6 @@ public class Simulator
         String info = weather.toString();
         // Show the starting state in the view.
         view.showStatus(step, numSteps, field, info);
-
-        viableMessage = false;
     }
     
     /**
@@ -318,9 +314,12 @@ public class Simulator
     /**
      * Sets stopped and paused to false
      */
-    public void start() {
+    private void start() {
         stopped = false;
         paused = false;
+
+        // resumes execution across all threads
+        executorService.resume();
     }
     
     /**
@@ -338,6 +337,7 @@ public class Simulator
         stopped = true;
         shutdown = true;
         executorService.shutdown();
+        view.setVisible(false);
     }
 
     /**
@@ -345,6 +345,10 @@ public class Simulator
      */
     public void setPauseSimulation(boolean pause) {
         paused = pause;
+        if(!pause){
+            // resumes execution across all threads
+            executorService.resume();
+        }
     }
 
     /**
@@ -374,5 +378,27 @@ public class Simulator
         }
 
         return Weather.SUNNY;
+    }
+
+    /**
+     * Pause for a given time.
+     * 
+     * @param millisec The time to pause for, in milliseconds
+     */
+    private void delay(int millisec) {
+        try {
+            Thread.sleep(millisec);
+        } catch (InterruptedException ie) {
+            // wake up
+        }
+    }
+
+    /**
+     * Returns the field used in the current simulation
+     * 
+     * @return The field used in the current simulation
+     */
+    public Field getField(){
+        return field;
     }
 }

@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Animal
-comment0.text=\r\n\ A\ class\ representing\ shared\ characteristics\ of\ animals.\r\n\ \r\n\ @author\ David\ J.\ Barnes\ and\ Michael\ K\u00F6lling\r\n\ @author\ Bhavik\ Gilbert\ &\ Heman\ Seegolam\r\n\ @version\ 2016.02.29\ (2)\r\n
+comment0.text=\r\n\ A\ class\ representing\ shared\ characteristics\ of\ animals.\r\n\ \r\n\ @author\ Bhavik\ Gilbert\ &\ Heman\ Seegolam\r\n\ @version\ (28/02/2022)\r\n
 comment1.params=field\ location\ infected
 comment1.target=Animal(Field,\ Location,\ boolean)
 comment1.text=\r\n\ Create\ a\ new\ animal\ at\ location\ in\ field.\r\n\ \r\n\ @param\ field\ \ \ \ The\ field\ currently\ occupied.\r\n\ @param\ location\ The\ location\ within\ the\ field.\r\n\ @param\ infected\ Boolean\ value\ determining\ if\ the\ animal\ is\ infected\ or\ not\r\n\ \r\n

@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=WeatherAction
-comment0.text=\r\n\ Defines\ the\ actions\ that\ occur\ upon\ the\ actors\ under\ different\ weather\ conditions.\r\n\r\n\ @author\ Bhavik\ Gilbert\ and\ Heman\ Seegolam\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment0.text=\r\n\ Defines\ the\ actions\ that\ occur\ upon\ the\ actors\ under\ different\ weather\r\n\ conditions.\r\n\r\n\ @author\ Bhavik\ Gilbert\ and\ Heman\ Seegolam\r\n\ @version\ (28/02/2022)\r\n
 comment1.params=
 comment1.target=WeatherAction()
 comment1.text=\r\n\ No\ weather\ objects\ are\ constructed\r\n

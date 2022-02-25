@@ -8,7 +8,7 @@ import java.util.Random;
  * Creates existence of action method for subclasses 
  *
  * @author Bhavik Gilbert and Heman Seegolam
- * @version (a version number or a date)
+ * @version (28/02/2022)
  */
 public abstract class Actor
 {

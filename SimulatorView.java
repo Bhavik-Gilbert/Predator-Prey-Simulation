@@ -21,9 +21,8 @@ import javafx.scene.Group;
  * Colors for each type of species can be defined using the
  * setColor method.
  * 
- * @author David J. Barnes and Michael Kölling
  * @author Bhavik Gilbert amd Heman Seegolam
- * @version 2016.02.29
+ * @version (28/02/2022)
  */
 public class SimulatorView extends JFrame
 {
@@ -38,7 +37,7 @@ public class SimulatorView extends JFrame
     private final String POPULATION_PREFIX = "Population: ";
     private JLabel stepLabel, timeLabel, population, infoLabel, visibleLabel, controlLabel;
     private JButton plantButton, humanButton, monkeyButton, pigButton, tortoiseButton, dodoButton, resetClearButton, shutSimulationButton, 
-    startSimulationButton, pauseSimulationButton, playSimulationButton, resetSimulationButton, longSimulationButton;
+    pauseSimulationButton, playSimulationButton, resetSimulationButton, longSimulationButton, shortSimulationButton;
     private FieldView fieldView;
     
     // A map for storing the current colors for participants in the simulation
@@ -71,49 +70,49 @@ public class SimulatorView extends JFrame
         plantButton = new JButton("Plant");
         plantButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                changeColor(Plant.class);
+                changeColor(Plant.class, simulator.getField());
             }
         });
 
         dodoButton = new JButton("Dodo");
         dodoButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                changeColor(Dodo.class);
+                changeColor(Dodo.class, simulator.getField());
             }
         });
 
         tortoiseButton = new JButton("Tortoise");
         tortoiseButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                changeColor(Tortoise.class);
+                changeColor(Tortoise.class, simulator.getField());
             }
         });
 
         humanButton = new JButton("Human");
         humanButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                changeColor(Human.class);
+                changeColor(Human.class, simulator.getField());
             }
         });
 
         monkeyButton = new JButton("Monkey");
         monkeyButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                changeColor(Monkey.class);
+                changeColor(Monkey.class, simulator.getField());
             }
         });
 
         pigButton = new JButton("Pig");
         pigButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                changeColor(Pig.class);
+                changeColor(Pig.class, simulator.getField());
             }
         });
 
         resetClearButton = new JButton("Reset Colours");
         resetClearButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                resetViewColor();
+                resetViewColor(simulator.getField());
             }
         });
         
@@ -121,13 +120,6 @@ public class SimulatorView extends JFrame
         shutSimulationButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 simulator.shutdownSimulation();
-            }
-        });
-
-        startSimulationButton = new JButton("Start Up Simulation");
-        startSimulationButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                simulator.start();
             }
         });
 
@@ -142,6 +134,13 @@ public class SimulatorView extends JFrame
         longSimulationButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 simulator.runLongSimulation();
+            }
+        });
+
+        shortSimulationButton = new JButton("Short Simulation");
+        shortSimulationButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                simulator.runShortSimulation();
             }
         });
 
@@ -212,8 +211,8 @@ public class SimulatorView extends JFrame
                 southButtonPane2.add(playSimulationButton, BorderLayout.NORTH);
                 southButtonPane2.add(pauseSimulationButton, BorderLayout.CENTER);
 
-                southButtonPane3.add(startSimulationButton, BorderLayout.NORTH);
-                southButtonPane3.add(longSimulationButton, BorderLayout.NORTH);
+                southButtonPane3.add(shortSimulationButton, BorderLayout.NORTH);
+                southButtonPane3.add(longSimulationButton, BorderLayout.CENTER);
                 southButtonPane3.add(shutSimulationButton, BorderLayout.SOUTH);
                 
             
@@ -242,7 +241,7 @@ public class SimulatorView extends JFrame
      * 
      * @param actorClass The actor's Class object
      */
-    private void changeColor(Class actorClass)
+    private void changeColor(Class actorClass, Field field)
     {
         if(EMPTY_COLOR.equals(colors.get(actorClass))){
             colors.replace(actorClass, baseColors.get(actorClass));
@@ -250,10 +249,13 @@ public class SimulatorView extends JFrame
         else{
             colors.replace(actorClass, EMPTY_COLOR);
         }
+        
+        updatePanel(field);
     }
 
-    private void resetViewColor(){
+    private void resetViewColor(Field field){
         baseColors.forEach((key,entry) -> colors.replace(key,entry)); 
+        updatePanel(field);
     }
 
     /**
@@ -310,15 +312,19 @@ public class SimulatorView extends JFrame
         stats.reset();
         
         fieldView.preparePaint();
+        updatePanel(field);
+    }
 
-        for(int row = 0; row < field.getDepth(); row++) {
-            for(int col = 0; col < field.getWidth(); col++) {
+    private void updatePanel(Field field){
+        fieldView.preparePaint();
+
+        for (int row = 0; row < field.getDepth(); row++) {
+            for (int col = 0; col < field.getWidth(); col++) {
                 Object actor = field.getObjectAt(row, col);
-                if(actor != null) {
+                if (actor != null) {
                     stats.incrementCount(actor.getClass());
                     fieldView.drawMark(col, row, getColor(actor.getClass()));
-                }
-                else {
+                } else {
                     fieldView.drawMark(col, row, EMPTY_COLOR);
                 }
             }

@@ -6,9 +6,8 @@ import java.util.ArrayList;
  * of a field. It is flexible: it will create and maintain a counter
  * for any class of object that is found within the field.
  * 
- * @author David J. Barnes and Michael Kölling
  * @author Bhavik Gilbert and Heman Seegolam
- * @version 2016.02.29
+ * @version (28/02/2022)
  */
 public class FieldStats
 {

@@ -7,9 +7,8 @@ import java.util.Random;
  * Represent a rectangular grid of field positions.
  * Each position is able to store a single actor.
  * 
- * @author David J. Barnes and Michael Kölling
  * @author Bhavik Gilbert and Heman Seegolam
- * @version 2016.02.29
+ * @version (28/02/2022)
  */
 public class Field
 {   

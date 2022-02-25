@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Actor
-comment0.text=\r\n\ Defines\ what\ the\ different\ characteristics\ of\ elements\ in\ the\ simulation\ must\ have\r\n\r\n\ Determines\ it's\ state\ of\ life\ and\ location\ on\ the\ field\r\n\ Creates\ existence\ of\ action\ method\ for\ subclasses\ \r\n\r\n\ @author\ Bhavik\ Gilbert\ and\ Heman\ Seegolam\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment0.text=\r\n\ Defines\ what\ the\ different\ characteristics\ of\ elements\ in\ the\ simulation\ must\ have\r\n\r\n\ Determines\ it's\ state\ of\ life\ and\ location\ on\ the\ field\r\n\ Creates\ existence\ of\ action\ method\ for\ subclasses\ \r\n\r\n\ @author\ Bhavik\ Gilbert\ and\ Heman\ Seegolam\r\n\ @version\ (28/02/2022)\r\n
 comment1.params=field\ location
 comment1.target=Actor(Field,\ Location)
 comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Actor\r\n\ \r\n\ @param\ field\ The\ field\ the\ actor\ is\ currently\ in\r\n\ @param\ location\ The\ actors\ location\ on\ the\ field\r\n
