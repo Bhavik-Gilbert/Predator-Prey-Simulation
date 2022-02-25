@@ -325,7 +325,7 @@ public class Simulator
     /**
      * Stops the current simulation
      */
-    public void stopSimulation()
+    private void stopSimulation()
     {
         stopped = true;
     }
