@@ -61,8 +61,6 @@ public class Simulator
     private boolean paused;
     // Dictates if the steps are finished or not
     private boolean stopped;
-    // Dictates if the simulation is finished or not
-    private boolean shutdown;
     
     //runs main simulation
     public static void main(String[] args) {
@@ -110,7 +108,6 @@ public class Simulator
 
         paused = false;
         stopped = false;
-        shutdown = false;
     }
     
     /**
@@ -139,15 +136,10 @@ public class Simulator
     public void simulate(int numSteps)
     {   
         start();
+        this.numSteps += numSteps;
         
-        if(!shutdown){
-            this.numSteps += numSteps;
-            // executor service implementation for thread execution control
-            executorService.scheduleWithFixedDelay(this::simulateStep, 0, 1, TimeUnit.NANOSECONDS);
-        }
-        else{
-            System.out.println("You've shutdown the executor, create a new object to run anymore simulations");
-        }
+        // executor service implementation for thread execution control
+        executorService.scheduleWithFixedDelay(this::simulateStep, 0, 1, TimeUnit.NANOSECONDS);
     }
     
     /**
@@ -165,7 +157,7 @@ public class Simulator
         }
 
         if(stopped){
-            System.out.println("The simulation has been stopped, start the simulation to run anymore simulations");
+            System.out.println("The simulation has been stopped, add more steps to continue running");
         }
         if(paused){
             System.out.println("You've paused the simulation, unpause the simualtion to continue running");
@@ -182,7 +174,7 @@ public class Simulator
      * Run the simulation from its current state for a single step
      * Iterate over the whole field updating the state of each actor
      */
-    private void simulateOneStep()
+    public void simulateOneStep()
     {   
         step++;
 
@@ -209,6 +201,11 @@ public class Simulator
 
         // Updates GUI text
         String info = weather.toString();
+
+        if(step>numSteps){
+            numSteps = step+1;
+        }
+        
         view.showStatus(step, numSteps, field, info);
     }
         
@@ -334,10 +331,9 @@ public class Simulator
      * Shutdown the simulator executor
      */
     public void shutdownSimulation() {
-        stopped = true;
-        shutdown = true;
         executorService.shutdown();
-        view.setVisible(false);
+        System.out.println("Simulator Shutdown");
+        System.exit(0);
     }
 
     /**

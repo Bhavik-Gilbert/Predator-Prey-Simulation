@@ -37,7 +37,7 @@ public class SimulatorView extends JFrame
     private final String POPULATION_PREFIX = "Population: ";
     private JLabel stepLabel, timeLabel, population, infoLabel, visibleLabel, controlLabel;
     private JButton plantButton, humanButton, monkeyButton, pigButton, tortoiseButton, dodoButton, resetClearButton, shutSimulationButton, 
-    pauseSimulationButton, playSimulationButton, resetSimulationButton, longSimulationButton, shortSimulationButton;
+    pauseSimulationButton, playSimulationButton, resetSimulationButton, longSimulationButton, shortSimulationButton, oneStepButton;
     private FieldView fieldView;
     
     // A map for storing the current colors for participants in the simulation
@@ -120,6 +120,13 @@ public class SimulatorView extends JFrame
         shutSimulationButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 simulator.shutdownSimulation();
+            }
+        });
+
+        oneStepButton = new JButton("Simulate One Step");
+        oneStepButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                simulator.simulateOneStep();
             }
         });
 
@@ -210,6 +217,7 @@ public class SimulatorView extends JFrame
 
                 southButtonPane2.add(playSimulationButton, BorderLayout.NORTH);
                 southButtonPane2.add(pauseSimulationButton, BorderLayout.CENTER);
+                southButtonPane2.add(oneStepButton, BorderLayout.SOUTH);
 
                 southButtonPane3.add(shortSimulationButton, BorderLayout.NORTH);
                 southButtonPane3.add(longSimulationButton, BorderLayout.CENTER);
