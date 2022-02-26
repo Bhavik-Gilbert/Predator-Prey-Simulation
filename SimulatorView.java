@@ -70,42 +70,42 @@ public class SimulatorView extends JFrame
         plantButton = new JButton("Plant");
         plantButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                changeColor(Plant.class, simulator.getField());
+                toggleColor(Plant.class, simulator.getField());
             }
         });
 
         dodoButton = new JButton("Dodo");
         dodoButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                changeColor(Dodo.class, simulator.getField());
+                toggleColor(Dodo.class, simulator.getField());
             }
         });
 
         tortoiseButton = new JButton("Tortoise");
         tortoiseButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                changeColor(Tortoise.class, simulator.getField());
+                toggleColor(Tortoise.class, simulator.getField());
             }
         });
 
         humanButton = new JButton("Human");
         humanButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                changeColor(Human.class, simulator.getField());
+                toggleColor(Human.class, simulator.getField());
             }
         });
 
         monkeyButton = new JButton("Monkey");
         monkeyButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                changeColor(Monkey.class, simulator.getField());
+                toggleColor(Monkey.class, simulator.getField());
             }
         });
 
         pigButton = new JButton("Pig");
         pigButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                changeColor(Pig.class, simulator.getField());
+                toggleColor(Pig.class, simulator.getField());
             }
         });
 
@@ -249,7 +249,7 @@ public class SimulatorView extends JFrame
      * 
      * @param actorClass The actor's Class object
      */
-    private void changeColor(Class actorClass, Field field)
+    private void toggleColor(Class actorClass, Field field)
     {
         if(EMPTY_COLOR.equals(colors.get(actorClass))){
             colors.replace(actorClass, baseColors.get(actorClass));
