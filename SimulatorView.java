@@ -364,17 +364,25 @@ public class SimulatorView extends JFrame
         setInfoText("Weather:" + weather + "   Infected :" + virusCount);
         stats.reset();
         
-        fieldView.preparePaint();
         updatePanel(field);
     }
 
+    /**
+     * Clears and repaints the field on the viewer
+     * 
+     * @param field The field the viewer is currently representing
+     */
     private void updatePanel(Field field){
         fieldView.preparePaint();
 
         for (int row = 0; row < field.getDepth(); row++) {
             for (int col = 0; col < field.getWidth(); col++) {
-                Object actor = field.getObjectAt(row, col);
+                Actor actor = (Actor) field.getObjectAt(row, col);
                 if (actor != null) {
+                    // removes missed dead actors on the field due to lambda act operation
+                    if (!actor.isAlive()) {
+                        field.clear();
+                    }
                     stats.incrementCount(actor.getClass());
                     fieldView.drawMark(col, row, getColor(actor.getClass()));
                 } else {
