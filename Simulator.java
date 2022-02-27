@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.awt.Color;
-import java.util.HashSet;
 
 /**
  * A simple predator-prey simulator, based on a rectangular field
@@ -106,7 +105,9 @@ public class Simulator
         actors = new ArrayList<>();
         field = new Field(depth, width);
         this.numSteps = 0;
+        // 1000 milliseconds
         timeDelayIndex = 2;
+        // Random weather
         currentWeather = null;
 
         // Create a view of the state of each location in the field.
@@ -160,15 +161,15 @@ public class Simulator
      * Conditions: not paused, simulation steps not reached, executor open, field viable
      */
     private void simulateStep(){
+        // simulates step if simulation should continue
         if(!paused && !stopped && view.isViable(field)){
             simulateOneStep();
             checkSimulationEnd();
-
             delay(timeDelayList.get(timeDelayIndex));
-
             return;
         }
 
+        
         if(stopped){
             System.out.println("The simulation has been stopped, add more steps to continue running");
         }
@@ -183,6 +184,10 @@ public class Simulator
         executorService.pause();
     }
 
+    /**
+     * Simulates one step if paused
+     * Cannot simulate a step if simulation is running
+     */
     public void forceSimulateOneStep(){
         if(paused || stopped){
             simulateOneStep();

@@ -68,6 +68,7 @@ comment7.target=void\ simulateStep()
 comment7.text=\r\n\ Runs\ method\ to\ simulate\ a\ single\ step\ if\ conditions\ met\r\n\ Conditions\:\ not\ paused,\ simulation\ steps\ not\ reached,\ executor\ open,\ field\ viable\r\n
 comment8.params=
 comment8.target=void\ forceSimulateOneStep()
+comment8.text=\r\n\ Simulates\ one\ step\ if\ paused\r\n\ Cannot\ simulate\ a\ step\ if\ simulation\ is\ running\r\n
 comment9.params=
 comment9.target=void\ simulateOneStep()
 comment9.text=\r\n\ Run\ the\ simulation\ from\ its\ current\ state\ for\ a\ single\ step\r\n\ Iterate\ over\ the\ whole\ field\ updating\ the\ state\ of\ each\ actor\r\n
