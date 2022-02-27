@@ -18,9 +18,9 @@ public abstract class Animal extends Actor
     protected int age;
     // The animal's food level, which is increased by eating.
     protected double foodLevel;
-    // The base rate which when multiplied by age gives
+    // The base rate which is used to give
     // the number of steps a predator gains when it eats this animal
-    private double FOOD_VALUE;
+    private int FOOD_VALUE;
     // The probability that a predator eats its prey.
     private static final double EATING_PROBABILITY = 0.8;
     // A map containing values that can effect how the animal reacts based off of the weather
@@ -33,6 +33,8 @@ public abstract class Animal extends Actor
     private double BREEDING_PROBABILITY;
     // Max litter per breeding session
     private int MAX_LITTER_SIZE;
+    // Maximum age the animal can reach
+    private int MAX_AGE;
     // Probability that an infected animal spreads the virus
     private double VIRUS_SPREAD_PROBABILITY = 0.1;
     // The probability that an infected animal gets cured
@@ -70,6 +72,15 @@ public abstract class Animal extends Actor
         if(!MAP_OF_PREDATORS.containsKey(this.getClass())){
             MAP_OF_PREDATORS.put(this.getClass(), new HashSet<Class>());
         }
+    }
+
+    /**
+     * Sets the maximum age of the animal
+     * 
+     * @param maxAge THe maximum age of the animal
+     */
+    protected void setMaxAge(int maxAge){
+        MAX_AGE = maxAge;
     }
     
     /**
@@ -115,7 +126,7 @@ public abstract class Animal extends Actor
      * 
      * @param foodValue The base step number
      */
-    protected void setFoodValue(double foodValue){
+    protected void setFoodValue(int foodValue){
         FOOD_VALUE = foodValue;
     }
     /**
@@ -173,7 +184,7 @@ public abstract class Animal extends Actor
     /**
      * Increase the age. This could result in the animal's death.
      */
-    protected void incrementAge(int MAX_AGE) {
+    protected void incrementAge() {
         age++;
         if (age > MAX_AGE) {
             setDead();
@@ -192,10 +203,20 @@ public abstract class Animal extends Actor
 
     /**
      * Calculates the number of steps gained for eating this animal
+     * maxing out at the maximum food value
+     * 
      * @return The number of steps gained for eating this animal
      */
     protected double getFoodValue(){
-        return age * FOOD_VALUE;
+        double food;
+
+        food = -((4/MAX_AGE)*(age-(MAX_AGE/2)))*2 + FOOD_VALUE;
+
+        if(age<MAX_AGE/5 || age>MAX_AGE*4/5){
+            food -= (FOOD_VALUE/5);
+        }
+
+        return food;
     }
     
     /**

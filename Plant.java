@@ -20,8 +20,8 @@ public class Plant extends Actor
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
     // The base rate which when multiplied by age gives
-    // the number of steps a predator gains when it eats a tortoise
-    private static final double PLANT_FOOD_VALUE = 5;
+    // the number of steps a predator gains when it eats a plany
+    private static final int PLANT_FOOD_VALUE = 7;
     // A map containing values that can effect how the plant reacts based off of the weather
     private EnumMap<WeatherEffectTypes, Double> weatherEffect = new EnumMap<>(WeatherEffectTypes.class);
     

@@ -21,10 +21,8 @@ public class Tortoise extends Animal
     private static final double BREEDING_PROBABILITY = 0.2;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 5;
-    // The base rate which when multiplied by age gives
+    // The base rate which is used to give
     // the number of steps a predator gains when it eats a tortoise
-    private static final double TORTOISE_FOOD_VALUE = 0.3;
-    // Base starting food level for all tortoises
     private static final int BASIC_FOOD_LEVEL = 20;
     // Probability that a tortoise dies from disease.
     private static final double TORTOISE_DEATH_FROM_DISEASE_PROBABILITY = 0.01;
@@ -48,12 +46,15 @@ public class Tortoise extends Animal
     protected Tortoise(boolean randomAge, Field field, Location location, boolean infected)
     {
         super(field, location, infected);
+
+        // Sets values in animal class
         setOverlap(false);
-        setFoodValue(TORTOISE_FOOD_VALUE);
+        setFoodValue(BASIC_FOOD_LEVEL);
         setDeathByDiseaseProbability(TORTOISE_DEATH_FROM_DISEASE_PROBABILITY);
         setBreedingAge(BREEDING_AGE);
         setBreedingProbability(BREEDING_PROBABILITY);
         setMaxLitter(MAX_LITTER_SIZE);
+        setMaxAge(MAX_AGE);
 
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
@@ -73,7 +74,7 @@ public class Tortoise extends Animal
      */
     protected void dayAct(List<Actor> newTortoises)
     {
-        incrementAge(MAX_AGE);
+        incrementAge();
         incrementHunger();
         dieInfection();
         

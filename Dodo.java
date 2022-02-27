@@ -21,11 +21,9 @@ public class Dodo extends Animal
     private static final double BREEDING_PROBABILITY = 0.1;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
-    // The base rate which when multiplied by age gives
+    // The base rate which is used to give
     // the number of steps a predator gains when it eats a dodo
-    private static final double DODO_FOOD_VALUE = 0.4;
-    // Base starting food level for all dodos
-    private static final int BASIC_FOOD_LEVEL = 20;
+    private static final int BASIC_FOOD_LEVEL = 15;
     // The chance of a Dodo attacking a predator in its sleep
     private static final double ATTACK_CHANCE = 0.01;
     // Probability that a dodo dies from disease.
@@ -50,12 +48,15 @@ public class Dodo extends Animal
     protected Dodo(boolean randomAge, Field field, Location location, boolean infected)
     {
         super(field, location, infected);
+
+        // Sets values in animal class
         setOverlap(false);
-        setFoodValue(DODO_FOOD_VALUE);
+        setFoodValue(BASIC_FOOD_LEVEL);
         setDeathByDiseaseProbability(DODO_DEATH_FROM_DISEASE_PROBABILITY);
         setBreedingAge(BREEDING_AGE);
         setBreedingProbability(BREEDING_PROBABILITY);
         setMaxLitter(MAX_LITTER_SIZE);
+        setMaxAge(MAX_AGE);
 
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
@@ -75,7 +76,7 @@ public class Dodo extends Animal
      */
     protected void dayAct(List<Actor> newDodos)
     {
-        incrementAge(MAX_AGE);
+        incrementAge();
         incrementHunger();
         dieInfection();
         

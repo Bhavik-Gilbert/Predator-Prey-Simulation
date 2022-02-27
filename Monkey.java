@@ -20,11 +20,9 @@ public class Monkey extends Animal
     private static final double BREEDING_PROBABILITY = 0.6;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 4;
-    // The base rate which when multiplied by age gives
+    // The base rate which is used to give
     // the number of steps a predator gains when it eats a monkey
-    private static final double MONKEY_FOOD_VALUE = 0.5;
-    // Base starting food level for all monkeys
-    private static final int BASIC_FOOD_LEVEL = 20;
+    private static final int BASIC_FOOD_LEVEL = 25;
     // Probability that a monkey dies from disease.
     private static final double MONKEY_DEATH_FROM_DISEASE_PROBABILITY = 0.05;
     // List of all monkey prey.
@@ -47,12 +45,15 @@ public class Monkey extends Animal
     protected Monkey(boolean randomAge, Field field, Location location, boolean infected)
     {
         super(field, location, infected);
+
+        // Sets values in animal class
         setOverlap(false);
-        setFoodValue(MONKEY_FOOD_VALUE);
+        setFoodValue(BASIC_FOOD_LEVEL);
         setDeathByDiseaseProbability(MONKEY_DEATH_FROM_DISEASE_PROBABILITY);
         setBreedingAge(BREEDING_AGE);
         setBreedingProbability(BREEDING_PROBABILITY);
         setMaxLitter(MAX_LITTER_SIZE);
+        setMaxAge(MAX_AGE);
 
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
@@ -72,7 +73,7 @@ public class Monkey extends Animal
      */
     protected void dayAct(List<Actor> newMonkeys)
     {
-        incrementAge(MAX_AGE);
+        incrementAge();
         incrementHunger();
         dieInfection();
 

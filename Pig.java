@@ -20,10 +20,8 @@ public class Pig extends Animal
     private static final double BREEDING_PROBABILITY = 0.6;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 9;
-    // The base rate which when multiplied by age gives
+    // The base rate which is used to give
     // the number of steps a predator gains when it eats a pig
-    private static final double PIG_FOOD_VALUE = 0.6;
-    // Base starting food level for all pigs
     private static final int BASIC_FOOD_LEVEL = 20;
     // Probability that a pig dies from disease.
     private static final double PIG_DEATH_FROM_DISEASE_PROBABILITY = 0.02;
@@ -47,12 +45,15 @@ public class Pig extends Animal
     protected Pig(boolean randomAge, Field field, Location location, boolean infected)
     {
         super(field, location, infected);
+
+        // Sets values in animal class
         setOverlap(false);
-        setFoodValue(PIG_FOOD_VALUE);
+        setFoodValue(BASIC_FOOD_LEVEL);
         setDeathByDiseaseProbability(PIG_DEATH_FROM_DISEASE_PROBABILITY);
         setBreedingAge(BREEDING_AGE);
         setBreedingProbability(BREEDING_PROBABILITY);
         setMaxLitter(MAX_LITTER_SIZE);
+        setMaxAge(MAX_AGE);
 
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
@@ -72,7 +73,7 @@ public class Pig extends Animal
      */
     protected void dayAct(List<Actor> newPigs)
     {
-        incrementAge(MAX_AGE);
+        incrementAge();
         incrementHunger();
         dieInfection();
         
