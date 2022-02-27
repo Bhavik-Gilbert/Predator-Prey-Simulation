@@ -136,7 +136,7 @@ public abstract class Actor
     protected void setDead()
     {
         alive = false;
-        if(location != null) {
+        if(location != null && this.equals(field.getObjectAt(location))) {
             field.clear(location);
             location = null;
             field = null;
