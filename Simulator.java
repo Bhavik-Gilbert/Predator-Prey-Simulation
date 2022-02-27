@@ -216,6 +216,10 @@ public class Simulator
             }
         });
 
+        // double checks no actors are left on the board dead
+        // due to memory access overlapping in the lambda operation
+        boardCleanup(deadActors);
+
         // Removes dead actors to actors list
         deadActors.forEach(actor -> actors.remove(actor));
 
@@ -227,6 +231,30 @@ public class Simulator
         }
 
         view.showStatus(step, numSteps, field, weather, infected.size());
+    }
+
+    /**
+     * Due to multiple actors accessing field at the same time,
+     * some actors may be killed and not removed from the board
+     * 
+     * This function cleans up the board in an inefficient but effective manor
+     * Removes missed dead actors from board and adds them to list of dead actors to be removed from acting actors
+     * More time efficient practically to use this with act lambda than run actors linearly 
+     * 
+     * @param deadActors set of dead actors to be removed from actor list
+     */
+    private void boardCleanup(HashSet<Actor> deadActors){
+        for (int row = 0; row < field.getDepth(); row++) {
+            for (int col = 0; col < field.getWidth(); col++) {
+                if ((field.getObjectAt(row, col) != null)) {
+                    Actor actor = (Actor) field.getObjectAt(row, col);
+                    if (!actor.isAlive()) {
+                        deadActors.add(actor);
+                        field.clear();
+                    }
+                }
+            }
+        }
     }
         
     /**

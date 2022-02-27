@@ -379,10 +379,6 @@ public class SimulatorView extends JFrame
             for (int col = 0; col < field.getWidth(); col++) {
                 Actor actor = (Actor) field.getObjectAt(row, col);
                 if (actor != null) {
-                    // removes missed dead actors on the field due to lambda act operation
-                    if (!actor.isAlive()) {
-                        field.clear();
-                    }
                     stats.incrementCount(actor.getClass());
                     fieldView.drawMark(col, row, getColor(actor.getClass()));
                 } else {
