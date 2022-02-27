@@ -68,7 +68,8 @@ public abstract class Actor
      * back onto the board at their location if their space is available
      */
     private void replaceActor(){
-        if ((alive) && field.getObjectAt(location) == null) {
+
+        if ((alive) && (field.getObjectAt(location) == null)) {
             field.place(this, location);
         }
     }
@@ -79,6 +80,14 @@ public abstract class Actor
      */
     protected boolean getDay(){
         return day;
+    }
+
+    /**
+     * Returns if the actor is infected or not
+     * @return actor always not infected
+     */
+    public boolean getInfected(){
+        return false;
     }
     
     /**
@@ -107,8 +116,8 @@ public abstract class Actor
      */
     protected abstract void setWeatherEffects();
 
-    protected void setOverlap(boolean overlap){
-        this.overlap = overlap;
+    protected void setOverlap(boolean overlapping){
+        this.overlap = overlapping;
     }
 
     /**

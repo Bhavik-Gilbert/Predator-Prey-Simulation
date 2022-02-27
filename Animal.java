@@ -36,7 +36,7 @@ public abstract class Animal extends Actor
     // Probability that an infected animal spreads the virus
     private double VIRUS_SPREAD_PROBABILITY = 0.1;
     // The probability that an infected animal gets cured
-    private double CURE_INFECTION_PROBABILITY = 0.15;
+    private double CURE_INFECTION_PROBABILITY = 0.1;
     // Map containing a set of all the predators of a given animal
     protected static HashMap<Class, HashSet<Class>> MAP_OF_PREDATORS =  new HashMap<>();
 
@@ -267,7 +267,7 @@ public abstract class Animal extends Actor
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
         int births = breed(field);
-        for (int b = 0; b < births && free.size() > 0; b++) {
+        for (int b = 0; b < births && !free.isEmpty(); b++) {
             Location loc = free.remove(0);
             Class type = this.getClass();
 
@@ -325,7 +325,8 @@ public abstract class Animal extends Actor
      * Returns wether or not this animal is infected with a virus
      * @return Boolean infected
      */
-    private boolean getInfected() {
+    @Override
+    public boolean getInfected() {
         return this.infected;
     }   
 

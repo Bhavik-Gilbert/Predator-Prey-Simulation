@@ -342,7 +342,7 @@ public class SimulatorView extends JFrame
      * @param field The field whose status is to be displayed.
      * @param info Other information of the board such as weather
      */
-    public void showStatus(int step, int totalSteps, Field field, String info)
+    public void showStatus(int step, int totalSteps, Field field, Weather weather, int virusCount)
     {
         if(!isVisible()) {
             setVisible(true);
@@ -360,8 +360,8 @@ public class SimulatorView extends JFrame
         }
         timeLabel.setText(TIME_PREFIX + time);
 
-        // Displays additional info such as weather
-        setInfoText(info);
+        // Displays additional info such as weather and virus numbers
+        setInfoText("Weather:" + weather + "   Infected :" + virusCount);
         stats.reset();
         
         fieldView.preparePaint();

@@ -2,7 +2,9 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.awt.Color;
+import java.util.HashSet;
 
 /**
  * A simple predator-prey simulator, based on a rectangular field
@@ -191,39 +193,68 @@ public class Simulator
      * Run the simulation from its current state for a single step
      * Iterate over the whole field updating the state of each actor
      */
-    private void simulateOneStep()
-    {   
+    private void simulateOneStep() {
         step++;
 
         // Provide space for newborn actors.
         List<Actor> newActors = new ArrayList<>();
-        List<Actor> deadActors = new ArrayList<>();
+        // Stores dead actors to be removed from actors.
+        HashSet<Actor> deadActors = new HashSet<>();
         // Changes weather every step
         Weather weather = randomWeather();
+        // list of infected actors
+        ArrayList<Actor> infected = new ArrayList<>();
 
-
-        // Let all actors act.      
+        // Let all actors act.
         actors.forEach(actor -> {
             actor.act(newActors, step % 2, weather);
             if (!actor.isAlive()) {
                 deadActors.add(actor);
+            } 
+            else if (actor.getInfected()) {
+                infected.add(actor);
             }
         });
 
-        // Removes dead actors from actors list
+        // double checks no actors are left on the board dead
+        // due to memory access overlapping in the lambda operation
+        boardCleanup(deadActors);
+
+        // Removes dead actors to actors list
         deadActors.forEach(actor -> actors.remove(actor));
 
         // Adds new actors to actors list
-        newActors.forEach(actor ->  actors.add(actor));
+        newActors.forEach(actor -> actors.add(actor));
 
-        // Updates GUI text
-        String info = weather.toString();
-
-        if(step>numSteps){
-            numSteps = step+1;
+        if (step > numSteps) {
+            numSteps = step + 1;
         }
-        
-        view.showStatus(step, numSteps, field, info);
+
+        view.showStatus(step, numSteps, field, weather, infected.size());
+    }
+
+    /**
+     * Due to multiple actors accessing field at the same time,
+     * some actors may be killed and not removed from the board
+     * 
+     * This function cleans up the board in an inefficient but effective manor
+     * Removes missed dead actors from board and adds them to list of dead actors to be removed from acting actors
+     * More time efficient practically to use this with act lambda than run actors linearly 
+     * 
+     * @param deadActors set of dead actors to be removed from actor list
+     */
+    private void boardCleanup(HashSet<Actor> deadActors){
+        for (int row = 0; row < field.getDepth(); row++) {
+            for (int col = 0; col < field.getWidth(); col++) {
+                if ((field.getObjectAt(row, col) != null)) {
+                    Actor actor = (Actor) field.getObjectAt(row, col);
+                    if (!actor.isAlive()) {
+                        deadActors.add(actor);
+                        field.clear();
+                    }
+                }
+            }
+        }
     }
         
     /**
@@ -237,23 +268,24 @@ public class Simulator
         // stops simulator
         stopped = true;
         paused = true;
-        //removes actors in simulation
+        // removes actors in simulation
         actors.clear();
-        //repopulates simulation
-        populate();
+        // repopulates simulation
+        // gets number of infected animals
+        int infected = populate();
         // resets simulation speed
         timeDelayIndex = 2;
 
         Weather weather = randomWeather();
-        String info = weather.toString();
+
         // Show the starting state in the view.
-        view.showStatus(step, numSteps, field, info);
+        view.showStatus(step, numSteps, field, weather, infected);
     }
     
     /**
      * Randomly populate the field with actors.
      */
-    private void populate()
+    private int populate()
     {
         Random rand = Randomizer.getRandom();
         field.clear();
@@ -261,15 +293,19 @@ public class Simulator
         //Gathers running probability for use in creation
         double[] totalProbabilities = {DODO_CREATION_PROBABILITY, HUMAN_CREATION_PROBABILITY, PIG_CREATION_PROBABILITY, MONKEY_CREATION_PROBABILITY, TORTOISE_CREATION_PROBABILITY};
         totalProbabilities =  getTotalProbability(totalProbabilities);
+
+        //number of infected actors
+        int infected = 0;
         
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
                 // Populate with animals and plants as per their probabilities    
                 Location location = new Location(row, col);
-                boolean infected = false;
+                boolean virus = false;
 
                 if (rand.nextDouble() <= DISEASE_CREATION_PROBABILITY) {
-                    infected = true;
+                    virus = true;
+                    ++infected;
                 }
                 
                 if (rand.nextDouble() <= PLANT_CREATION_PROBABILITY) {
@@ -278,23 +314,23 @@ public class Simulator
                 }
 
                 if (rand.nextDouble() <= totalProbabilities[0]){
-                    Dodo dodo = new Dodo(true, field, location, infected);
+                    Dodo dodo = new Dodo(true, field, location, virus);
                     actors.add(dodo);
                 }
                 else if(rand.nextDouble() <= totalProbabilities[1]){
-                    Human human = new Human(true, field, location, infected);
+                    Human human = new Human(true, field, location, virus);
                     actors.add(human);
                 }
                 else if(rand.nextDouble() <= totalProbabilities[2]){
-                    Pig pig = new Pig(true, field, location, infected);
+                    Pig pig = new Pig(true, field, location, virus);
                     actors.add(pig);
                 }
                 else if (rand.nextDouble() <= totalProbabilities[3]){
-                    Monkey monkey = new Monkey(true, field, location, infected);
+                    Monkey monkey = new Monkey(true, field, location, virus);
                     actors.add(monkey);
                 }
                 else if (rand.nextDouble() <= totalProbabilities[4]){
-                    Tortoise tortoise = new Tortoise( true, field, location, infected);
+                    Tortoise tortoise = new Tortoise( true, field, location, virus);
                     actors.add(tortoise);
                 }
             }
@@ -304,6 +340,8 @@ public class Simulator
         if(totalProbabilities[totalProbabilities.length-1] > 1){
             System.out.println("Your total spawn probability is above 1, there may be some unexpected errors in simulation as a result");
         }
+
+        return infected;
     }
 
     /**
