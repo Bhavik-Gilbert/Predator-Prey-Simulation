@@ -49,6 +49,7 @@ public abstract class Actor
      * @param timeOfDay Integer value determining day or night
      */
     public void act(List<Actor> newActors, int timeOfDay, Weather weather) {
+        overcrowding();
         replaceActor();
         this.weather = weather;
         setWeatherEffects();
@@ -73,6 +74,17 @@ public abstract class Actor
             field.place(this, location);
         }
     }
+
+    /**
+     * Kills animals on board that must be on board to live
+     */
+    private void overcrowding(){{
+        if(!overlap && location!=null && field.getObjectAt(location)!=null && !this.equals(field.getObjectAt(location))){
+            alive = false;
+            location = null;
+            field = null;
+        }
+    }}
     
     /**
      * Returns the current time of day 
@@ -136,7 +148,7 @@ public abstract class Actor
     protected void setDead()
     {
         alive = false;
-        if(location != null && this.equals(field.getObjectAt(location))) {
+        if(location != null) {
             field.clear(location);
             location = null;
             field = null;

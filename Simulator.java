@@ -45,7 +45,7 @@ public class Simulator
     // A list of time delays in to go through in milliseconds
     private static final ArrayList<Integer> timeDelayList = new ArrayList<>(){
         {
-            add(100);
+            add(50);
             add(500);
             add(1000);
             add(3000);
