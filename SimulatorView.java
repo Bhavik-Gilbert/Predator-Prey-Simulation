@@ -35,10 +35,10 @@ public class SimulatorView extends JFrame
     private final String DAY_PREFIX = "Day: ";
     private final String TIME_PREFIX = "Time: ";
     private final String POPULATION_PREFIX = "Population: ";
-    private JLabel stepLabel, timeLabel, population, infoLabel, visibleLabel, controlLabel, playbackLabel, stepControlLabel, speedControlLabel;
+    private JLabel stepLabel, timeLabel, population, infoLabel, visibleLabel, controlLabel, playbackLabel, stepControlLabel, speedControlLabel, weatherLabel;
     private JButton plantButton, humanButton, monkeyButton, pigButton, tortoiseButton, dodoButton, resetClearButton, shutSimulationButton, 
     pauseSimulationButton, playSimulationButton, resetSimulationButton, longSimulationButton, shortSimulationButton, oneStepButton,
-    speedUpButton, slowDownButton;
+    speedUpButton, slowDownButton, randomWeatherButton, sunnyButton, rainyButton, foggyButton, snowyButton;
     private FieldView fieldView;
     
     // A map for storing the current colors for participants in the simulation
@@ -70,6 +70,7 @@ public class SimulatorView extends JFrame
         playbackLabel = new JLabel("Playback Controls", JLabel.CENTER);
         stepControlLabel = new JLabel("Step Controls", JLabel.CENTER);
         speedControlLabel = new JLabel("Speed Controls", JLabel.CENTER);
+        weatherLabel = new JLabel("Weather Controls", JLabel.CENTER);
 
         plantButton = new JButton("Plant");
         plantButton.addActionListener(new ActionListener() {
@@ -183,6 +184,40 @@ public class SimulatorView extends JFrame
             }
         });
 
+        randomWeatherButton= new JButton("Random Weather");
+        randomWeatherButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                simulator.setCurrentWeather(null);
+            }
+        });
+
+        sunnyButton = new JButton("Sunny Weather");
+        sunnyButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                simulator.setCurrentWeather(Weather.SUNNY);
+            }
+        });
+
+        rainyButton = new JButton("Rainy Weather");
+        rainyButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                simulator.setCurrentWeather(Weather.RAINY);
+            }
+        });
+
+        foggyButton = new JButton("Foggy Weather");
+        foggyButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                simulator.setCurrentWeather(Weather.FOGGY);
+            }
+        });
+
+        snowyButton = new JButton("Snowy Weather");
+        snowyButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                simulator.setCurrentWeather(Weather.SNOWY);
+            }
+        });
         
 
         setLocation(100, 50);
@@ -219,6 +254,23 @@ public class SimulatorView extends JFrame
 
                     northVisionButtonPane3.add(pigButton, BorderLayout.NORTH);
                     northVisionButtonPane3.add(resetClearButton, BorderLayout.CENTER);
+
+            JPanel weatherButtonPane = new JPanel(new BorderLayout());
+            visionButtonPane.add(weatherButtonPane, BorderLayout.SOUTH);
+
+                JPanel weatherButtonPane1 = new JPanel(new BorderLayout());
+                JPanel weatherButtonPane2 = new JPanel(new BorderLayout());
+                
+                weatherButtonPane.add(weatherButtonPane1, BorderLayout.NORTH);
+                weatherButtonPane.add(weatherButtonPane2, BorderLayout.CENTER);
+
+                    weatherButtonPane1.add(weatherLabel, BorderLayout.NORTH);
+                    weatherButtonPane1.add(randomWeatherButton, BorderLayout.CENTER);
+                    weatherButtonPane1.add(sunnyButton, BorderLayout.SOUTH);
+
+                    weatherButtonPane2.add(rainyButton, BorderLayout.NORTH);
+                    weatherButtonPane2.add(foggyButton, BorderLayout.CENTER);
+                    weatherButtonPane2.add(snowyButton, BorderLayout.SOUTH);
                     
         JPanel controlButtonPane = new JPanel(new BorderLayout());
             JPanel northControlButtonPane = new JPanel(new BorderLayout());

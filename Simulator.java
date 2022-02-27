@@ -61,8 +61,9 @@ public class Simulator
     private int step;
     // The number of steps the simulation will make
     private int numSteps;
+    private Weather currentWeather;
     // The index of the time delay currently being used from the time delay list
-    private int timeDelayIndex = 2;
+    private int timeDelayIndex;
     // A graphical view of the simulation.
     private SimulatorView view;
     // Thread scheduler to control the number of threads the simulator can use
@@ -105,6 +106,8 @@ public class Simulator
         actors = new ArrayList<>();
         field = new Field(depth, width);
         this.numSteps = 0;
+        timeDelayIndex = 2;
+        currentWeather = null;
 
         // Create a view of the state of each location in the field.
         view = new SimulatorView(depth, width, this);
@@ -201,7 +204,7 @@ public class Simulator
         // Stores dead actors to be removed from actors.
         HashSet<Actor> deadActors = new HashSet<>();
         // Changes weather every step
-        Weather weather = randomWeather();
+        Weather weather = getWeather();
         // list of infected actors
         ArrayList<Actor> infected = new ArrayList<>();
 
@@ -239,7 +242,6 @@ public class Simulator
         numSteps = 0;
         // stops simulator
         stopped = true;
-        paused = true;
         // removes actors in simulation
         actors.clear();
         // repopulates simulation
@@ -247,8 +249,10 @@ public class Simulator
         int infected = populate();
         // resets simulation speed
         timeDelayIndex = 2;
+        // resets current weather to random
+        currentWeather = null;
 
-        Weather weather = randomWeather();
+        Weather weather = getWeather();
 
         // Show the starting state in the view.
         view.showStatus(step, numSteps, field, weather, infected);
@@ -386,6 +390,40 @@ public class Simulator
         if(!pause){
             // resumes execution across all threads
             executorService.resume();
+        }
+    }
+
+    /**
+     * Allows users to switch the current weather conditions
+     * null if random
+     * 
+     * @param weather The weather to be changed to
+     */
+    public void setCurrentWeather(Weather weather){
+        if(weather != null && currentWeather != null && this.currentWeather.equals(weather)){
+            System.out.println("The weather is already set to " + currentWeather);
+            return;
+        }
+        if(weather == null && currentWeather==null){
+            System.out.println("The weather is already set to random");
+            return;
+        }
+
+        this.currentWeather = weather;
+    }
+
+    /***
+     * Returns the current weather conditions of the simulation
+     * Random if null
+     *  
+     * @return The current weather conditions of the simulation
+     */
+    private Weather getWeather(){
+        if(currentWeather == null){
+            return randomWeather();
+        }
+        else{
+            return currentWeather;
         }
     }
 
