@@ -1,6 +1,6 @@
 import java.util.List;
-import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * A simple model of a dodo.
@@ -125,24 +125,33 @@ public class Dodo extends Animal
         }
     }
     
-    //NEEDS REFACTORING
+    /**
+     * Dodo's attack their known predators
+     * Looks at all adjacent locations, and attacks first predator found
+     * Dodo moves into the position the predator was
+     */
     private Location chargePredator(){
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
-        Iterator<Location> it = adjacent.iterator();
-        while(it.hasNext()) {
-            Location where = it.next();
+        List<Location> charge = new ArrayList<>();
+
+        adjacent.forEach(where ->{
             Object actor = field.getObjectAt(where);
-            if((actor instanceof Human) || (actor instanceof Pig) || (actor instanceof Monkey)){
+            HashSet<Class> setOfPredators = MAP_OF_PREDATORS.get(this.getClass());
+            if(actor!=null && setOfPredators.contains(actor.getClass())){
                 if(rand.nextDouble() <= ATTACK_CHANCE){
                     Animal prey = (Animal) actor;
                     if(prey.isAlive()) { 
                         prey.setDead();
                         foodLevel += prey.getFoodValue();
-                        return where;
+                        charge.add(where);
                     }
                 }
             }
+        });
+
+        if(!charge.isEmpty()){
+            return charge.get(0);
         }
 
         return null;

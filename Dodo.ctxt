@@ -12,4 +12,5 @@ comment3.target=void\ nightAct(java.util.List)
 comment3.text=\r\n\ This\ is\ what\ the\ dodos\ do\ during\ the\ night\:\ \ Sleeps\ and\ Attacks\ predators\r\n\ In\ the\ process\ it\ might,\ die\ of\ infection\ or\ spread\ an\ infection\r\n\ @param\ newDodos\ A\ list\ to\ return\ newly\ born\ Dodos.\r\n
 comment4.params=
 comment4.target=Location\ chargePredator()
+comment4.text=\r\n\ Dodo's\ attack\ their\ known\ predators\r\n\ Looks\ at\ all\ adjacent\ locations,\ and\ attacks\ first\ predator\ found\r\n\ Dodo\ moves\ into\ the\ position\ the\ predator\ was\r\n
 numComments=5

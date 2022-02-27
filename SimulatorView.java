@@ -35,9 +35,10 @@ public class SimulatorView extends JFrame
     private final String DAY_PREFIX = "Day: ";
     private final String TIME_PREFIX = "Time: ";
     private final String POPULATION_PREFIX = "Population: ";
-    private JLabel stepLabel, timeLabel, population, infoLabel, visibleLabel, controlLabel;
+    private JLabel stepLabel, timeLabel, population, infoLabel, visibleLabel, controlLabel, playbackLabel, stepControlLabel, speedControlLabel;
     private JButton plantButton, humanButton, monkeyButton, pigButton, tortoiseButton, dodoButton, resetClearButton, shutSimulationButton, 
-    pauseSimulationButton, playSimulationButton, resetSimulationButton, longSimulationButton, shortSimulationButton, oneStepButton;
+    pauseSimulationButton, playSimulationButton, resetSimulationButton, longSimulationButton, shortSimulationButton, oneStepButton,
+    speedUpButton, slowDownButton;
     private FieldView fieldView;
     
     // A map for storing the current colors for participants in the simulation
@@ -66,6 +67,9 @@ public class SimulatorView extends JFrame
         population = new JLabel(POPULATION_PREFIX, JLabel.CENTER);
         visibleLabel= new JLabel("Visibility Controls", JLabel.CENTER);
         controlLabel = new JLabel("Simulator Controls", JLabel.CENTER);
+        playbackLabel = new JLabel("Playback Controls", JLabel.CENTER);
+        stepControlLabel = new JLabel("Step Controls", JLabel.CENTER);
+        speedControlLabel = new JLabel("Speed Controls", JLabel.CENTER);
 
         plantButton = new JButton("Plant");
         plantButton.addActionListener(new ActionListener() {
@@ -126,7 +130,7 @@ public class SimulatorView extends JFrame
         oneStepButton = new JButton("Simulate One Step");
         oneStepButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                simulator.simulateOneStep();
+                simulator.forceSimulateOneStep();
             }
         });
 
@@ -165,6 +169,20 @@ public class SimulatorView extends JFrame
             }
         });
 
+        speedUpButton = new JButton("Speed Up Simulation");
+        speedUpButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                simulator.speedUpTimeDelay();
+            }
+        });
+
+        slowDownButton = new JButton("Slow Down Simulation");
+        slowDownButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                simulator.slowDownTimeDelay();
+            }
+        });
+
         
 
         setLocation(100, 50);
@@ -179,56 +197,83 @@ public class SimulatorView extends JFrame
             infoPane.add(infoLabel, BorderLayout.CENTER);
 
         
-        JPanel buttonPane = new JPanel(new BorderLayout());
-            JPanel northButtonPane = new JPanel(new BorderLayout());
-            buttonPane.add(northButtonPane, BorderLayout.NORTH);
+        JPanel visionButtonPane = new JPanel(new BorderLayout());
+            JPanel northVisionButtonPane = new JPanel(new BorderLayout());
+            visionButtonPane.add(northVisionButtonPane, BorderLayout.NORTH);
 
-                JPanel northButtonPane1 = new JPanel(new BorderLayout());
-                JPanel northButtonPane2 = new JPanel(new BorderLayout());
-                JPanel northButtonPane3 = new JPanel(new BorderLayout());
+                JPanel northVisionButtonPane1 = new JPanel(new BorderLayout());
+                JPanel northVisionButtonPane2 = new JPanel(new BorderLayout());
+                JPanel northVisionButtonPane3 = new JPanel(new BorderLayout());
                 
-                northButtonPane.add(northButtonPane1, BorderLayout.NORTH);
-                northButtonPane.add(northButtonPane2, BorderLayout.CENTER);
-                northButtonPane.add(northButtonPane3, BorderLayout.SOUTH);
+                northVisionButtonPane.add(northVisionButtonPane1, BorderLayout.NORTH);
+                northVisionButtonPane.add(northVisionButtonPane2, BorderLayout.CENTER);
+                northVisionButtonPane.add(northVisionButtonPane3, BorderLayout.SOUTH);
 
-                    northButtonPane1.add(visibleLabel, BorderLayout.NORTH);
-                    northButtonPane1.add(plantButton, BorderLayout.CENTER);
-                    northButtonPane1.add(dodoButton, BorderLayout.SOUTH);
+                    northVisionButtonPane1.add(visibleLabel, BorderLayout.NORTH);
+                    northVisionButtonPane1.add(plantButton, BorderLayout.CENTER);
+                    northVisionButtonPane1.add(dodoButton, BorderLayout.SOUTH);
 
-                    northButtonPane2.add(tortoiseButton, BorderLayout.NORTH);
-                    northButtonPane2.add(humanButton, BorderLayout.CENTER);
-                    northButtonPane2.add(monkeyButton, BorderLayout.SOUTH);
+                    northVisionButtonPane2.add(tortoiseButton, BorderLayout.NORTH);
+                    northVisionButtonPane2.add(humanButton, BorderLayout.CENTER);
+                    northVisionButtonPane2.add(monkeyButton, BorderLayout.SOUTH);
 
-                    northButtonPane3.add(pigButton, BorderLayout.NORTH);
-                    northButtonPane3.add(resetClearButton, BorderLayout.CENTER);
+                    northVisionButtonPane3.add(pigButton, BorderLayout.NORTH);
+                    northVisionButtonPane3.add(resetClearButton, BorderLayout.CENTER);
+                    
+        JPanel controlButtonPane = new JPanel(new BorderLayout());
+            JPanel northControlButtonPane = new JPanel(new BorderLayout());
+            controlButtonPane.add(northControlButtonPane, BorderLayout.NORTH);
+
+                JPanel northControlButtonPane1 = new JPanel(new BorderLayout());
+                JPanel northControlButtonPane2 = new JPanel(new BorderLayout());
+                JPanel northControlButtonPane3 = new JPanel(new BorderLayout());
+                northControlButtonPane.add(northControlButtonPane1, BorderLayout.NORTH);
+                northControlButtonPane.add(northControlButtonPane2, BorderLayout.CENTER);
+                northControlButtonPane.add(northControlButtonPane3, BorderLayout.SOUTH);
+
+                    northControlButtonPane1.add(playbackLabel, BorderLayout.NORTH);
+                    northControlButtonPane1.add(playSimulationButton, BorderLayout.CENTER);
+                    northControlButtonPane1.add(pauseSimulationButton, BorderLayout.SOUTH);
+
+                    northControlButtonPane2.add(speedControlLabel, BorderLayout.NORTH);
+                    northControlButtonPane2.add(speedUpButton, BorderLayout.CENTER);
+                    northControlButtonPane2.add(slowDownButton, BorderLayout.SOUTH);
             
-            JPanel southButtonPane = new JPanel(new BorderLayout());
-            buttonPane.add(southButtonPane, BorderLayout.SOUTH);
+            JPanel centerControlButtonPane = new JPanel(new BorderLayout());
+            controlButtonPane.add(centerControlButtonPane, BorderLayout.CENTER);
+                JPanel nCenterControlButtonPane = new JPanel(new BorderLayout());
+                centerControlButtonPane.add(nCenterControlButtonPane, BorderLayout.NORTH);
 
-                JPanel southButtonPane1 = new JPanel(new BorderLayout());
-                JPanel southButtonPane2 = new JPanel(new BorderLayout());
-                JPanel southButtonPane3 = new JPanel(new BorderLayout());
-                southButtonPane.add(southButtonPane1, BorderLayout.NORTH);
-                southButtonPane.add(southButtonPane2, BorderLayout.CENTER);
-                southButtonPane.add(southButtonPane3, BorderLayout.SOUTH);
+                    JPanel nCenterControlButtonPane1 = new JPanel(new BorderLayout());
+                    JPanel nCenterControlButtonPane2 = new JPanel(new BorderLayout());
+                    JPanel nCenterControlButtonPane3 = new JPanel(new BorderLayout());
+                    nCenterControlButtonPane.add(nCenterControlButtonPane1, BorderLayout.NORTH);
+                    nCenterControlButtonPane.add(nCenterControlButtonPane2, BorderLayout.CENTER);
+                    nCenterControlButtonPane.add(nCenterControlButtonPane3, BorderLayout.SOUTH);
 
-                southButtonPane1.add(controlLabel, BorderLayout.NORTH);
-                southButtonPane1.add(resetSimulationButton, BorderLayout.SOUTH);
+                    nCenterControlButtonPane1.add(stepControlLabel, BorderLayout.NORTH);
 
-                southButtonPane2.add(playSimulationButton, BorderLayout.NORTH);
-                southButtonPane2.add(pauseSimulationButton, BorderLayout.CENTER);
-                southButtonPane2.add(oneStepButton, BorderLayout.SOUTH);
+                    nCenterControlButtonPane2.add(oneStepButton, BorderLayout.NORTH);
+                    nCenterControlButtonPane2.add(shortSimulationButton, BorderLayout.CENTER);
+                    nCenterControlButtonPane2.add(longSimulationButton, BorderLayout.SOUTH);        
 
-                southButtonPane3.add(shortSimulationButton, BorderLayout.NORTH);
-                southButtonPane3.add(longSimulationButton, BorderLayout.CENTER);
-                southButtonPane3.add(shutSimulationButton, BorderLayout.SOUTH);
+        JPanel southControlButtonPane = new JPanel(new BorderLayout());
+        controlButtonPane.add(southControlButtonPane, BorderLayout.SOUTH);
+
+            JPanel southControlButtonPane1 = new JPanel(new BorderLayout());
+            southControlButtonPane.add(southControlButtonPane1, BorderLayout.NORTH);
+
+            southControlButtonPane1.add(controlLabel, BorderLayout.NORTH);
+            southControlButtonPane1.add(resetSimulationButton, BorderLayout.CENTER);
+            southControlButtonPane1.add(shutSimulationButton, BorderLayout.SOUTH);
                 
             
 
         contents.add(infoPane, BorderLayout.NORTH);
         contents.add(fieldView, BorderLayout.CENTER);
         contents.add(population, BorderLayout.SOUTH);
-        contents.add(buttonPane, BorderLayout.EAST);
+        contents.add(visionButtonPane, BorderLayout.EAST);
+        contents.add(controlButtonPane, BorderLayout.WEST);
         pack();
         setVisible(true);
     }
@@ -384,6 +429,7 @@ public class SimulatorView extends JFrame
         /**
          * Tell the GUI manager how big we would like to be.
          */
+        @Override
         public Dimension getPreferredSize()
         {
             return new Dimension(gridWidth * GRID_VIEW_SCALING_FACTOR,
@@ -425,6 +471,7 @@ public class SimulatorView extends JFrame
          * The field view component needs to be redisplayed. Copy the
          * internal image to screen.
          */
+        @Override
         public void paintComponent(Graphics g)
         {
             if(fieldImage != null) {

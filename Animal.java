@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * A class representing shared characteristics of animals.
@@ -35,6 +37,8 @@ public abstract class Animal extends Actor
     private double VIRUS_SPREAD_PROBABILITY = 0.1;
     // The probability that an infected animal gets cured
     private double CURE_INFECTION_PROBABILITY = 0.15;
+    // Map containing a set of all the predators of a given animal
+    protected static HashMap<Class, HashSet<Class>> MAP_OF_PREDATORS =  new HashMap<>();
 
     // Whether an animal is infected by disease or not.
     protected boolean infected;
@@ -51,9 +55,21 @@ public abstract class Animal extends Actor
     protected Animal(Field field, Location location, boolean infected)
     {
         super(field, location);
+        // infects animal if infected
         this.infected = infected;
         //assigns random gender
         randomGender();
+        initiatePredators();
+    }
+
+    /**
+     * Creates a key for the current animal type in the MAP_OF_PREDATORS
+     * Generates empty set and assigns it to the key
+     */
+    private void initiatePredators(){
+        if(!MAP_OF_PREDATORS.containsKey(this.getClass())){
+            MAP_OF_PREDATORS.put(this.getClass(), new HashSet<Class>());
+        }
     }
     
     /**
@@ -207,6 +223,11 @@ public abstract class Animal extends Actor
                     if(actor instanceof Animal){
                         Animal animal = (Animal) actor;
                         this.infected = this.infected || animal.getInfected();
+
+                        // Adds this animal to a set of predators for the prey
+                        HashSet<Class> listOfPredators = MAP_OF_PREDATORS.get(animal.getClass());
+                        listOfPredators.add(this.getClass());
+                        MAP_OF_PREDATORS.replace(animal.getClass(), listOfPredators);
                     }
                     availablePrey.add(where);
                 }

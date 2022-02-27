@@ -40,6 +40,16 @@ public class Simulator
     private static final double SNOWY_PROBABILITY = 0.05;
     // The probability that a disease particle will be created in any given grid position.
     private static final double DISEASE_CREATION_PROBABILITY = 0.05;
+    // A list of time delays in to go through in milliseconds
+    private static final ArrayList<Integer> timeDelayList = new ArrayList<>(){
+        {
+            add(100);
+            add(500);
+            add(1000);
+            add(3000);
+            add(5000);
+        }
+    }; 
 
     // List of actors in the field.
     private List<Actor> actors;
@@ -49,8 +59,8 @@ public class Simulator
     private int step;
     // The number of steps the simulation will make
     private int numSteps;
-    // Time delay between steps in milliseconds
-    private int timeDelay = 1000;
+    // The index of the time delay currently being used from the time delay list
+    private int timeDelayIndex = 2;
     // A graphical view of the simulation.
     private SimulatorView view;
     // Thread scheduler to control the number of threads the simulator can use
@@ -105,9 +115,6 @@ public class Simulator
 
         // Setup a valid starting point.
         reset();
-
-        paused = false;
-        stopped = false;
     }
     
     /**
@@ -135,11 +142,12 @@ public class Simulator
      */
     public void simulate(int numSteps)
     {   
-        start();
         this.numSteps += numSteps;
-        
-        // executor service implementation for thread execution control
-        executorService.scheduleWithFixedDelay(this::simulateStep, 0, 1, TimeUnit.NANOSECONDS);
+        if(stopped){
+            start();
+            // executor service implementation for thread execution control
+            executorService.scheduleWithFixedDelay(this::simulateStep, 0, 1, TimeUnit.NANOSECONDS);
+        }
     }
     
     /**
@@ -151,7 +159,7 @@ public class Simulator
             simulateOneStep();
             checkSimulationEnd();
 
-            delay(timeDelay);
+            delay(timeDelayList.get(timeDelayIndex));
 
             return;
         }
@@ -160,7 +168,7 @@ public class Simulator
             System.out.println("The simulation has been stopped, add more steps to continue running");
         }
         if(paused){
-            System.out.println("You've paused the simulation, unpause the simualtion to continue running");
+            System.out.println("You've paused the simulation, unpause the simulation to continue running");
         }
         if (!view.isViable(field)) {
             System.out.println("The simulation has been stopped as there is one animal species left, reset the field to continue simulating");
@@ -169,12 +177,21 @@ public class Simulator
         //pauses execution across all threads
         executorService.pause();
     }
+
+    public void forceSimulateOneStep(){
+        if(paused || stopped){
+            simulateOneStep();
+        }
+        else{
+            System.out.println("Pause simulation to use this function");
+        }
+    }
     
     /**
      * Run the simulation from its current state for a single step
      * Iterate over the whole field updating the state of each actor
      */
-    public void simulateOneStep()
+    private void simulateOneStep()
     {   
         step++;
 
@@ -214,13 +231,18 @@ public class Simulator
      */
     public void reset()
     {
+        // resets step counter
         step = 0;
         numSteps = 0;
         // stops simulator
         stopped = true;
-
+        paused = true;
+        //removes actors in simulation
         actors.clear();
+        //repopulates simulation
         populate();
+        // resets simulation speed
+        timeDelayIndex = 2;
 
         Weather weather = randomWeather();
         String info = weather.toString();
@@ -340,7 +362,17 @@ public class Simulator
      * Sets paused value of simulation
      */
     public void setPauseSimulation(boolean pause) {
+        if(pause == paused){
+            if(paused){
+                System.out.println("Simulator already paused");
+            }
+            else{
+                System.out.println("Simulator already playing");
+            }
+        }
+
         paused = pause;
+
         if(!pause){
             // resumes execution across all threads
             executorService.resume();
@@ -396,5 +428,29 @@ public class Simulator
      */
     public Field getField(){
         return field;
+    }
+
+    /*
+    * Decrements the timeDelayIndex by 1 if not at 0  
+    */
+    public void speedUpTimeDelay(){
+        if(timeDelayIndex > 0){
+            timeDelayIndex--;
+        }
+        else{
+            System.out.println("You're already at the fastest speed");
+        }
+    }
+
+    /*
+     * Increments the timeDelayIndex by 1 if not at last element
+     */
+    public void slowDownTimeDelay() {
+        if (timeDelayIndex < timeDelayList.size()-1) {
+            timeDelayIndex++;
+        }
+        else {
+            System.out.println("You're already at the slowest speed");
+        }
     }
 }
