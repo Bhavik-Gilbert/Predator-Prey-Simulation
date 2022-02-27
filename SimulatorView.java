@@ -379,11 +379,6 @@ public class SimulatorView extends JFrame
             for (int col = 0; col < field.getWidth(); col++) {
                 Actor actor = (Actor) field.getObjectAt(row, col);
                 if (actor != null) {
-                    // double checks no actors are left on the board dead
-                    // due to memory access overlapping in the lambda operation
-                    if (!actor.isAlive()) {
-                        field.clear();
-                    }
                     stats.incrementCount(actor.getClass());
                     fieldView.drawMark(col, row, getColor(actor.getClass()));
                 } else {
