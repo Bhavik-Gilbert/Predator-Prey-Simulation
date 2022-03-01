@@ -69,8 +69,7 @@ public abstract class Actor
     }
 
     /**
-     * Used to place alive actors,
-     * back onto the board at their location if their space is available
+     * Used to place alive actors back onto the field at their location if their space is available
      */
     private void replaceActor()
     {
@@ -81,7 +80,7 @@ public abstract class Actor
     }
 
     /**
-     * Kills animals on board that must be on board to live
+     * Kills actors that are not on the field that must be on field to survive
      */
     private void overcrowding()
     {
@@ -177,7 +176,7 @@ public abstract class Actor
     }
     
     /**
-     * Place the actor at the new location in the given field.
+     * Places the actor at the new location in the given field.
      * 
      * @param newLocation The actor's new location.
      */

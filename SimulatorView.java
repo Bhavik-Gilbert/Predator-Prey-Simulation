@@ -384,9 +384,10 @@ public class SimulatorView extends JFrame
      * Show the current status of the field.
      * 
      * @param step Which iteration step it is.
-     * @param totalDays The number of steps the simulator is running for
+     * @param totalSteps The number of steps the simulator is running for
      * @param field The field whose status is to be displayed.
-     * @param info Other information of the board such as weather
+     * @param weather The current weather of the board
+     * @param virusCount The number of currently infected animals
      */
     public void showStatus(int step, int totalSteps, Field field, Weather weather, int virusCount)
     {
@@ -427,6 +428,7 @@ public class SimulatorView extends JFrame
             for (int col = 0; col < field.getWidth(); col++) {
                 Actor actor = (Actor) field.getObjectAt(row, col);
                 if (actor != null) {
+                    // Increments population
                     if(newStep){
                        stats.incrementCount(actor.getClass()); 
                     }
@@ -443,7 +445,7 @@ public class SimulatorView extends JFrame
     }
 
     /**
-     * Determine whether the simulation should continue to run.
+     * Determines whether the simulation should continue to run.
      * 
      * @param field The field the viewer is displaying
      * @return true If there is more than one species alive.

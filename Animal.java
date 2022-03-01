@@ -146,6 +146,7 @@ public abstract class Animal extends Actor
     
     /**
      * Gets the gender of the animal
+     * 
      * @return Gender of the animal
      */
     private Gender getGender()
@@ -156,7 +157,8 @@ public abstract class Animal extends Actor
     /**
      * Retrieves and sets the current weather effect values
      */
-    protected void setWeatherEffects() {
+    protected void setWeatherEffects() 
+    {
         weatherEffect = WeatherAction.weatherOnAnimals(weather);
     }
 
@@ -164,10 +166,10 @@ public abstract class Animal extends Actor
      * An animal can breed if it has reached the breeding age and meets a mate of opposite gender.
      * 
      * @param field The field the object is in
-     * 
      * @return Boolean value, true if mate is found and is of age, false otherwise
      */
-    private boolean canBreed(Field field) {
+    private boolean canBreed(Field field) 
+    {
         // Find all adjacent locations
         List<Location> adjacentLocations = field.adjacentLocations(getLocation()); 
         // List of potential partners
@@ -287,14 +289,14 @@ public abstract class Animal extends Actor
     }
 
     /**
-     * Check whether or not this human is to give birth at this step.
+     * Check whether or not this animal is to give birth at this step.
      * New births will be made into free adjacent locations.
      * 
      * @param newAnimal A list to return newly born animal.
      */
     protected void giveBirth(List<Actor> newAnimal) 
     {
-        // New human are born into adjacent locations.
+        // New animals are born into adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
