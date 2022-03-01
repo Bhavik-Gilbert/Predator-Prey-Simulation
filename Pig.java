@@ -13,18 +13,18 @@ public class Pig extends Animal
     // Characteristics shared by all pigs (class variables).
     
     // The age at which a pig can start to breed.
-    private static final int BREEDING_AGE = 2;
+    private static final int BREEDING_AGE = 3;
     // The age to which a pig can live.
     private static final int MAX_AGE = 40;
     // The likelihood of a pig breeding.
-    private static final double BREEDING_PROBABILITY = 0.6;
+    private static final double BREEDING_PROBABILITY = 0.55;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 9;
+    private static final int MAX_LITTER_SIZE = 5;
     // The base rate which is used to give
     // the number of steps a predator gains when it eats a pig
-    private static final int BASIC_FOOD_LEVEL = 20;
+    private static final int BASIC_FOOD_LEVEL = 18;
     // Probability that a pig dies from disease.
-    private static final double PIG_DEATH_FROM_DISEASE_PROBABILITY = 0.02;
+    private static final double PIG_DEATH_FROM_DISEASE_PROBABILITY = 0.025;
     // List of all pig prey.
     private final ArrayList<Class> LIST_OF_PREY = new ArrayList<>() {
         {

@@ -21,17 +21,17 @@ public class Simulator
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 66;
     // The probability that a human will be created in any given grid position.
-    private static final double HUMAN_CREATION_PROBABILITY = 0.01;
+    private static final double HUMAN_CREATION_PROBABILITY = 0.002;
     // The probability that a monkey will be created in any given grid position.
-    private static final double MONKEY_CREATION_PROBABILITY = 0.01;
+    private static final double MONKEY_CREATION_PROBABILITY = 0.04;
     // The probability that a pig will be created in any given grid position.
-    private static final double PIG_CREATION_PROBABILITY = 0.1;
+    private static final double PIG_CREATION_PROBABILITY = 0.03;
     // The probability that a tortoise will be created in any given grid position.
-    private static final double TORTOISE_CREATION_PROBABILITY = 0.05;
+    private static final double TORTOISE_CREATION_PROBABILITY = 0.008;
     // The probability that a dodo will be created in any given grid position.
-    private static final double DODO_CREATION_PROBABILITY = 0.3;    
+    private static final double DODO_CREATION_PROBABILITY = 0.35;    
     // The probability that a plant will be created in any given grid position.
-    private static final double PLANT_CREATION_PROBABILITY = 0.1;
+    private static final double PLANT_CREATION_PROBABILITY = 0.05;
     // The probability that it is sunny.
     private static final double SUNNY_PROBABILITY = 0.55;
     // The probability that it is raining.

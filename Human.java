@@ -13,7 +13,7 @@ public class Human extends Animal
     // Characteristics shared by all human (class variables).
     
     // The age at which a human can start to breed.
-    private static final int BREEDING_AGE = 18;
+    private static final int BREEDING_AGE = 16;
     // The age to which a human can live.
     private static final int MAX_AGE = 90;
     // The likelihood of a human breeding.
@@ -24,7 +24,7 @@ public class Human extends Animal
     // the number of steps a predator gains when it eats a human
     private static final int BASIC_FOOD_LEVEL = 25;
     // Probability that a human dies from disease.
-    private static final double HUMAN_DEATH_FROM_DISEASE_PROBABILITY = 0.05;
+    private static final double HUMAN_DEATH_FROM_DISEASE_PROBABILITY = 0.04;
     // List of all human prey.
     private final ArrayList<Class> LIST_OF_PREY = new ArrayList<>(){
         {

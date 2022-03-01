@@ -17,14 +17,14 @@ public class Tortoise extends Animal
     // The age to which a tortoise can live.
     private static final int MAX_AGE = 90;
     // The likelihood of a tortoise breeding.
-    private static final double BREEDING_PROBABILITY = 0.2;
+    private static final double BREEDING_PROBABILITY = 0.1;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 5;
     // The base rate which is used to give
     // the number of steps a predator gains when it eats a tortoise
     private static final int BASIC_FOOD_LEVEL = 20;
     // Probability that a tortoise dies from disease.
-    private static final double TORTOISE_DEATH_FROM_DISEASE_PROBABILITY = 0.01;
+    private static final double TORTOISE_DEATH_FROM_DISEASE_PROBABILITY = 0.015;
     // List of all tortoise prey.
     private final ArrayList<Class> LIST_OF_PREY = new ArrayList<>() {
         {

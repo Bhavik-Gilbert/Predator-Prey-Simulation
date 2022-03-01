@@ -16,7 +16,7 @@ public class Plant extends Actor
     // The age to which a plant can live.
     private static final int MAX_AGE = 2;
     // The likelihood of a plant breeding.
-    private static final double BREEDING_PROBABILITY = 1;
+    private static final double BREEDING_PROBABILITY = 0.4;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
     // The base rate which when multiplied by age gives
