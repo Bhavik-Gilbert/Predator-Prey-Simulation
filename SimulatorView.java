@@ -348,12 +348,12 @@ public class SimulatorView extends JFrame
             colors.replace(actorClass, EMPTY_COLOR);
         }
         
-        updatePanel(field);
+        updatePanel(field, false);
     }
 
     private void resetViewColor(Field field){
         baseColors.forEach((key,entry) -> colors.replace(key,entry)); 
-        updatePanel(field);
+        updatePanel(field, false);
     }
 
     /**
@@ -410,15 +410,16 @@ public class SimulatorView extends JFrame
         setInfoText("Weather:" + weather + "   Infected :" + virusCount);
         stats.reset();
         
-        updatePanel(field);
+        updatePanel(field, true);
     }
 
     /**
      * Clears and repaints the field on the viewer
      * 
      * @param field The field the viewer is currently representing
+     * @param newStep Defines whether a new step has occured or not
      */
-    private void updatePanel(Field field)
+    private void updatePanel(Field field, boolean newStep)
     {
         fieldView.preparePaint();
 
@@ -426,7 +427,9 @@ public class SimulatorView extends JFrame
             for (int col = 0; col < field.getWidth(); col++) {
                 Actor actor = (Actor) field.getObjectAt(row, col);
                 if (actor != null) {
-                    stats.incrementCount(actor.getClass());
+                    if(newStep){
+                       stats.incrementCount(actor.getClass()); 
+                    }
                     fieldView.drawMark(col, row, getColor(actor.getClass()));
                 } else {
                     fieldView.drawMark(col, row, EMPTY_COLOR);

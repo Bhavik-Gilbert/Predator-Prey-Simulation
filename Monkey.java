@@ -17,7 +17,7 @@ public class Monkey extends Animal
     // The age to which a monkey can live.
     private static final int MAX_AGE = 50;
     // The likelihood of a monkey breeding.
-    private static final double BREEDING_PROBABILITY = 0.2;
+    private static final double BREEDING_PROBABILITY = 0.4;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 4;
     // The base rate which is used to give

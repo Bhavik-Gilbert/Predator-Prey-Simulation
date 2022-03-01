@@ -14,16 +14,16 @@ public class Dodo extends Animal
     // Characteristics shared by all Dodos (class variables).
     
     // The age at which a dodo can start to breed.
-    private static final int BREEDING_AGE = 5;
+    private static final int BREEDING_AGE = 3;
     // The age to which a dodo can live.
     private static final int MAX_AGE = 200;
     // The likelihood of a dodo breeding.
-    private static final double BREEDING_PROBABILITY = 0.95;
+    private static final double BREEDING_PROBABILITY = 0.9;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 4;
+    private static final int MAX_LITTER_SIZE = 12;
     // The base rate which is used to give
     // the number of steps a predator gains when it eats a dodo
-    private static final int BASIC_FOOD_LEVEL = 10;
+    private static final int BASIC_FOOD_LEVEL = 8;
     // The chance of a Dodo attacking a predator in its sleep
     private static final double ATTACK_CHANCE = 0.01;
     // Probability that a dodo dies from disease.
