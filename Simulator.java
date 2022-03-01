@@ -77,7 +77,9 @@ public class Simulator
     //runs main simulation
     public static void main(String[] args) {
         Simulator simulator = new Simulator();
-        simulator.runLongSimulation();
+        //simulator.simulateOneStep();
+        AnimalsPieChart pieChart = new AnimalsPieChart();
+        //simulator.runLongSimulation();
     }
 
     /**

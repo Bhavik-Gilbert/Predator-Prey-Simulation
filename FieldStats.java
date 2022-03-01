@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class FieldStats
 {
     // Counters for each type of entity in the simulation.
-    private HashMap<Class, Counter> counters;
+    private static HashMap<Class, Counter> counters;
     // Whether the counters are currently up to date.
     private boolean countsValid;
     // What actors to ignore in viability of running
@@ -67,6 +67,14 @@ public class FieldStats
         return animalDesc;
     }
     
+    /**
+     * Return the counters hash map.
+     * @return The counters hash map.
+     */
+    public static HashMap<Class, Counter> getCounter()
+    {
+        return counters;
+    }
     
     /**
      * Invalidate the current set of statistics; reset all 

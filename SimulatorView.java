@@ -21,7 +21,7 @@ import javafx.scene.Group;
  * Colors for each type of species can be defined using the
  * setColor method.
  * 
- * @author Bhavik Gilbert amd Heman Seegolam
+ * @author Bhavik Gilbert(K21004990) and Heman Seegolam(21003628)
  * @version (28/02/2022)
  */
 public class SimulatorView extends JFrame
@@ -32,6 +32,7 @@ public class SimulatorView extends JFrame
     // Color used for objects that have no defined color.
     private static final Color UNKNOWN_COLOR = Color.gray;
 
+    // GUI variables for simulator
     private final String DAY_PREFIX = "Day: ";
     private final String TIME_PREFIX = "Time: ";
     private final String POPULATION_PREFIX = "Population: ";
@@ -462,7 +463,7 @@ public class SimulatorView extends JFrame
      * This is rather advanced GUI stuff - you can ignore this 
      * for your project if you like.
      */
-    private class FieldView extends JPanel
+    public class FieldView extends JPanel
     {
         private final int GRID_VIEW_SCALING_FACTOR = 6;
 
@@ -540,30 +541,6 @@ public class SimulatorView extends JFrame
                     g.drawImage(fieldImage, 0, 0, currentSize.width, currentSize.height, null);
                 }
             }
-        }
-    }
-
-    private abstract class PieChartSample extends Application {
-
-        public void start(Stage stage, Map Actors) {
-            Scene scene = new Scene(new Group());
-            stage.setTitle("Population");
-            stage.setWidth(500);
-            stage.setHeight(500);
-
-            ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-                    //actors.forEach((k,v)->{new PieChart.Data(k, v);}));
-                    new PieChart.Data("Grapefruit", 13),
-                    new PieChart.Data("Oranges", 25),
-                    new PieChart.Data("Plums", 10),
-                    new PieChart.Data("Pears", 22),
-                    new PieChart.Data("Apples", 30));
-            final PieChart chart = new PieChart(pieChartData);
-            chart.setTitle("Population");
-
-            ((Group) scene.getRoot()).getChildren().add(chart);
-            stage.setScene(scene);
-            stage.show();
         }
     }
 }
