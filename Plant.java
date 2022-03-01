@@ -4,7 +4,7 @@ import java.util.*;
  * A simple model of a plant.
  * Plants age, move, breed, and die.
  * 
- * @author Bhavik Gilbert and Heman Seegolam
+ * @author Bhavik Gilbert(K21004990) and Heman Seegolam(K21003628)
  * @version (28/02/2022)
  */
 public class Plant extends Actor
@@ -138,7 +138,8 @@ public class Plant extends Actor
      * 
      * @return Breeding probability modifier
      */
-    private double effectBreedingProbability(){
+    private double effectBreedingProbability()
+    {
         double dayEffect;
 
         if (getDay()) {

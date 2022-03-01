@@ -7,7 +7,7 @@ import java.util.Random;
  * Represent a rectangular grid of field positions.
  * Each position is able to store a single actor.
  * 
- * @author Bhavik Gilbert and Heman Seegolam
+ * @author Bhavik Gilbert(K21004990) and Heman Seegolam(K21003628)
  * @version (28/02/2022)
  */
 public class Field
@@ -22,6 +22,7 @@ public class Field
 
     /**
      * Represent a field of the given dimensions.
+     * 
      * @param depth The depth of the field.
      * @param width The width of the field.
      */
@@ -46,6 +47,7 @@ public class Field
     
     /**
      * Clear the given location.
+     * 
      * @param location The location to clear.
      */
     public void clear(Location location)
@@ -84,6 +86,7 @@ public class Field
     
     /**
      * Return the actor at the given location, if any.
+     * 
      * @param location Where in the field.
      * @return The actor at the given location, or null if there is none.
      */
@@ -94,6 +97,7 @@ public class Field
     
     /**
      * Return the actor at the given location, if any.
+     * 
      * @param row The desired row.
      * @param col The desired column.
      * @return The actor at the given location, or null if there is none.
@@ -108,6 +112,7 @@ public class Field
      * given location, or is the same location.
      * The returned location will be within the valid bounds
      * of the field.
+     * 
      * @param location The location from which to generate an adjacency.
      * @return A valid location within the grid area.
      */
@@ -119,6 +124,7 @@ public class Field
     
     /**
      * Get a shuffled list of the free adjacent locations.
+     * 
      * @param location Get locations adjacent to this.
      * @return A list of free adjacent locations.
      */
@@ -146,6 +152,7 @@ public class Field
      * given location. If there is none, return null.
      * The returned location will be within the valid bounds
      * of the field.
+     * 
      * @param location The location from which to generate an adjacency.
      * @return A valid location within the grid area.
      */
@@ -165,6 +172,7 @@ public class Field
      * Return a shuffled list of locations adjacent to the given one.
      * The list will not include the location itself.
      * All locations will lie within the grid.
+     * 
      * @param location The location from which to generate adjacencies.
      * @return A list of locations adjacent to that given.
      */
@@ -198,6 +206,7 @@ public class Field
 
     /**
      * Return the depth of the field.
+     * 
      * @return The depth of the field.
      */
     public int getDepth()
@@ -207,6 +216,7 @@ public class Field
     
     /**
      * Return the width of the field.
+     * 
      * @return The width of the field.
      */
     public int getWidth()

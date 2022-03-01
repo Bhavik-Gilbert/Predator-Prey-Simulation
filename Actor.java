@@ -2,12 +2,12 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Defines what the different characteristics of elements in the simulation must have
+ * Defines what the different characteristics of actors in the simulation must have
  *
  * Determines it's state of life and location on the field
  * Creates existence of action method for subclasses 
  *
- * @author Bhavik Gilbert and Heman Seegolam
+* @author Bhavik Gilbert(K21004990) and Heman Seegolam(K21003628)
  * @version (28/02/2022)
  */
 public abstract class Actor
@@ -33,7 +33,7 @@ public abstract class Actor
      * @param field The field the actor is currently in
      * @param location The actors location on the field
      */
-    public Actor(Field field, Location location)
+    protected Actor(Field field, Location location)
     {
         alive = true;
         this.field = field;
@@ -48,12 +48,16 @@ public abstract class Actor
      * @param newActors A list to return newly born actors.
      * @param timeOfDay Integer value determining day or night
      */
-    public void act(List<Actor> newActors, int timeOfDay, Weather weather) {
+    public void act(List<Actor> newActors, int timeOfDay, Weather weather) 
+    {
         overcrowding();
         replaceActor();
+
+        // collects weather effect values for current weather
         this.weather = weather;
         setWeatherEffects();
 
+        // sets time of day and determines which time function to run
         switch (timeOfDay) {
             case 0:
                 day = true;
@@ -68,7 +72,8 @@ public abstract class Actor
      * Used to place alive actors,
      * back onto the board at their location if their space is available
      */
-    private void replaceActor(){
+    private void replaceActor()
+    {
 
         if ((alive) && (field.getObjectAt(location) == null)) {
             field.place(this, location);
@@ -78,27 +83,32 @@ public abstract class Actor
     /**
      * Kills animals on board that must be on board to live
      */
-    private void overcrowding(){{
+    private void overcrowding()
+    {
         if(!overlap && location!=null && field.getObjectAt(location)!=null && !this.equals(field.getObjectAt(location))){
             alive = false;
             location = null;
             field = null;
         }
-    }}
+    }
     
     /**
      * Returns the current time of day 
+     * 
      * @return Current time of day, true if day, false if night
      */
-    protected boolean getDay(){
+    protected boolean getDay()
+    {
         return day;
     }
 
     /**
      * Returns if the actor is infected or not
+     * 
      * @return actor always not infected
      */
-    public boolean getInfected(){
+    public boolean getInfected()
+    {
         return false;
     }
     
@@ -134,6 +144,7 @@ public abstract class Actor
 
     /**
      * Check whether the actor is alive or not.
+     * 
      * @return true if the actor is still alive.
      */
     protected boolean isAlive()
@@ -157,6 +168,7 @@ public abstract class Actor
 
     /**
      * Return the actor's location.
+     * 
      * @return The actor's location.
      */
     protected Location getLocation()
@@ -166,6 +178,7 @@ public abstract class Actor
     
     /**
      * Place the actor at the new location in the given field.
+     * 
      * @param newLocation The actor's new location.
      */
     protected void setLocation(Location newLocation)
@@ -179,6 +192,7 @@ public abstract class Actor
     
     /**
      * Return the actor's field.
+     * 
      * @return The actor's field.
      */
     protected Field getField()
@@ -188,6 +202,7 @@ public abstract class Actor
     
     /**
      * Return Whether the actor can overlap with other actors.
+     * 
      * @return Whether the actor can overlap.
      */
     public boolean getOverlap()

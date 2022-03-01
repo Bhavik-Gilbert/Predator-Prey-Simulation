@@ -7,7 +7,7 @@ import java.util.Random;
  * testing). Set
  * 'useShared' to false to get different random behaviour every time.
  * 
- * @author Bhavik Gilbert and Heman Seegolam
+ * @author Bhavik Gilbert(K21004990) and Heman Seegolam(K21003628)
  * @version (28/02/2022)
  */
 public class Randomizer
@@ -21,6 +21,7 @@ public class Randomizer
 
     /**
      * Constructor for objects of class Randomizer
+     * All values are shared between randomizers
      */
     public Randomizer()
     {

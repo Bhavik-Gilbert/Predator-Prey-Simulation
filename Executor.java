@@ -8,10 +8,11 @@ import java.util.concurrent.locks.Condition;
  * Adds ability to pause and resume execution on new tasks
  * Checks and holds execution before tasks across all threads
  * 
- * @author Bhavik Gilbert and Heman Seegolam
+ * @author Bhavik Gilbert(K21004990) and Heman Seegolam(K21003628)
  * @version (28/02/2022)
  */
-public class Executor extends ScheduledThreadPoolExecutor {
+public class Executor extends ScheduledThreadPoolExecutor 
+{
     private ReentrantLock lock = new ReentrantLock();
     private Condition change = lock.newCondition();
     private boolean paused;
@@ -19,7 +20,8 @@ public class Executor extends ScheduledThreadPoolExecutor {
     /**
      * Default constructor for a fixed set of threads thread
      */
-    public Executor(int coreNumber) {
+    public Executor(int coreNumber) 
+    {
         super(coreNumber);
     }
 
@@ -28,7 +30,8 @@ public class Executor extends ScheduledThreadPoolExecutor {
      * Pauses execution if paused until execution resumed
      */
     @Override
-    protected void beforeExecute(Thread t, Runnable r) {
+    protected void beforeExecute(Thread t, Runnable r) 
+    {
         lock.lock();
             try {
             while (paused)
@@ -44,7 +47,8 @@ public class Executor extends ScheduledThreadPoolExecutor {
     /**
      * Resumes the execution
      */
-    public void resume() {
+    public void resume() 
+    {
         lock.lock();
         try {
             paused = false;
@@ -58,7 +62,8 @@ public class Executor extends ScheduledThreadPoolExecutor {
      * Pauses the execution. Current task will continue
      * But new tasks will not start until the execution service is resumed.
      */
-    public void pause() {
+    public void pause() 
+    {
         lock.lock();
         try {
             paused = true;

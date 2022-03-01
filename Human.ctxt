@@ -1,13 +1,13 @@
 #BlueJ class context
 comment0.target=Human
-comment0.text=\n\ A\ simple\ model\ of\ a\ human.\n\ Human\ age,\ move,\ eat\ dodos\ and\ pigs,\ and\ die.\n\ \n\ @author\ Bhavik\ Gilbert\ and\ Heman\ Seegolam\n\ @version\ (28/02/2022)\n
+comment0.text=\r\n\ A\ simple\ model\ of\ a\ human.\r\n\ Human\ age,\ move,\ eat\ dodos\ and\ pigs,\ and\ die.\r\n\ \r\n\ @author\ Bhavik\ Gilbert(K21004990)\ and\ Heman\ Seegolam(K21003628)\r\n\ @version\ (28/02/2022)\r\n
 comment1.params=randomAge\ field\ location\ infected
 comment1.target=Human(boolean,\ Field,\ Location,\ boolean)
-comment1.text=\n\ Create\ a\ human.\ A\ human\ can\ be\ created\ as\ a\ new\ born\ (age\ zero\n\ and\ not\ hungry)\ or\ with\ a\ random\ age\ and\ food\ level.\n\ \n\ @param\ randomAge\ If\ true,\ the\ human\ will\ have\ random\ age\ and\ hunger\ level.\n\ @param\ field\ \ \ \ \ The\ field\ currently\ occupied.\n\ @param\ location\ \ The\ location\ within\ the\ field.\n\ @param\ infected\ \ Boolean\ value\ determining\ if\ the\ animal\ is\ infected\ or\ not\n
+comment1.text=\r\n\ Create\ a\ human.\ A\ human\ can\ be\ created\ as\ a\ new\ born\ (age\ zero\r\n\ and\ not\ hungry)\ or\ with\ a\ random\ age\ and\ food\ level.\r\n\ \r\n\ @param\ randomAge\ If\ true,\ the\ human\ will\ have\ random\ age\ and\ hunger\ level.\r\n\ @param\ field\ \ \ \ \ The\ field\ currently\ occupied.\r\n\ @param\ location\ \ The\ location\ within\ the\ field.\r\n\ @param\ infected\ \ Boolean\ value\ determining\ if\ the\ animal\ is\ infected\ or\ not\r\n
 comment2.params=newHuman
 comment2.target=void\ dayAct(java.util.List)
-comment2.text=\n\ This\ is\ what\ the\ human\ does\ during\ the\ day\:\ it\ hunts\ for\ dodos\ and\ pigs\n\ In\ the\ process\ it\ might\ move,\ die\ of\ hunger,\ die\ of\ infection,\ get\ cured,\ spread\ an\ infection,\ or\ die\ of\ old\ age.\n\ \n\ @param\ newHuman\ A\ list\ to\ return\ newly\ born\ humans.\n
+comment2.text=\r\n\ This\ is\ what\ the\ human\ does\ during\ the\ day\:\ it\ hunts\ for\ dodos\ and\ pigs\r\n\ In\ the\ process\ it\ might\ move,\ die\ of\ hunger,\ die\ of\ infection,\ get\ cured,\ spread\ an\ infection,\ or\ die\ of\ old\ age.\r\n\ \r\n\ @param\ newHuman\ A\ list\ to\ return\ newly\ born\ humans.\r\n
 comment3.params=newHuman
 comment3.target=void\ nightAct(java.util.List)
-comment3.text=\n\ This\ is\ what\ the\ human\ does\ during\ the\ night\:\ Gives\ birth\ and\ Sleeps\n\ In\ the\ process\ it\ might,\ die\ of\ infection,\ spread\ an\ infection\ or\ get\ cured\n\ \n\ @param\ newHuman\ A\ list\ to\ return\ newly\ born\ humans.\n
+comment3.text=\r\n\ This\ is\ what\ the\ human\ does\ during\ the\ night\:\ Gives\ birth\ and\ Sleeps\r\n\ In\ the\ process\ it\ might,\ die\ of\ infection,\ spread\ an\ infection\ or\ get\ cured\r\n\ \r\n\ @param\ newHuman\ A\ list\ to\ return\ newly\ born\ humans.\r\n
 numComments=4

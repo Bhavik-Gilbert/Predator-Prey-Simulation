@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * A simple model of a human.
  * Human age, move, eat dodos and pigs, and die.
  * 
- * @author Bhavik Gilbert and Heman Seegolam
+ * @author Bhavik Gilbert(K21004990) and Heman Seegolam(K21003628)
  * @version (28/02/2022)
  */
 public class Human extends Animal

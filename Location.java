@@ -1,7 +1,7 @@
 /**
  * Represent a location in a rectangular grid.
  * 
- * @author Bhavik Gilbert and Heman Seegolam
+ * @author Bhavik Gilbert(K21004990) and Heman Seegolam(K21003628)
  * @version (28/02/2022)
  */
 public class Location
@@ -37,6 +37,7 @@ public class Location
     
     /**
      * Return a string of the form row,column
+     * 
      * @return A string representation of the location.
      */
     public String toString()
@@ -48,6 +49,7 @@ public class Location
      * Use the top 16 bits for the row value and the bottom for
      * the column. Except for very big grids, this should give a
      * unique hash code for each (row, col) pair.
+     * 
      * @return A hashcode for the location.
      */
     public int hashCode()

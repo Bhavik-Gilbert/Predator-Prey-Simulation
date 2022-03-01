@@ -1,16 +1,16 @@
 #BlueJ class context
 comment0.target=Dodo
-comment0.text=\n\ A\ simple\ model\ of\ a\ dodo.\n\ Dodos\ age,\ move,\ reproduce,\ eat\ plants,\ and\ die.\n\ \n\ @author\ Bhavik\ Gilbert\ and\ Heman\ Seegolam\n\ @version\ (28/02/2022)\n
+comment0.text=\r\n\ A\ simple\ model\ of\ a\ dodo.\r\n\ Dodos\ age,\ move,\ reproduce,\ eat\ plants,\ and\ die.\r\n\ \r\n\ @author\ Bhavik\ Gilbert(K21004990)\ and\ Heman\ Seegolam(K21003628)\r\n\ @version\ (28/02/2022)\r\n
 comment1.params=randomAge\ field\ location\ infected
 comment1.target=Dodo(boolean,\ Field,\ Location,\ boolean)
-comment1.text=\n\ Create\ a\ dodo.\ A\ dodo\ can\ be\ created\ as\ a\ new\ born\ (age\ zero\n\ and\ not\ hungry)\ or\ with\ a\ random\ age\ and\ food\ level.\n\ \n\ @param\ randomAge\ If\ true,\ the\ dodo\ will\ have\ random\ age\ and\ hunger\ level.\n\ @param\ field\ \ \ \ \ The\ field\ currently\ occupied.\n\ @param\ location\ \ The\ location\ within\ the\ field.\n\ @param\ overlap\ \ \ Whether\ or\ not\ an\ actor\ is\ allowed\ to\ overlap\ with\ other\ actors\n\ @param\ infected\ \ Boolean\ value\ determining\ if\ the\ animal\ is\ infected\ or\ not\n
+comment1.text=\r\n\ Create\ a\ dodo.\ A\ dodo\ can\ be\ created\ as\ a\ new\ born\ (age\ zero\r\n\ and\ not\ hungry)\ or\ with\ a\ random\ age\ and\ food\ level.\r\n\ \r\n\ @param\ randomAge\ If\ true,\ the\ dodo\ will\ have\ random\ age\ and\ hunger\ level.\r\n\ @param\ field\ \ \ \ \ The\ field\ currently\ occupied.\r\n\ @param\ location\ \ The\ location\ within\ the\ field.\r\n\ @param\ overlap\ \ \ Whether\ or\ not\ an\ actor\ is\ allowed\ to\ overlap\ with\ other\ actors\r\n\ @param\ infected\ \ Boolean\ value\ determining\ if\ the\ animal\ is\ infected\ or\ not\r\n
 comment2.params=newDodos
 comment2.target=void\ dayAct(java.util.List)
-comment2.text=\n\ This\ is\ what\ the\ dodo\ does\ during\ the\ day\:\ it\ looks\ for\ plants\ and\ tries\ to\ breed\n\ In\ the\ process\ it\ might\ move,\ die\ of\ hunger,\ die\ of\ infection,\ get\ cured,\ spread\ an\ infection,\ or\ die\ of\ old\ age.\n\ \n\ @param\ newDodos\ A\ list\ to\ return\ newly\ born\ Dodos.\n
+comment2.text=\r\n\ This\ is\ what\ the\ dodo\ does\ during\ the\ day\:\ it\ looks\ for\ plants\ and\ tries\ to\ breed\r\n\ In\ the\ process\ it\ might\ move,\ die\ of\ hunger,\ die\ of\ infection,\ get\ cured,\ spread\ an\ infection,\ or\ die\ of\ old\ age.\r\n\ \r\n\ @param\ newDodos\ A\ list\ to\ return\ newly\ born\ Dodos.\r\n
 comment3.params=newDodos
 comment3.target=void\ nightAct(java.util.List)
-comment3.text=\n\ This\ is\ what\ the\ dodos\ do\ during\ the\ night\:\ \ Sleeps\ and\ Attacks\ predators\n\ In\ the\ process\ it\ might,\ die\ of\ infection\ or\ spread\ an\ infection\n\ @param\ newDodos\ A\ list\ to\ return\ newly\ born\ Dodos.\n
+comment3.text=\r\n\ This\ is\ what\ the\ dodos\ do\ during\ the\ night\:\ \ Sleeps\ and\ Attacks\ predators\r\n\ In\ the\ process\ it\ might,\ die\ of\ infection\ or\ spread\ an\ infection\r\n\ \r\n\ @param\ newDodos\ A\ list\ to\ return\ newly\ born\ Dodos.\r\n
 comment4.params=
 comment4.target=Location\ chargePredator()
-comment4.text=\n\ Dodo's\ attack\ their\ known\ predators\n\ Looks\ at\ all\ adjacent\ locations,\ and\ attacks\ first\ predator\ found\n\ Dodo\ moves\ into\ the\ position\ the\ predator\ was\n
+comment4.text=\r\n\ Dodo's\ attack\ their\ known\ predators\r\n\ Looks\ at\ all\ adjacent\ locations,\ and\ attacks\ first\ predator\ found\r\n\ Dodo\ moves\ into\ the\ position\ the\ predator\ was\r\n
 numComments=5

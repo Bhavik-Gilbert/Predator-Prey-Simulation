@@ -6,7 +6,7 @@ import java.util.HashSet;
  * A simple model of a dodo.
  * Dodos age, move, reproduce, eat plants, and die.
  * 
- * @author Bhavik Gilbert and Heman Seegolam
+ * @author Bhavik Gilbert(K21004990) and Heman Seegolam(K21003628)
  * @version (28/02/2022)
  */
 public class Dodo extends Animal
@@ -107,6 +107,7 @@ public class Dodo extends Animal
     /**
      * This is what the dodos do during the night:  Sleeps and Attacks predators
      * In the process it might, die of infection or spread an infection
+     * 
      * @param newDodos A list to return newly born Dodos.
      */
     protected void nightAct(List<Actor> newDodos)
@@ -132,7 +133,8 @@ public class Dodo extends Animal
      * Looks at all adjacent locations, and attacks first predator found
      * Dodo moves into the position the predator was
      */
-    private Location chargePredator(){
+    private Location chargePredator()
+    {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
         List<Location> charge = new ArrayList<>();

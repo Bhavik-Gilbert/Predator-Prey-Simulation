@@ -1,5 +1,6 @@
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -9,7 +10,7 @@ import java.awt.Color;
  * A simple predator-prey simulator, based on a rectangular field
  * containing dodos, humans, monkeys, tortoises and pigs.
  * 
- * @author Bhavik Gilbert and Heman Seegolam
+ * @author Bhavik Gilbert(K21004990) and Heman Seegolam(K21003628)
  * @version (28/02/2022)
  */
 public class Simulator
@@ -66,7 +67,7 @@ public class Simulator
     // A graphical view of the simulation.
     private SimulatorView view;
     // Thread scheduler to control the number of threads the simulator can use
-    private Executor executorService = new Executor(Runtime.getRuntime().availableProcessors());
+    private Executor executorService;
 
     // State of simulation
     // Dictates if the simulation is paused or not
@@ -75,11 +76,10 @@ public class Simulator
     private boolean stopped;
     
     //runs main simulation
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
         Simulator simulator = new Simulator();
-        //simulator.simulateOneStep();
-        AnimalsPieChart pieChart = new AnimalsPieChart();
-        //simulator.runLongSimulation();
+        simulator.runLongSimulation();
     }
 
     /**
@@ -104,6 +104,7 @@ public class Simulator
             width = DEFAULT_WIDTH;
         }
         
+        executorService = new Executor(Runtime.getRuntime().availableProcessors());
         actors = new ArrayList<>();
         field = new Field(depth, width);
         this.numSteps = 0;
@@ -138,7 +139,8 @@ public class Simulator
      * Run the simulation from its current state for a short period,
      * (5 days).
      */
-    public void runShortSimulation() {
+    public void runShortSimulation() 
+    {
         simulate(10);
     }
     
@@ -162,7 +164,8 @@ public class Simulator
      * Runs method to simulate a single step if conditions met
      * Conditions: not paused, simulation steps not reached, executor open, field viable
      */
-    private void simulateStep(){
+    private void simulateStep()
+    {
         // simulates step if simulation should continue
         if(!paused && !stopped && view.isViable(field)){
             simulateOneStep();
@@ -190,7 +193,8 @@ public class Simulator
      * Simulates one step if paused
      * Cannot simulate a step if simulation is running
      */
-    public void forceSimulateOneStep(){
+    public void forceSimulateOneStep()
+    {
         if(paused || stopped){
             simulateOneStep();
         }
@@ -203,7 +207,8 @@ public class Simulator
      * Run the simulation from its current state for a single step
      * Iterate over the whole field updating the state of each actor
      */
-    private void simulateOneStep() {
+    private void simulateOneStep() 
+    {
         step++;
 
         // Provide space for newborn actors.
@@ -333,7 +338,8 @@ public class Simulator
      * @param total Probability list
      * @return Running total probability list
     */
-    private double[] getTotalProbability(double[] total){
+    private double[] getTotalProbability(double[] total)
+    {
         for(int i=0; i < total.length-1; i++){
             total[i+1]+=total[i];
         }
@@ -345,7 +351,8 @@ public class Simulator
      * Checks if the simulation should be ended
      * Dictated by the number of sets set to be shown
      */
-    private void checkSimulationEnd(){
+    private void checkSimulationEnd()
+    {
         if(numSteps == step){
             stopSimulation();
         }
@@ -354,7 +361,8 @@ public class Simulator
     /**
      * Sets stopped and paused to false
      */
-    private void start() {
+    private void start()
+    {
         stopped = false;
         paused = false;
 
@@ -373,7 +381,8 @@ public class Simulator
     /**
      * Shutdown the simulator executor
      */
-    public void shutdownSimulation() {
+    public void shutdownSimulation() 
+    {
         executorService.shutdown();
         System.out.println("Simulator Shutdown");
         System.exit(0);
@@ -382,7 +391,8 @@ public class Simulator
     /**
      * Sets paused value of simulation
      */
-    public void setPauseSimulation(boolean pause) {
+    public void setPauseSimulation(boolean pause) 
+    {
         if(pause == paused){
             if(paused){
                 System.out.println("Simulator already paused");
@@ -406,7 +416,8 @@ public class Simulator
      * 
      * @param weather The weather to be changed to
      */
-    public void setCurrentWeather(Weather weather){
+    public void setCurrentWeather(Weather weather)
+    {
         if(weather != null && currentWeather != null && this.currentWeather.equals(weather)){
             System.out.println("The weather is already set to " + currentWeather);
             return;
@@ -425,7 +436,8 @@ public class Simulator
      *  
      * @return The current weather conditions of the simulation
      */
-    private Weather getWeather(){
+    private Weather getWeather()
+    {
         if(currentWeather == null){
             return randomWeather();
         }
@@ -437,7 +449,8 @@ public class Simulator
     /**
      * Generates a random weather from the Weather ENUM
      */
-    private Weather randomWeather() {
+    private Weather randomWeather() 
+    {
         Random rand = Randomizer.getRandom();
 
         double[] totalProbabilities = {SNOWY_PROBABILITY, FOGGY_PROBABILITY, RAINY_PROBABILITY, SUNNY_PROBABILITY};
@@ -468,7 +481,8 @@ public class Simulator
      * 
      * @param millisec The time to pause for, in milliseconds
      */
-    private void delay(int millisec) {
+    private void delay(int millisec) 
+    {
         try {
             Thread.sleep(millisec);
         } catch (InterruptedException ie) {
@@ -481,14 +495,16 @@ public class Simulator
      * 
      * @return The field used in the current simulation
      */
-    public Field getField(){
+    public Field getField()
+    {
         return field;
     }
 
     /*
     * Decrements the timeDelayIndex by 1 if not at 0  
     */
-    public void speedUpTimeDelay(){
+    public void speedUpTimeDelay()
+    {
         if(timeDelayIndex > 0){
             timeDelayIndex--;
         }
@@ -500,7 +516,8 @@ public class Simulator
     /*
      * Increments the timeDelayIndex by 1 if not at last element
      */
-    public void slowDownTimeDelay() {
+    public void slowDownTimeDelay() 
+    {
         if (timeDelayIndex < timeDelayList.size()-1) {
             timeDelayIndex++;
         }

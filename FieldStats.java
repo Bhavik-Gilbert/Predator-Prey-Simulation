@@ -6,13 +6,13 @@ import java.util.ArrayList;
  * of a field. It is flexible: it will create and maintain a counter
  * for any class of object that is found within the field.
  * 
- * @author Bhavik Gilbert and Heman Seegolam
+ * @author Bhavik Gilbert(K21004990) and Heman Seegolam(K21003628)
  * @version (28/02/2022)
  */
 public class FieldStats
 {
     // Counters for each type of entity in the simulation.
-    private static HashMap<Class, Counter> counters;
+    private HashMap<Class, Counter> counters;
     // Whether the counters are currently up to date.
     private boolean countsValid;
     // What actors to ignore in viability of running
@@ -33,6 +33,7 @@ public class FieldStats
 
     /**
      * Get details of what is in the field.
+     * 
      * @return A string describing what is in the field.
      */
     public String getPopulationDetails(Field field)
@@ -50,31 +51,6 @@ public class FieldStats
         }
         return buffer.toString();
     }
-
-    /**UNUSED, MADE FOR GRAPH
-     * Get details of what is in the field.
-     * @return A list describing what is in the field.
-     */
-    public HashMap<String,Integer> getPopulationNumerics(Field field) {
-        HashMap<String, Integer> animalDesc = new HashMap<>();
-        if (!countsValid) {
-            generateCounts(field);
-        }
-        for (Class key : counters.keySet()) {
-            Counter info = counters.get(key);
-            animalDesc.put(info.getName(), info.getCount());
-        }
-        return animalDesc;
-    }
-    
-    /**
-     * Return the counters hash map.
-     * @return The counters hash map.
-     */
-    public static HashMap<Class, Counter> getCounter()
-    {
-        return counters;
-    }
     
     /**
      * Invalidate the current set of statistics; reset all 
@@ -91,6 +67,7 @@ public class FieldStats
 
     /**
      * Increment the count for one class of animal.
+     * 
      * @param animalClass The class of animal to increment.
      */
     public void incrementCount(Class animalClass)
@@ -116,6 +93,7 @@ public class FieldStats
     /**
      * Determine whether the simulation is still viable.
      * I.e., should it continue to run.
+     * 
      * @return true If there is more than one species alive.
      */
     public boolean isViable(Field field)
@@ -143,6 +121,7 @@ public class FieldStats
      * These are not kept up to date a actors
      * are placed in the field, but only when a request
      * is made for the information.
+     * 
      * @param field The field to generate the stats for.
      */
     private void generateCounts(Field field)

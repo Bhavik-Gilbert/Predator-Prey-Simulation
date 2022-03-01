@@ -6,14 +6,6 @@ import javax.swing.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.scene.chart.*;
-import javafx.scene.Group;
-
 /**
  * A graphical view of the simulation grid.
  * The view displays a colored rectangle for each location
@@ -21,7 +13,7 @@ import javafx.scene.Group;
  * Colors for each type of species can be defined using the
  * setColor method.
  * 
- * @author Bhavik Gilbert(K21004990) and Heman Seegolam(21003628)
+ * @author Bhavik Gilbert(K21004990) and Heman Seegolam(K21003628)
  * @version (28/02/2022)
  */
 public class SimulatorView extends JFrame
@@ -32,7 +24,6 @@ public class SimulatorView extends JFrame
     // Color used for objects that have no defined color.
     private static final Color UNKNOWN_COLOR = Color.gray;
 
-    // GUI variables for simulator
     private final String DAY_PREFIX = "Day: ";
     private final String TIME_PREFIX = "Time: ";
     private final String POPULATION_PREFIX = "Population: ";
@@ -333,6 +324,7 @@ public class SimulatorView extends JFrame
     
     /**
      * Define a color to be used for a given class of actor.
+     * 
      * @param actorClass The actor's Class object.
      * @param color      The color to be used for the given class.
      */
@@ -390,6 +382,7 @@ public class SimulatorView extends JFrame
 
     /**
      * Show the current status of the field.
+     * 
      * @param step Which iteration step it is.
      * @param totalDays The number of steps the simulator is running for
      * @param field The field whose status is to be displayed.
@@ -425,7 +418,8 @@ public class SimulatorView extends JFrame
      * 
      * @param field The field the viewer is currently representing
      */
-    private void updatePanel(Field field){
+    private void updatePanel(Field field)
+    {
         fieldView.preparePaint();
 
         for (int row = 0; row < field.getDepth(); row++) {
@@ -447,6 +441,7 @@ public class SimulatorView extends JFrame
 
     /**
      * Determine whether the simulation should continue to run.
+     * 
      * @param field The field the viewer is displaying
      * @return true If there is more than one species alive.
      */
@@ -463,7 +458,7 @@ public class SimulatorView extends JFrame
      * This is rather advanced GUI stuff - you can ignore this 
      * for your project if you like.
      */
-    public class FieldView extends JPanel
+    private class FieldView extends JPanel
     {
         private final int GRID_VIEW_SCALING_FACTOR = 6;
 

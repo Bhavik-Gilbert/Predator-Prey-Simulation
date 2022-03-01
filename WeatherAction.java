@@ -1,9 +1,10 @@
 import java.util.EnumMap;
+
 /**
  * Defines the actions that occur upon the actors under different weather
  * conditions.
  *
- * @author Bhavik Gilbert and Heman Seegolam
+ * @author Bhavik Gilbert(K21004990) and Heman Seegolam(K21003628)
  * @version (28/02/2022)
  */
 public class WeatherAction
@@ -36,6 +37,7 @@ public class WeatherAction
 
     /**
      * No weather objects are constructed
+     * All values are statically used
      */
     public WeatherAction()
     {

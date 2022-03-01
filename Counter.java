@@ -4,7 +4,7 @@
  * many participants of this type currently exist within
  * the simulation.
  * 
- * @author Bhavik Gilbert and Heman Seegolam
+ * @author Bhavik Gilbert(K21004990) and Heman Seegolam(K21003628)
  * @version (28/02/2022)
  */
 public class Counter
@@ -16,7 +16,8 @@ public class Counter
 
     /**
      * Provide a name for one of the simulation types.
-     * @param name  A name, e.g. "Fox".
+     * 
+     * @param name  A name, e.g. "Dodo".
      */
     public Counter(String name)
     {
