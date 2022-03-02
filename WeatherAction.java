@@ -11,29 +11,29 @@ public class WeatherAction
 {  
     // Map of weather conditions with numerical values for different weather effects on plants breeding.
     private static final EnumMap<Weather, Double> plantBreedEffect = new EnumMap<>(Weather.class){{
-        put(Weather.SUNNY, 1.5);
-        put(Weather.RAINY, 1.25);
-        put(Weather.SNOWY, 0.5);
-    }};
+                put(Weather.SUNNY, 1.5);
+                put(Weather.RAINY, 1.25);
+                put(Weather.SNOWY, 0.5);
+            }};
 
     // Map of weather conditions with numerical values for different weather effects on animals breeding.
     private static final EnumMap<Weather, Double> animalBreedEffect = new EnumMap<>(Weather.class) {
-        {
-            put(Weather.SUNNY, 1.5);
-            put(Weather.RAINY, 0.75);
-            put(Weather.SNOWY, 0.5);
-            put(Weather.FOGGY, 0.75);
-        }
-    };
+            {
+                put(Weather.SUNNY, 1.5);
+                put(Weather.RAINY, 0.75);
+                put(Weather.SNOWY, 0.5);
+                put(Weather.FOGGY, 0.75);
+            }
+        };
 
     // Map of weather conditions with numerical values for different weather effects on animals eating.
     private static final EnumMap<Weather, Double> animalHuntEffect = new EnumMap<>(Weather.class) {
-        {
-            put(Weather.RAINY, 0.5);
-            put(Weather.SNOWY, 0.25);
-            put(Weather.FOGGY, 0.5);
-        }
-    };
+            {
+                put(Weather.RAINY, 0.5);
+                put(Weather.SNOWY, 0.25);
+                put(Weather.FOGGY, 0.5);
+            }
+        };
 
     /**
      * No weather objects are constructed
@@ -64,7 +64,6 @@ public class WeatherAction
         return weatherEffect;
     }
 
-    
     /**
      * Returns a Map of modifiers for animals based on the actions they take.
      * If weather condition has no modifier, it is set to 1.
@@ -75,7 +74,7 @@ public class WeatherAction
     public static EnumMap<WeatherEffectTypes, Double> weatherOnAnimals(Weather weather)
     {
         EnumMap<WeatherEffectTypes, Double> weatherEffect = new EnumMap<>(WeatherEffectTypes.class);
-        
+
         if(animalBreedEffect.get(weather) != null){
             weatherEffect.put(WeatherEffectTypes.BREED, animalBreedEffect.get(weather));
         }

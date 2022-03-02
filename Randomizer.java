@@ -39,7 +39,7 @@ public class Randomizer
             return new Random();
         }
     }
-    
+
     /**
      * Reset the randomization.
      * This will have no effect if randomization is not through a shared Random generator.

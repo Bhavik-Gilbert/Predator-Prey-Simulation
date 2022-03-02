@@ -2,7 +2,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.locks.Condition;
 
-
 /**
  * Overriding and Extension of the ScheduledThreadPoolExecutor Class
  * Adds ability to pause and resume execution on new tasks
@@ -33,7 +32,7 @@ public class Executor extends ScheduledThreadPoolExecutor
     protected void beforeExecute(Thread t, Runnable r) 
     {
         lock.lock();
-            try {
+        try {
             while (paused)
                 change.await();
         } catch (InterruptedException ie) {

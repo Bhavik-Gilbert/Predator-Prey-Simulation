@@ -21,7 +21,7 @@ public class Location
         this.row = row;
         this.col = col;
     }
-    
+
     /**
      * Implement content equality.
      */
@@ -35,7 +35,7 @@ public class Location
             return false;
         }
     }
-    
+
     /**
      * Return a string of the form row,column
      * 
@@ -45,7 +45,7 @@ public class Location
     {
         return row + "," + col;
     }
-    
+
     /**
      * Use the top 16 bits for the row value and the bottom for
      * the column. Except for very big grids, this should give a
@@ -57,7 +57,7 @@ public class Location
     {
         return (row << 16) + col;
     }
-    
+
     /**
      * @return The row.
      */
@@ -65,7 +65,7 @@ public class Location
     {
         return row;
     }
-    
+
     /**
      * @return The column.
      */

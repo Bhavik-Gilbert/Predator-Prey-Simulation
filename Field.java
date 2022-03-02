@@ -14,7 +14,7 @@ public class Field
 {   
     // A random number generator for providing random locations.
     private static final Random rand = Randomizer.getRandom();
-    
+
     // The depth and width of the field.
     private int depth, width;
     // Storage for the actors.
@@ -32,7 +32,7 @@ public class Field
         this.width = width;
         field = new Object[depth][width];
     }
-    
+
     /**
      * Empty the field.
      */
@@ -44,7 +44,7 @@ public class Field
             }
         }
     }
-    
+
     /**
      * Clear the given location.
      * 
@@ -54,7 +54,7 @@ public class Field
     {
         field[location.getRow()][location.getCol()] = null;
     }
-    
+
     /**
      * Place an actor at the given location.
      * If there is already an actor at the location it will be lost.
@@ -68,7 +68,7 @@ public class Field
     {
         place(actor, new Location(row, col));
     }
-    
+
     /**
      * Place an actor at the given location.
      * If there is already an actor at the location it will be lost.
@@ -83,7 +83,7 @@ public class Field
             field[location.getRow()][location.getCol()] = actor;
         }
     }
-    
+
     /**
      * Return the actor at the given location, if any.
      * 
@@ -94,7 +94,7 @@ public class Field
     {
         return getObjectAt(location.getRow(), location.getCol());
     }
-    
+
     /**
      * Return the actor at the given location, if any.
      * 
@@ -106,7 +106,7 @@ public class Field
     {
         return field[row][col];
     }
-    
+
     /**
      * Generate a random location that is adjacent to the
      * given location, or is the same location.
@@ -121,7 +121,7 @@ public class Field
         List<Location> adjacent = adjacentLocations(location);
         return adjacent.get(0);
     }
-    
+
     /**
      * Get a shuffled list of the free adjacent locations.
      * 
@@ -146,7 +146,7 @@ public class Field
         }
         return free;
     }
-    
+
     /**
      * Try to find a free location that is adjacent to the
      * given location. If there is none, return null.
@@ -196,7 +196,7 @@ public class Field
                     }
                 }
             }
-            
+
             // Shuffle the list. Several other methods rely on the list
             // being in a random order.
             Collections.shuffle(locations, rand);
@@ -213,7 +213,7 @@ public class Field
     {
         return depth;
     }
-    
+
     /**
      * Return the width of the field.
      * 

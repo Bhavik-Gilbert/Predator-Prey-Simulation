@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Pig extends Animal
 {
     // Characteristics shared by all pigs (class variables).
-    
+
     // The age at which a pig can start to breed.
     private static final int BREEDING_AGE = 3;
     // The age to which a pig can live.
@@ -27,10 +27,10 @@ public class Pig extends Animal
     private static final double PIG_DEATH_FROM_DISEASE_PROBABILITY = 0.025;
     // List of all pig prey.
     private final ArrayList<Class> LIST_OF_PREY = new ArrayList<>() {
-        {
-            add(Dodo.class);
-        }
-    };
+            {
+                add(Dodo.class);
+            }
+        };
 
     /**
      * Create a pig. A pig can be created as a new born (age zero
@@ -63,7 +63,7 @@ public class Pig extends Animal
             foodLevel = BASIC_FOOD_LEVEL;
         }
     }
-    
+
     /**
      * This is what the pig does during the day: it hunts for dodos and tries to breed
      * In the process it might move, die of hunger, die of infection, get cured, spread an infection, or die of old age.
@@ -75,7 +75,7 @@ public class Pig extends Animal
         incrementAge();
         incrementHunger();
         dieInfection();
-        
+
         if(isAlive()) {
             giveBirth(newPigs);     
             cureInfected();
@@ -96,7 +96,7 @@ public class Pig extends Animal
             }
         }
     }
-    
+
     /**
      * This is what the pig does during the night: Sleeps
      * In the process it might, die of infection

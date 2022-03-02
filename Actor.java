@@ -7,7 +7,7 @@ import java.util.Random;
  * Determines it's state of life and location on the field
  * Creates existence of action method for subclasses 
  *
-* @author Bhavik Gilbert(K21004990) and Heman Seegolam(K21003628)
+ * @author Bhavik Gilbert(K21004990) and Heman Seegolam(K21003628)
  * @version (28/02/2022)
  */
 public abstract class Actor
@@ -90,7 +90,7 @@ public abstract class Actor
             field = null;
         }
     }
-    
+
     /**
      * Returns the current time of day 
      * 
@@ -110,7 +110,7 @@ public abstract class Actor
     {
         return false;
     }
-    
+
     /**
      * Plays out the actions taken by the actor during the day.
      * 
@@ -124,7 +124,7 @@ public abstract class Actor
      * @param newActors A list to return newly born actors.
      */
     protected abstract void nightAct(List<Actor> newActors);
-    
+
     /**
      * Gets food value of animal or plants
      * 
@@ -174,7 +174,7 @@ public abstract class Actor
     {
         return location;
     }
-    
+
     /**
      * Places the actor at the new location in the given field.
      * 
@@ -188,7 +188,7 @@ public abstract class Actor
         location = newLocation;
         field.place(this, newLocation);
     }
-    
+
     /**
      * Return the actor's field.
      * 
@@ -198,7 +198,7 @@ public abstract class Actor
     {
         return field;
     }
-    
+
     /**
      * Return Whether the actor can overlap with other actors.
      * 

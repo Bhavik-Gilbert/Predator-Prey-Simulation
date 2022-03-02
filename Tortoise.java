@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Tortoise extends Animal
 {
     // Characteristics shared by all tortoises (class variables).
-    
+
     // The age at which a tortoise can start to breed.
     private static final int BREEDING_AGE = 10;
     // The age to which a tortoise can live.
@@ -27,11 +27,11 @@ public class Tortoise extends Animal
     private static final double TORTOISE_DEATH_FROM_DISEASE_PROBABILITY = 0.015;
     // List of all tortoise prey.
     private final ArrayList<Class> LIST_OF_PREY = new ArrayList<>() {
-        {
-            add(Plant.class);
-        }
-    };
-    
+            {
+                add(Plant.class);
+            }
+        };
+
     /**
      * Create a tortoise. A tortoise can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
@@ -64,7 +64,7 @@ public class Tortoise extends Animal
             foodLevel = BASIC_FOOD_LEVEL;
         }
     }
-    
+
     /**
      * This is what the dodo does during the day: it looks for plants and tries to breed
      * In the process it might move, die of hunger, die of infection, get cured, spread an infection, or die of old age.
@@ -76,7 +76,7 @@ public class Tortoise extends Animal
         incrementAge();
         incrementHunger();
         dieInfection();
-        
+
         if(isAlive()) {
             giveBirth(newTortoises);
             cureInfected();
@@ -98,7 +98,7 @@ public class Tortoise extends Animal
             }
         }
     }
-    
+
     /**
      * This is what the tortoise does during the night: Sleeps
      * In the process it might, get cured or spread an infection

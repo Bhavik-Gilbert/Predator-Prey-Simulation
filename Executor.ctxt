@@ -1,16 +1,16 @@
 #BlueJ class context
 comment0.target=Executor
-comment0.text=\r\n\ Overriding\ and\ Extension\ of\ the\ ScheduledThreadPoolExecutor\ Class\r\n\ Adds\ ability\ to\ pause\ and\ resume\ execution\ on\ new\ tasks\r\n\ Checks\ and\ holds\ execution\ before\ tasks\ across\ all\ threads\r\n\ \r\n\ @author\ Bhavik\ Gilbert(K21004990)\ and\ Heman\ Seegolam(K21003628)\r\n\ @version\ (28/02/2022)\r\n
+comment0.text=\n\ Overriding\ and\ Extension\ of\ the\ ScheduledThreadPoolExecutor\ Class\n\ Adds\ ability\ to\ pause\ and\ resume\ execution\ on\ new\ tasks\n\ Checks\ and\ holds\ execution\ before\ tasks\ across\ all\ threads\n\ \n\ @author\ Bhavik\ Gilbert(K21004990)\ and\ Heman\ Seegolam(K21003628)\n\ @version\ (28/02/2022)\n
 comment1.params=coreNumber
 comment1.target=Executor(int)
-comment1.text=\r\n\ Default\ constructor\ for\ a\ fixed\ set\ of\ threads\ thread\r\n
+comment1.text=\n\ Default\ constructor\ for\ a\ fixed\ set\ of\ threads\ thread\n
 comment2.params=t\ r
 comment2.target=void\ beforeExecute(java.lang.Thread,\ java.lang.Runnable)
-comment2.text=\r\n\ What\ is\ executed\ before\ a\ task\ is\ given\ to\ a\ thread.\r\n\ Pauses\ execution\ if\ paused\ until\ execution\ resumed\r\n
+comment2.text=\n\ What\ is\ executed\ before\ a\ task\ is\ given\ to\ a\ thread.\n\ Pauses\ execution\ if\ paused\ until\ execution\ resumed\n
 comment3.params=
 comment3.target=void\ resume()
-comment3.text=\r\n\ Resumes\ the\ execution\r\n
+comment3.text=\n\ Resumes\ the\ execution\n
 comment4.params=
 comment4.target=void\ pause()
-comment4.text=\r\n\ Pauses\ the\ execution.\ Current\ task\ will\ continue\r\n\ But\ new\ tasks\ will\ not\ start\ until\ the\ execution\ service\ is\ resumed.\r\n
+comment4.text=\n\ Pauses\ the\ execution.\ Current\ task\ will\ continue\n\ But\ new\ tasks\ will\ not\ start\ until\ the\ execution\ service\ is\ resumed.\n
 numComments=5

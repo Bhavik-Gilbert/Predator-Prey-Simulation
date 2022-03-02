@@ -12,7 +12,7 @@ import java.util.HashSet;
 public class Dodo extends Animal
 {
     // Characteristics shared by all Dodos (class variables).
-    
+
     // The age at which a dodo can start to breed.
     private static final int BREEDING_AGE = 3;
     // The age to which a dodo can live.
@@ -30,10 +30,10 @@ public class Dodo extends Animal
     private static final double DODO_DEATH_FROM_DISEASE_PROBABILITY = 0.005;
     // List of all dodo prey.
     private final ArrayList<Class> LIST_OF_PREY = new ArrayList<>() {
-        {
-            add(Plant.class);
-        }
-    };
+            {
+                add(Plant.class);
+            }
+        };
 
     /**
      * Create a dodo. A dodo can be created as a new born (age zero
@@ -66,7 +66,7 @@ public class Dodo extends Animal
             foodLevel = BASIC_FOOD_LEVEL;
         }
     }
-    
+
     /**
      * This is what the dodo does during the day: it looks for plants and tries to breed
      * In the process it might move, die of hunger, die of infection, get cured, spread an infection, or die of old age.
@@ -78,8 +78,7 @@ public class Dodo extends Animal
         incrementAge();
         incrementHunger();
         dieInfection();
-        
-        
+
         if(isAlive()) {            
             giveBirth(newDodos);   
             cureInfected();
@@ -96,13 +95,13 @@ public class Dodo extends Animal
                 setLocation(newLocation);
             }
             else {
-                
+
                 // Overcrowding.
                 setDead();
             }
         }
     }
-    
+
     /**
      * This is what the dodos do during the night:  Sleeps and Attacks predators
      * In the process it might, die of infection or spread an infection
@@ -111,14 +110,13 @@ public class Dodo extends Animal
      */
     protected void nightAct(List<Actor> newDodos)
     {
-        
+
         dieInfection();
-        
 
         if (isAlive()) {
             cureInfected();
             spreadVirus();
-            
+
             // Charges into predator killing it
             Location newLocation = chargePredator();
             if (newLocation != null && (ATTACK_CHANCE >= rand.nextDouble())) {
@@ -126,7 +124,7 @@ public class Dodo extends Animal
             }
         }
     }
-    
+
     /**
      * Dodo's attack their known predators
      * Looks at all adjacent locations, and attacks first predator found
@@ -139,19 +137,19 @@ public class Dodo extends Animal
         List<Location> charge = new ArrayList<>();
 
         adjacent.forEach(where ->{
-            Object actor = field.getObjectAt(where);
-            HashSet<Class> setOfPredators = MAP_OF_PREDATORS.get(this.getClass());
-            if(actor!=null && setOfPredators.contains(actor.getClass())){
-                if(rand.nextDouble() <= ATTACK_CHANCE){
-                    Animal prey = (Animal) actor;
-                    if(prey.isAlive()) { 
-                        prey.setDead();
-                        foodLevel += prey.getFoodValue();
-                        charge.add(where);
+                Object actor = field.getObjectAt(where);
+                HashSet<Class> setOfPredators = MAP_OF_PREDATORS.get(this.getClass());
+                if(actor!=null && setOfPredators.contains(actor.getClass())){
+                    if(rand.nextDouble() <= ATTACK_CHANCE){
+                        Animal prey = (Animal) actor;
+                        if(prey.isAlive()) { 
+                            prey.setDead();
+                            foodLevel += prey.getFoodValue();
+                            charge.add(where);
+                        }
                     }
                 }
-            }
-        });
+            });
 
         if(!charge.isEmpty()){
             return charge.get(0);
@@ -159,5 +157,5 @@ public class Dodo extends Animal
 
         return null;
     }
-    
+
 }

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Human extends Animal
 {
     // Characteristics shared by all human (class variables).
-    
+
     // The age at which a human can start to breed.
     private static final int BREEDING_AGE = 18;
     // The age to which a human can live.
@@ -27,11 +27,11 @@ public class Human extends Animal
     private static final double HUMAN_DEATH_FROM_DISEASE_PROBABILITY = 0.05;
     // List of all human prey.
     private final ArrayList<Class> LIST_OF_PREY = new ArrayList<>() {
-        {
-            add(Dodo.class);
-            add(Pig.class);
-        }
-    };
+            {
+                add(Dodo.class);
+                add(Pig.class);
+            }
+        };
 
     /**
      * Create a human. A human can be created as a new born (age zero
@@ -54,7 +54,6 @@ public class Human extends Animal
         setBreedingProbability(BREEDING_PROBABILITY);
         setMaxLitter(MAX_LITTER_SIZE);
         setMaxAge(MAX_AGE);
-        
 
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
@@ -65,7 +64,7 @@ public class Human extends Animal
             foodLevel = BASIC_FOOD_LEVEL;
         }
     }
-    
+
     /**
      * This is what the human does during the day: it hunts for dodos and pigs.
      * In the process it might move, die of hunger, die of infection, get cured, spread an infection, or die of old age.
@@ -77,12 +76,11 @@ public class Human extends Animal
         incrementAge();
         incrementHunger();
         dieInfection();
-        
-        
+
         if(isAlive()) {   
             cureInfected();
             spreadVirus();
-               
+
             // Move towards a source of food if found.
             Location newLocation = super.findFood(LIST_OF_PREY);
             if(newLocation == null) { 
@@ -99,7 +97,7 @@ public class Human extends Animal
             }
         }
     }
-    
+
     /**
      * This is what the human does during the night: Gives birth and sleeps.
      * In the process it might, die of infection, spread an infection or get cured.
@@ -109,7 +107,6 @@ public class Human extends Animal
     protected void nightAct(List<Actor> newHuman)
     {
         dieInfection();
-        
 
         if(isAlive()) {
             giveBirth(newHuman);

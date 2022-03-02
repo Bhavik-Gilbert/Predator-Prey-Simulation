@@ -45,7 +45,6 @@ public abstract class Animal extends Actor
     // Whether an animal is infected by disease or not.
     protected boolean infected;
 
-    
     /**
      * Create a new animal at location in field.
      * 
@@ -84,7 +83,7 @@ public abstract class Animal extends Actor
     {
         MAX_AGE = maxAge;
     }
-    
+
     /**
      * Sets the minimum age the animal can start breeding.
      * 
@@ -105,7 +104,6 @@ public abstract class Animal extends Actor
         BREEDING_PROBABILITY = breedingProbability;
     }
 
-
     /**
      * Sets the maximum litter per breeding period for an animal.
      * 
@@ -125,7 +123,7 @@ public abstract class Animal extends Actor
     {
         this.gender = gender;
     }
-    
+
     /**
      * Sets the base number of steps predator gains for eating this animal.
      * 
@@ -135,6 +133,7 @@ public abstract class Animal extends Actor
     {
         FOOD_VALUE = foodValue;
     }
+
     /**
      * Generates a random gender from the Gender ENUM.
      * Call setGender to give animal this random gender.
@@ -143,7 +142,7 @@ public abstract class Animal extends Actor
     {
         setGender(Gender.values()[rand.nextInt(Gender.values().length)]);
     }            
-    
+
     /**
      * Gets the gender of the animal.
      * 
@@ -176,16 +175,15 @@ public abstract class Animal extends Actor
         List<Animal> partnerList = new ArrayList<>();
 
         adjacentLocations.forEach(adjacentLocation -> {
-            Object actor = field.getObjectAt(adjacentLocation);
-            if (actor instanceof Animal) {
-                Animal animal = (Animal) actor;
-                // Check for same species and opposite gender.
-                if (this.getClass().equals(animal.getClass()) && !(this.getGender().equals(animal.getGender()))) {
-                    partnerList.add(animal);
+                Object actor = field.getObjectAt(adjacentLocation);
+                if (actor instanceof Animal) {
+                    Animal animal = (Animal) actor;
+                    // Check for same species and opposite gender.
+                    if (this.getClass().equals(animal.getClass()) && !(this.getGender().equals(animal.getGender()))) {
+                        partnerList.add(animal);
+                    }
                 }
-            }
-        });
-        
+            });
 
         return age >= BREEDING_AGE && !partnerList.isEmpty();
     }
@@ -230,7 +228,7 @@ public abstract class Animal extends Actor
 
         return food;
     }
-    
+
     /**
      * Look for prey / plants adjacent to the current location.
      * Only the first live prey or plant is eaten.
@@ -246,26 +244,26 @@ public abstract class Animal extends Actor
         List<Location> availablePrey = new ArrayList<>();
 
         adjacent.forEach(where -> {
-            Object object = field.getObjectAt(where);
-            if (object != null){
-                Actor actor = (Actor) object;
-                // if actor type is in list of prey for predator, prey is alive and probability for eating met.
-                if ((listOfPrey.contains(actor.getClass())) && (rand.nextDouble() <= EATING_PROBABILITY * effectHuntingProbability()) && (actor.isAlive())) { 
-                    actor.setDead();
-                    foodLevel += actor.getFoodValue();
-                    if(actor instanceof Animal){
-                        Animal animal = (Animal) actor;
-                        this.infected = this.infected || animal.getInfected();
+                Object object = field.getObjectAt(where);
+                if (object != null){
+                    Actor actor = (Actor) object;
+                    // if actor type is in list of prey for predator, prey is alive and probability for eating met.
+                    if ((listOfPrey.contains(actor.getClass())) && (rand.nextDouble() <= EATING_PROBABILITY * effectHuntingProbability()) && (actor.isAlive())) { 
+                        actor.setDead();
+                        foodLevel += actor.getFoodValue();
+                        if(actor instanceof Animal){
+                            Animal animal = (Animal) actor;
+                            this.infected = this.infected || animal.getInfected();
 
-                        // Adds this animal to a set of predators for the prey.
-                        HashSet<Class> listOfPredators = MAP_OF_PREDATORS.get(animal.getClass());
-                        listOfPredators.add(this.getClass());
-                        MAP_OF_PREDATORS.replace(animal.getClass(), listOfPredators);
+                            // Adds this animal to a set of predators for the prey.
+                            HashSet<Class> listOfPredators = MAP_OF_PREDATORS.get(animal.getClass());
+                            listOfPredators.add(this.getClass());
+                            MAP_OF_PREDATORS.replace(animal.getClass(), listOfPredators);
+                        }
+                        availablePrey.add(where);
                     }
-                    availablePrey.add(where);
                 }
-            }
-        });
+            });
 
         if(!availablePrey.isEmpty()){
             return availablePrey.get(0);
@@ -337,15 +335,15 @@ public abstract class Animal extends Actor
             List<Location> adjacentLocations = field.adjacentLocations(getLocation());
 
             adjacentLocations.forEach(adjacent -> {
-                Object object = field.getObjectAt(adjacent);
-                if(object instanceof Animal){
-                    Animal animal = (Animal) object;
-                    if(rand.nextDouble() > VIRUS_SPREAD_PROBABILITY){
-                        animal.infect();
+                    Object object = field.getObjectAt(adjacent);
+                    if(object instanceof Animal){
+                        Animal animal = (Animal) object;
+                        if(rand.nextDouble() > VIRUS_SPREAD_PROBABILITY){
+                            animal.infect();
+                        }
                     }
-                }
-                
-            });
+
+                });
         }
     }
 
@@ -356,7 +354,7 @@ public abstract class Animal extends Actor
     {
         this.infected = true;
     }
-    
+
     /**
      * Returns whether or not this animal is infected with a virus.
      * 

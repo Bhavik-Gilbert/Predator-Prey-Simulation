@@ -24,9 +24,9 @@ public class Plant extends Actor
     private static final int PLANT_FOOD_VALUE = 7;
     // A map containing values that can affect how the plant reacts based off the weather.
     private EnumMap<WeatherEffectTypes, Double> weatherEffect = new EnumMap<>(WeatherEffectTypes.class);
-    
+
     // Individual characteristics (instance fields).
-    
+
     // The plant's age.
     private int age;
 
@@ -62,7 +62,7 @@ public class Plant extends Actor
             giveBirth(newPlants);            
         }
     }
-    
+
     /**
      * This is what the plant does during the night.
      * It may breed at a decreased rate.
@@ -115,7 +115,7 @@ public class Plant extends Actor
             }
         }
     }
-        
+
     /**
      * Generate a number representing the number of births,
      * if it can breed.

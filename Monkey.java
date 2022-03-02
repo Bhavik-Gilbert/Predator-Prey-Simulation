@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Monkey extends Animal
 {
     // Characteristics shared by all monkeys (class variables).
-    
+
     // The age at which a monkey can start to breed.
     private static final int BREEDING_AGE = 4;
     // The age to which a monkey can live.
@@ -27,10 +27,10 @@ public class Monkey extends Animal
     private static final double MONKEY_DEATH_FROM_DISEASE_PROBABILITY = 0.05;
     // List of all monkey prey.
     private final ArrayList<Class> LIST_OF_PREY = new ArrayList<>() {
-        {
-            add(Dodo.class);
-        }
-    };
+            {
+                add(Dodo.class);
+            }
+        };
 
     /**
      * Create a monkey. A monkey can be created as a new born (age zero
@@ -63,7 +63,7 @@ public class Monkey extends Animal
             foodLevel = BASIC_FOOD_LEVEL;
         }
     }
-    
+
     /**
      * This is what the monkey does during the day: it hunts for dodos and tries to breed
      * In the process it might move, die of hunger, die of infection, get cured, spread an infection, or die of old age.
@@ -97,7 +97,7 @@ public class Monkey extends Animal
             }
         }
     }
-    
+
     /**
      * This is what the monkey does during the night: Sleeps
      * In the process it might, die of infection

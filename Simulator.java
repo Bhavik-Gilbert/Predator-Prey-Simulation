@@ -44,14 +44,14 @@ public class Simulator
     private static final double DISEASE_CREATION_PROBABILITY = 0.05;
     // A list of time delays in to go through in milliseconds
     private static final ArrayList<Integer> timeDelayList = new ArrayList<>() {
-        {
-            add(50);
-            add(500);
-            add(1000);
-            add(3000);
-            add(5000);
-        }
-    }; 
+            {
+                add(50);
+                add(500);
+                add(1000);
+                add(3000);
+                add(5000);
+            }
+        }; 
 
     // List of actors in the field.
     private List<Actor> actors;
@@ -75,7 +75,7 @@ public class Simulator
     private boolean paused;
     // Dictates if the steps are finished or not
     private boolean stopped;
-    
+
     //runs main simulation
     public static void main(String[] args) 
     {
@@ -90,7 +90,7 @@ public class Simulator
     {
         this(DEFAULT_DEPTH, DEFAULT_WIDTH);
     }
-    
+
     /**
      * Create a simulation field with the given size.
      * 
@@ -105,7 +105,7 @@ public class Simulator
             depth = DEFAULT_DEPTH;
             width = DEFAULT_WIDTH;
         }
-        
+
         executorService = new Executor(Runtime.getRuntime().availableProcessors());
         actors = new ArrayList<>();
         field = new Field(depth, width);
@@ -127,7 +127,7 @@ public class Simulator
         // Setup a valid starting point.
         reset();
     }
-    
+
     /**
      * Run the simulation from its current state for a reasonably long period,
      * (200 days).
@@ -145,7 +145,7 @@ public class Simulator
     {
         simulate(10);
     }
-    
+
     /**
      * Run the simulation from its current state for the given number of steps.
      * Stop before the given number of steps if it ceases to be viable.
@@ -161,7 +161,7 @@ public class Simulator
             executorService.scheduleWithFixedDelay(this::simulateStep, 0, 1, TimeUnit.NANOSECONDS);
         }
     }
-    
+
     /**
      * Runs method to simulate a single step if conditions met
      * Conditions: not paused, simulation steps not reached, executor open, field viable
@@ -176,7 +176,6 @@ public class Simulator
             return;
         }
 
-        
         if(stopped){
             System.out.println("The simulation has been stopped, add more steps to continue running");
         }
@@ -204,7 +203,7 @@ public class Simulator
             System.out.println("Pause simulation to use this function");
         }
     }
-    
+
     /**
      * Run the simulation from its current state for a single step
      * Iterate over the whole field updating the state of each actor
@@ -224,15 +223,15 @@ public class Simulator
 
         // Let all actors act.
         actors.forEach(actor -> {
-            actor.act(newActors, step % 2, weather);
-            if (!actor.isAlive()) {
-                deadActors.add(actor);
-            } 
-            // gets number of infected animals
-            else if (actor.getInfected()) {
-                infected.add(actor);
-            }
-        });
+                actor.act(newActors, step % 2, weather);
+                if (!actor.isAlive()) {
+                    deadActors.add(actor);
+                } 
+                // gets number of infected animals
+                else if (actor.getInfected()) {
+                    infected.add(actor);
+                }
+            });
 
         // Removes dead actors to actors list
         deadActors.forEach(actor -> actors.remove(actor));
@@ -246,7 +245,7 @@ public class Simulator
 
         view.showStatus(step, numSteps, field, weather, infected.size());
     }
-        
+
     /**
      * Reset the simulation to a starting position.
      */
@@ -271,7 +270,7 @@ public class Simulator
         // Show the starting state in the view.
         view.showStatus(step, numSteps, field, weather, infected);
     }
-    
+
     /**
      * Randomly populate the field with actors.
      */
@@ -286,7 +285,7 @@ public class Simulator
 
         //number of infected actors
         int infected = 0;
-        
+
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
                 // Populate with animals and plants as per their probabilities    
@@ -297,7 +296,7 @@ public class Simulator
                     virus = true;
                     ++infected;
                 }
-                
+
                 if (rand.nextDouble() <= PLANT_CREATION_PROBABILITY) {
                     Plant plant = new Plant(true, field, location);
                     actors.add(plant);
@@ -325,7 +324,7 @@ public class Simulator
                 }
             }
         }
-        
+
         // Gives warning if spawn probability is above 1
         if(totalProbabilities[totalProbabilities.length-1] > 1){
             System.out.println("Your total spawn probability is above 1, there may be some unexpected errors in simulation as a result");
@@ -339,7 +338,7 @@ public class Simulator
      * 
      * @param total Probability list
      * @return Running total probability list
-    */
+     */
     private double[] getTotalProbability(double[] total)
     {
         for(int i=0; i < total.length-1; i++){
@@ -348,7 +347,7 @@ public class Simulator
 
         return total;
     }
-    
+
     /**
      * Checks if the simulation should be ended
      * Dictated by the number of sets set to be shown
@@ -371,7 +370,7 @@ public class Simulator
         // resumes execution across all threads
         executorService.resume();
     }
-    
+
     /**
      * Stops the current simulation
      */
@@ -503,8 +502,8 @@ public class Simulator
     }
 
     /*
-    * Decrements the timeDelayIndex by 1 if not at 0  
-    */
+     * Decrements the timeDelayIndex by 1 if not at 0  
+     */
     public void speedUpTimeDelay()
     {
         if(timeDelayIndex > 0){
