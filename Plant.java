@@ -37,7 +37,6 @@ public class Plant extends Actor
      * @param randomAge If true, the plant will have a random age.
      * @param field     The field currently occupied.
      * @param location  The location within the field.
-     * @param overlap   Whether or not an actor is allowed to overlap with other actors
      */
     public Plant(boolean randomAge, Field field, Location location)
     {

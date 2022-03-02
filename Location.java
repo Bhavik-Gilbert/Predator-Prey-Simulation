@@ -12,6 +12,7 @@ public class Location
 
     /**
      * Represent a row and column.
+     * 
      * @param row The row.
      * @param col The column.
      */

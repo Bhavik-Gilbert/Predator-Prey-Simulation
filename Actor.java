@@ -84,7 +84,7 @@ public abstract class Actor
      */
     private void overcrowding()
     {
-        if(!overlap && location!=null && field.getObjectAt(location)!=null && !this.equals(field.getObjectAt(location))){
+        if(!overlap && location!=null && field.getObjectAt(location)!=null && !this.equals(field.getObjectAt(location))) {
             alive = false;
             location = null;
             field = null;
@@ -137,7 +137,7 @@ public abstract class Actor
      */
     protected abstract void setWeatherEffects();
 
-    protected void setOverlap(boolean overlapping){
+    protected void setOverlap(boolean overlapping) {
         this.overlap = overlapping;
     }
 
