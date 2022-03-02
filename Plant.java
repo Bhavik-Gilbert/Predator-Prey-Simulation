@@ -20,9 +20,9 @@ public class Plant extends Actor
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
     // The base rate which when multiplied by age gives
-    // the number of steps a predator gains when it eats a plany
+    // the number of steps a predator gains when it eats a plant.
     private static final int PLANT_FOOD_VALUE = 7;
-    // A map containing values that can effect how the plant reacts based off of the weather
+    // A map containing values that can affect how the plant reacts based off the weather.
     private EnumMap<WeatherEffectTypes, Double> weatherEffect = new EnumMap<>(WeatherEffectTypes.class);
     
     // Individual characteristics (instance fields).
@@ -37,7 +37,7 @@ public class Plant extends Actor
      * @param randomAge If true, the plant will have a random age.
      * @param field     The field currently occupied.
      * @param location  The location within the field.
-     * @param overlap   Whether or not an actor is allowed to overlap with other actors
+     * @param overlap   Whether or not an actor is allowed to overlap with other actors.
      */
     public Plant(boolean randomAge, Field field, Location location)
     {
@@ -64,8 +64,8 @@ public class Plant extends Actor
     }
     
     /**
-     * This is what the plant does during the night
-     * It may breed at a decreased rate
+     * This is what the plant does during the night.
+     * It may breed at a decreased rate.
      * 
      * @param newPlants A list to return newly born plants.
      */
@@ -87,7 +87,7 @@ public class Plant extends Actor
     }
 
     /**
-     * Retrieves and sets the current weather effect values
+     * Retrieves and sets the current weather effect values.
      */
     protected void setWeatherEffects(){
         weatherEffect = WeatherAction.weatherOnPlants(weather);
@@ -107,8 +107,8 @@ public class Plant extends Actor
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
-            // Avoids overcrowding of the same type 
-            if(!(field.getObjectAt(free.get(0)) instanceof Plant)){
+            // Avoids overcrowding of the same type.
+            if(!(this.getClass().equals(field.getObjectAt(free.get(0)).getClass()))) {
                 Location loc = free.remove(0);
                 Plant young = new Plant(false, field, loc);
                 newPlants.add(young);
@@ -133,10 +133,10 @@ public class Plant extends Actor
     }
 
     /**
-     * Retrieves the breeding probability modifier
-     * Calculated by time of day and current weather conditions
+     * Retrieves the breeding probability modifier,
+     * Calculated by time of day and current weather conditions.
      * 
-     * @return Breeding probability modifier
+     * @return Breeding probability modifier.
      */
     private double effectBreedingProbability()
     {
@@ -162,11 +162,12 @@ public class Plant extends Actor
     }
 
     /**
-     * Calculates the number of steps gained for eating this plant
+     * Calculates the number of steps gained for eating this plant.
      * 
-     * @return The number of steps gained for eating this plant
+     * @return The number of steps gained for eating this plant.
      */
-    public double getFoodValue() {
+    public double getFoodValue() 
+    {
         return age * PLANT_FOOD_VALUE;
     }
 }

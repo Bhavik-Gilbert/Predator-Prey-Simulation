@@ -15,7 +15,7 @@ public class FieldStats
     private HashMap<Class, Counter> counters;
     // Whether the counters are currently up to date.
     private boolean countsValid;
-    // What actors to ignore in viability of running
+    // What actors to ignore in viability of running.
     private ArrayList<Class> ignoreViable;
 
     /**
@@ -24,7 +24,7 @@ public class FieldStats
     public FieldStats()
     {
         // Set up a collection for counters for each type of actor that
-        // we might find
+        // we might find.
         counters = new HashMap<>();
         countsValid = true;
         ignoreViable = new ArrayList<>();
@@ -117,9 +117,9 @@ public class FieldStats
     }
     
     /**
-     * Generate counts of the number of actors
-     * These are not kept up to date a actors
-     * are placed in the field, but only when a request
+     * Generate counts of the number of actors.
+     * These are not kept up to date. 
+     * Actors are placed in the field, but only when a request
      * is made for the information.
      * 
      * @param field The field to generate the stats for.

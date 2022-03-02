@@ -9,14 +9,14 @@ import java.util.EnumMap;
  */
 public class WeatherAction
 {  
-    // Map of weather conditions with numerical values for different weather effects on plants breeding
+    // Map of weather conditions with numerical values for different weather effects on plants breeding.
     private static final EnumMap<Weather, Double> plantBreedEffect = new EnumMap<>(Weather.class){{
         put(Weather.SUNNY, 1.5);
         put(Weather.RAINY, 1.25);
         put(Weather.SNOWY, 0.5);
     }};
 
-    // Map of weather conditions with numerical values for different weather effects on animals breeding
+    // Map of weather conditions with numerical values for different weather effects on animals breeding.
     private static final EnumMap<Weather, Double> animalBreedEffect = new EnumMap<>(Weather.class) {
         {
             put(Weather.SUNNY, 1.5);
@@ -26,7 +26,7 @@ public class WeatherAction
         }
     };
 
-    // Map of weather conditions with numerical values for different weather effects on animals feeding
+    // Map of weather conditions with numerical values for different weather effects on animals eating.
     private static final EnumMap<Weather, Double> animalHuntEffect = new EnumMap<>(Weather.class) {
         {
             put(Weather.RAINY, 0.5);
@@ -44,11 +44,11 @@ public class WeatherAction
     }
 
     /**
-     * Returns a Map of modifiers for plants based on the actions they take
-     * If weather condition has no modifier, it is set to 1
+     * Returns a Map of modifiers for plants based on the actions they take.
+     * If weather condition has no modifier, it is set to 1.
      * 
-     * @param weather The current weather
-     * @return The Map of actions and their current modifiers
+     * @param weather The current weather.
+     * @return The Map of actions and their current modifiers.
      */
     public static EnumMap<WeatherEffectTypes, Double> weatherOnPlants(Weather weather)
     {
@@ -66,11 +66,11 @@ public class WeatherAction
 
     
     /**
-     * Returns a Map of modifiers for animals based on the actions they take
-     * If weather condition has no modifier, it is set to 1
+     * Returns a Map of modifiers for animals based on the actions they take.
+     * If weather condition has no modifier, it is set to 1.
      * 
-     * @param weather The current weather
-     * @return The Map of actions and their current modifiers
+     * @param weather The current weather.
+     * @return The Map of actions and their current modifiers.
      */
     public static EnumMap<WeatherEffectTypes, Double> weatherOnAnimals(Weather weather)
     {

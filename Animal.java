@@ -19,27 +19,27 @@ public abstract class Animal extends Actor
     // The animal's food level, which is increased by eating.
     protected double foodLevel;
     // The base rate which is used to give
-    // the number of steps a predator gains when it eats this animal
+    // the number of steps a predator gains when it eats this animal.
     private int FOOD_VALUE;
     // The probability that a predator eats its prey.
     private static final double EATING_PROBABILITY = 0.8;
-    // A map containing values that can effect how the animal reacts based off of the weather
+    // A map containing values that can affect how the animal reacts based off the weather.
     private EnumMap<WeatherEffectTypes, Double> weatherEffect = new EnumMap<>(WeatherEffectTypes.class);
     // Probability that an animal dies from disease.
     private double DEATH_FROM_DISEASE_PROBABILITY;
-    // Minimum breeding age
+    // Minimum breeding age.
     private int BREEDING_AGE;
-    // Probability of successful breeding when partner found
+    // Probability of successful breeding when a partner is found.
     private double BREEDING_PROBABILITY;
-    // Max litter per breeding session
+    // Maximum litter per breeding session.
     private int MAX_LITTER_SIZE;
-    // Maximum age the animal can reach
+    // Maximum age the animal can reach.
     private int MAX_AGE;
-    // Probability that an infected animal spreads the virus
+    // Probability that an infected animal spreads the virus.
     private double VIRUS_SPREAD_PROBABILITY = 0.1;
-    // The probability that an infected animal gets cured
+    // The probability that an infected animal gets cured.
     private double CURE_INFECTION_PROBABILITY = 0.1;
-    // Map containing a set of all the predators of a given animal
+    // Map containing a set of all the predators of a given animal.
     protected static HashMap<Class, HashSet<Class>> MAP_OF_PREDATORS =  new HashMap<>();
 
     // Whether an animal is infected by disease or not.
@@ -51,22 +51,22 @@ public abstract class Animal extends Actor
      * 
      * @param field    The field currently occupied.
      * @param location The location within the field.
-     * @param infected Boolean value determining if the animal is infected or not
+     * @param infected Boolean value determining if the animal is infected or not.
      * 
      */
     protected Animal(Field field, Location location, boolean infected)
     {
         super(field, location);
-        // infects animal if infected
+        // infects animal if infected.
         this.infected = infected;
-        //assigns random gender
+        // assigns random gender.
         randomGender();
         initiatePredators();
     }
 
     /**
-     * Creates a key for the current animal type in the MAP_OF_PREDATORS
-     * Generates empty set and assigns it to the key
+     * Creates a key for the current animal type in the MAP_OF_PREDATORS.
+     * Generates empty set and assigns it to the key.
      */
     private void initiatePredators()
     {
@@ -76,9 +76,9 @@ public abstract class Animal extends Actor
     }
 
     /**
-     * Sets the maximum age of the animal
+     * Sets the maximum age of the animal.
      * 
-     * @param maxAge THe maximum age of the animal
+     * @param maxAge THe maximum age of the animal.
      */
     protected void setMaxAge(int maxAge)
     {
@@ -86,9 +86,9 @@ public abstract class Animal extends Actor
     }
     
     /**
-     * Sets the minimum age the animal can start breeding
+     * Sets the minimum age the animal can start breeding.
      * 
-     * @param setBreedingAge The minimum age the animal can start breeding
+     * @param setBreedingAge The minimum age the animal can start breeding.
      */
     protected void setBreedingAge(int breedingAge)
     {
@@ -96,9 +96,9 @@ public abstract class Animal extends Actor
     }
 
     /**
-     * Sets the breeding probability of the animal
+     * Sets the breeding probability of the animal.
      * 
-     * @param breedingProbability The breeding probability of the animal
+     * @param breedingProbability The breeding probability of the animal.
      */
     protected void setBreedingProbability(double breedingProbability) 
     {
@@ -107,9 +107,9 @@ public abstract class Animal extends Actor
 
 
     /**
-     * Sets the maximum litter per breeding period for an animal
+     * Sets the maximum litter per breeding period for an animal.
      * 
-     * @param maxLitter The maximum litter per breeding period for an animal
+     * @param maxLitter The maximum litter per breeding period for an animal.
      */
     protected void setMaxLitter(int maxLitter) 
     {
@@ -117,9 +117,9 @@ public abstract class Animal extends Actor
     }
 
     /**
-     * Sets the gender of the animal
+     * Sets the gender of the animal.
      * 
-     * @param setGender The gender that the animal will be set to
+     * @param setGender The gender that the animal will be set to.
      */
     private void setGender(Gender gender) 
     {
@@ -127,17 +127,17 @@ public abstract class Animal extends Actor
     }
     
     /**
-     * Sets the base number of steps predator gains for eating this animal
+     * Sets the base number of steps predator gains for eating this animal.
      * 
-     * @param foodValue The base step number
+     * @param foodValue The base step number.
      */
     protected void setFoodValue(int foodValue)
     {
         FOOD_VALUE = foodValue;
     }
     /**
-     * Generates a random gender from the Gender ENUM
-     * Call setGender to give animal this random gender
+     * Generates a random gender from the Gender ENUM.
+     * Call setGender to give animal this random gender.
      */
     private void randomGender()
     {
@@ -145,9 +145,9 @@ public abstract class Animal extends Actor
     }            
     
     /**
-     * Gets the gender of the animal
+     * Gets the gender of the animal.
      * 
-     * @return Gender of the animal
+     * @return Gender of the animal.
      */
     private Gender getGender()
     {
@@ -155,7 +155,7 @@ public abstract class Animal extends Actor
     }
 
     /**
-     * Retrieves and sets the current weather effect values
+     * Retrieves and sets the current weather effect values.
      */
     protected void setWeatherEffects() 
     {
@@ -165,21 +165,21 @@ public abstract class Animal extends Actor
     /**
      * An animal can breed if it has reached the breeding age and meets a mate of opposite gender.
      * 
-     * @param field The field the object is in
-     * @return Boolean value, true if mate is found and is of age, false otherwise
+     * @param field The field the object is in.
+     * @return Boolean value, true if mate is found and is of age, false otherwise.
      */
     private boolean canBreed(Field field) 
     {
-        // Find all adjacent locations
+        // Find all adjacent locations.
         List<Location> adjacentLocations = field.adjacentLocations(getLocation()); 
-        // List of potential partners
+        // List of potential partners.
         List<Animal> partnerList = new ArrayList<>();
 
         adjacentLocations.forEach(adjacentLocation -> {
             Object actor = field.getObjectAt(adjacentLocation);
             if (actor instanceof Animal) {
                 Animal animal = (Animal) actor;
-                // Check for same species and opposite gender
+                // Check for same species and opposite gender.
                 if (this.getClass().equals(animal.getClass()) && !(this.getGender().equals(animal.getGender()))) {
                     partnerList.add(animal);
                 }
@@ -214,9 +214,9 @@ public abstract class Animal extends Actor
 
     /**
      * Calculates the number of steps gained for eating this animal
-     * maxing out at the maximum food value
+     * maxing out at the maximum food value.
      * 
-     * @return The number of steps gained for eating this animal
+     * @return The number of steps gained for eating this animal.
      */
     protected double getFoodValue()
     {
@@ -234,9 +234,9 @@ public abstract class Animal extends Actor
     /**
      * Look for prey / plants adjacent to the current location.
      * Only the first live prey or plant is eaten.
-     * Food level is increased by the prey's mass if animal eats prey
+     * Food level is increased by the prey's mass if animal eats prey.
      * 
-     * @param listOfPrey A list of prey that this animal feeds on
+     * @param listOfPrey A list of prey that this animal feeds on.
      * @return Where food was found, or null if it wasn't.
      */
     protected Location findFood(List<Class> listOfPrey)
@@ -249,7 +249,7 @@ public abstract class Animal extends Actor
             Object object = field.getObjectAt(where);
             if (object != null){
                 Actor actor = (Actor) object;
-                // if actor type is in list of prey for predator, prey is alive and probability for eating met
+                // if actor type is in list of prey for predator, prey is alive and probability for eating met.
                 if ((listOfPrey.contains(actor.getClass())) && (rand.nextDouble() <= EATING_PROBABILITY * effectHuntingProbability()) && (actor.isAlive())) { 
                     actor.setDead();
                     foodLevel += actor.getFoodValue();
@@ -257,7 +257,7 @@ public abstract class Animal extends Actor
                         Animal animal = (Animal) actor;
                         this.infected = this.infected || animal.getInfected();
 
-                        // Adds this animal to a set of predators for the prey
+                        // Adds this animal to a set of predators for the prey.
                         HashSet<Class> listOfPredators = MAP_OF_PREDATORS.get(animal.getClass());
                         listOfPredators.add(this.getClass());
                         MAP_OF_PREDATORS.replace(animal.getClass(), listOfPredators);
@@ -276,7 +276,7 @@ public abstract class Animal extends Actor
     /**
      * Generate a number representing the number of births, if it can breed.
      * 
-     * @param field The field the object is currently in
+     * @param field The field the object is currently in.
      * @return The number of births (may be zero).
      */
     private int breed(Field field) 
@@ -329,7 +329,7 @@ public abstract class Animal extends Actor
     }
 
     /**
-     * If infected, checks for adjacent animals, providing the chance for them to be infected
+     * If infected, checks for adjacent animals, providing the chance for them to be infected.
      */
     protected void spreadVirus()
     {
@@ -350,7 +350,7 @@ public abstract class Animal extends Actor
     }
 
     /**
-     * Infects the animal with a virus, sets infected to true
+     * Infects the animal with a virus, sets infected to true.
      */
     private void infect()
     {
@@ -358,9 +358,9 @@ public abstract class Animal extends Actor
     }
     
     /**
-     * Returns wether or not this animal is infected with a virus
+     * Returns whether or not this animal is infected with a virus.
      * 
-     * @return Boolean infected
+     * @return Boolean infected.
      */
     @Override
     public boolean getInfected() 
@@ -369,7 +369,7 @@ public abstract class Animal extends Actor
     }   
 
     /**
-     * If infected, runs the chance for the animal to be cured of infection
+     * If infected, runs the chance for the animal to be cured of infection.
      */
     protected void cureInfected() 
     {
@@ -379,7 +379,7 @@ public abstract class Animal extends Actor
     }
 
     /**
-     * If infected , implements the effects of disease infection on animals
+     * If infected, implements the effects of disease infection on animals.
      * 
      */
     protected void dieInfection() 
@@ -394,9 +394,9 @@ public abstract class Animal extends Actor
 
     /**
      * Sets DEATH_FROM_DISEASE_PROBABILITY to individual animal type death
-     * probability
+     * probability.
      * 
-     * @param deathProbability Animal death by disease probability
+     * @param deathProbability Animal death by disease probability.
      */
     protected void setDeathByDiseaseProbability(double deathProbability) 
     {
@@ -404,10 +404,10 @@ public abstract class Animal extends Actor
     }
 
     /**
-     * Retrieves the breeding probability modifier
-     * Calculated by current weather conditions
+     * Retrieves the breeding probability modifier.
+     * Calculated by current weather conditions.
      * 
-     * @return Breeding probability modifier
+     * @return Breeding probability modifier.
      */
     private double effectBreedingProbability() 
     {
@@ -415,10 +415,10 @@ public abstract class Animal extends Actor
     }
 
     /**
-     * Retrieves the feeding probability modifier
-     * Calculated by current weather conditions
+     * Retrieves the feeding probability modifier.
+     * Calculated by current weather conditions.
      * 
-     * @return Feeding probability modifier
+     * @return Feeding probability modifier.
      */
     private double effectHuntingProbability() 
     {

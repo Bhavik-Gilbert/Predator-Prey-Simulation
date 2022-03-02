@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 /**
  * A simple model of a human.
- * Human age, move, eat dodos and pigs, and die.
+ * Humans age, move, eat dodos and pigs, and die.
  * 
  * @author Bhavik Gilbert(K21004990) and Heman Seegolam(K21003628)
  * @version (28/02/2022)
@@ -26,7 +26,7 @@ public class Human extends Animal
     // Probability that a human dies from disease.
     private static final double HUMAN_DEATH_FROM_DISEASE_PROBABILITY = 0.05;
     // List of all human prey.
-    private final ArrayList<Class> LIST_OF_PREY = new ArrayList<>(){
+    private final ArrayList<Class> LIST_OF_PREY = new ArrayList<>() {
         {
             add(Dodo.class);
             add(Pig.class);
@@ -40,13 +40,13 @@ public class Human extends Animal
      * @param randomAge If true, the human will have random age and hunger level.
      * @param field     The field currently occupied.
      * @param location  The location within the field.
-     * @param infected  Boolean value determining if the animal is infected or not
+     * @param infected  Boolean value determining if the animal is infected or not.
      */
     protected Human(boolean randomAge, Field field, Location location, boolean infected)
     {
         super(field, location, infected);
 
-        // Sets values in animal class
+        // Sets values in animal class.
         setOverlap(false);
         setFoodValue(BASIC_FOOD_LEVEL);
         setDeathByDiseaseProbability(HUMAN_DEATH_FROM_DISEASE_PROBABILITY);
@@ -67,7 +67,7 @@ public class Human extends Animal
     }
     
     /**
-     * This is what the human does during the day: it hunts for dodos and pigs
+     * This is what the human does during the day: it hunts for dodos and pigs.
      * In the process it might move, die of hunger, die of infection, get cured, spread an infection, or die of old age.
      * 
      * @param newHuman A list to return newly born humans.
@@ -101,8 +101,8 @@ public class Human extends Animal
     }
     
     /**
-     * This is what the human does during the night: Gives birth and Sleeps
-     * In the process it might, die of infection, spread an infection or get cured
+     * This is what the human does during the night: Gives birth and sleeps.
+     * In the process it might, die of infection, spread an infection or get cured.
      * 
      * @param newHuman A list to return newly born humans.
      */

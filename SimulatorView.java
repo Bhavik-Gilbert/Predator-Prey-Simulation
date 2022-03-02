@@ -8,9 +8,9 @@ import java.util.Map;
 
 /**
  * A graphical view of the simulation grid.
- * The view displays a colored rectangle for each location
- * representing its contents. It uses a default background color.
- * Colors for each type of species can be defined using the
+ * The view displays a coloured rectangle for each location
+ * representing its contents. It uses a default background colour.
+ * Colours for each type of species can be defined using the
  * setColor method.
  * 
  * @author Bhavik Gilbert(K21004990) and Heman Seegolam(K21003628)
@@ -33,11 +33,11 @@ public class SimulatorView extends JFrame
     speedUpButton, slowDownButton, randomWeatherButton, sunnyButton, rainyButton, foggyButton, snowyButton;
     private FieldView fieldView;
     
-    // A map for storing the current colors for participants in the simulation
+    // A map for storing the current colors for participants in the simulation.
     private Map<Class, Color> colors;
-    // A map for storing colors for participants in the simulation
+    // A map for storing colors for participants in the simulation.
     private Map<Class, Color> baseColors;
-    // A statistics object computing and storing simulation information
+    // A statistics object computing and storing simulation information.
     private FieldStats stats;
 
     /**
@@ -337,7 +337,8 @@ public class SimulatorView extends JFrame
     /**
      * Toggles the colour of the actor between clear and coloured
      * 
-     * @param actorClass The actor's Class object
+     * @param actorClass The actor's Class object, 
+     * @param field The field in the simulator view.
      */
     private void toggleColor(Class actorClass, Field field)
     {
@@ -351,6 +352,11 @@ public class SimulatorView extends JFrame
         updatePanel(field, false);
     }
 
+    /**
+     * Bring all colours into view.
+     * 
+     * @param field The field in the simulator view.
+     */
     private void resetViewColor(Field field){
         baseColors.forEach((key,entry) -> colors.replace(key,entry)); 
         updatePanel(field, false);
@@ -358,6 +364,8 @@ public class SimulatorView extends JFrame
 
     /**
      * Display a short information label at the top of the window.
+     * 
+     * @param text the text to be displayed.
      */
     public void setInfoText(String text)
     {
@@ -365,7 +373,9 @@ public class SimulatorView extends JFrame
     }
 
     /**
-     * @param actorClass An actor class
+     * Returns the colour that will be used for a given class.
+     * 
+     * @param actorClass An actor class.
      * @return The color to be used for a given class of actor.
      */
     private Color getColor(Class actorClass)
@@ -384,10 +394,10 @@ public class SimulatorView extends JFrame
      * Show the current status of the field.
      * 
      * @param step Which iteration step it is.
-     * @param totalSteps The number of steps the simulator is running for
+     * @param totalSteps The number of steps the simulator is running for.
      * @param field The field whose status is to be displayed.
-     * @param weather The current weather of the board
-     * @param virusCount The number of currently infected animals
+     * @param weather The current weather of the board.
+     * @param virusCount The number of currently infected animals.
      */
     public void showStatus(int step, int totalSteps, Field field, Weather weather, int virusCount)
     {
@@ -395,9 +405,9 @@ public class SimulatorView extends JFrame
             setVisible(true);
         }
         
-        // Displays day number
+        // Displays day number.
         stepLabel.setText(DAY_PREFIX + (step+1)/2 + "/" + totalSteps/2);
-        // Computes and displays time of day
+        // Computes and displays time of day.
         String time = "";
         if(step%2 == 0){
             time = "Night";
@@ -407,7 +417,7 @@ public class SimulatorView extends JFrame
         }
         timeLabel.setText(TIME_PREFIX + time);
 
-        // Displays additional info such as weather and virus numbers
+        // Displays additional info such as weather and virus numbers.
         setInfoText("Weather:" + weather + "   Infected :" + virusCount);
         stats.reset();
         
@@ -415,10 +425,10 @@ public class SimulatorView extends JFrame
     }
 
     /**
-     * Clears and repaints the field on the viewer
+     * Clears and repaints the field on the viewer.
      * 
-     * @param field The field the viewer is currently representing
-     * @param newStep Defines whether a new step has occured or not
+     * @param field The field the viewer is currently representing.
+     * @param newStep Defines whether a new step has occured or not.
      */
     private void updatePanel(Field field, boolean newStep)
     {
@@ -447,7 +457,7 @@ public class SimulatorView extends JFrame
     /**
      * Determines whether the simulation should continue to run.
      * 
-     * @param field The field the viewer is displaying
+     * @param field The field the viewer is displaying.
      * @return true If there is more than one species alive.
      */
     public boolean isViable(Field field)
@@ -475,6 +485,9 @@ public class SimulatorView extends JFrame
 
         /**
          * Create a new FieldView component.
+         * 
+         * @param height The height of the field.
+         * @param width The width of the field.
          */
         public FieldView(int height, int width)
         {
@@ -485,6 +498,8 @@ public class SimulatorView extends JFrame
 
         /**
          * Tell the GUI manager how big we would like to be.
+         * 
+         * @return The field size.
          */
         @Override
         public Dimension getPreferredSize()
@@ -517,6 +532,10 @@ public class SimulatorView extends JFrame
         
         /**
          * Paint on grid location on this field in a given color.
+         * 
+         * @param x The x-coordinate in the field.
+         * @param y The y-coordinate in the field.
+         * @param color The color to be painted on the field.
          */
         public void drawMark(int x, int y, Color color)
         {
@@ -527,6 +546,8 @@ public class SimulatorView extends JFrame
         /**
          * The field view component needs to be redisplayed. Copy the
          * internal image to screen.
+         * 
+         * @param g An object of the Graphics class.
          */
         @Override
         public void paintComponent(Graphics g)
