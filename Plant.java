@@ -16,7 +16,7 @@ public class Plant extends Actor
     // The age to which a plant can live.
     private static final int MAX_AGE = 2;
     // The likelihood of a plant breeding.
-    private static final double BREEDING_PROBABILITY = 0.4;
+    private static final double BREEDING_PROBABILITY = 0.9;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
     // The base rate which when multiplied by age gives
@@ -108,7 +108,7 @@ public class Plant extends Actor
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             // Avoids overcrowding of the same type.
-            if(!(this.getClass().equals(field.getObjectAt(free.get(0)).getClass()))) {
+            if(field.getObjectAt(free.get(0)) != null && !(this.getClass().equals(field.getObjectAt(free.get(0)).getClass()))) {
                 Location loc = free.remove(0);
                 Plant young = new Plant(false, field, loc);
                 newPlants.add(young);

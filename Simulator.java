@@ -31,7 +31,7 @@ public class Simulator
     // The probability that a dodo will be created in any given grid position.
     private static final double DODO_CREATION_PROBABILITY = 0.5;    
     // The probability that a plant will be created in any given grid position.
-    private static final double PLANT_CREATION_PROBABILITY = 0.7;
+    private static final double PLANT_CREATION_PROBABILITY = 0.9;
     // The probability that it is sunny.
     private static final double SUNNY_PROBABILITY = 0.55;
     // The probability that it is raining.
