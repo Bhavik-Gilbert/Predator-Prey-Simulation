@@ -8,7 +8,7 @@ import java.awt.Color;
 
 /**
  * A simple predator-prey simulator, based on a rectangular field
- * containing dodos, humans, monkeys, tortoises and pigs.
+ * containing dodos, humans, monkeys, tortoises pigs and plants.
  * 
  * @author Bhavik Gilbert(K21004990) and Heman Seegolam(K21003628)
  * @version (28/02/2022)
@@ -43,7 +43,7 @@ public class Simulator
     // The probability that a disease particle will be created in any given grid position.
     private static final double DISEASE_CREATION_PROBABILITY = 0.05;
     // A list of time delays in to go through in milliseconds
-    private static final ArrayList<Integer> timeDelayList = new ArrayList<>(){
+    private static final ArrayList<Integer> timeDelayList = new ArrayList<>() {
         {
             add(50);
             add(500);
@@ -61,6 +61,7 @@ public class Simulator
     private int step;
     // The number of steps the simulation will make
     private int numSteps;
+    // The current weather of the simulation
     private Weather currentWeather;
     // The index of the time delay currently being used from the time delay list
     private int timeDelayIndex;
@@ -92,6 +93,7 @@ public class Simulator
     
     /**
      * Create a simulation field with the given size.
+     * 
      * @param depth Depth of the field. Must be greater than zero.
      * @param width Width of the field. Must be greater than zero.
      */
@@ -226,6 +228,7 @@ public class Simulator
             if (!actor.isAlive()) {
                 deadActors.add(actor);
             } 
+            // gets number of infected animals
             else if (actor.getInfected()) {
                 infected.add(actor);
             }
@@ -257,7 +260,6 @@ public class Simulator
         // removes actors in simulation
         actors.clear();
         // repopulates simulation
-        // gets number of infected animals
         int infected = populate();
         // resets simulation speed
         timeDelayIndex = 2;
@@ -414,7 +416,7 @@ public class Simulator
      * Allows users to switch the current weather conditions
      * null if random
      * 
-     * @param weather The weather to be changed to
+     * @param weather The weather to be changed to, null if random
      */
     public void setCurrentWeather(Weather weather)
     {

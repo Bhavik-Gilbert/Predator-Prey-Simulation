@@ -39,7 +39,6 @@ public class Monkey extends Animal
      * @param randomAge If true, the monkey will have random age and hunger level.
      * @param field     The field currently occupied.
      * @param location  The location within the field.
-     * @param overlap   Whether or not an actor is allowed to overlap with other actors
      * @param infected  Boolean value determining if the animal is infected or not
      */
     protected Monkey(boolean randomAge, Field field, Location location, boolean infected)

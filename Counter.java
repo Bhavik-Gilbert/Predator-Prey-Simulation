@@ -1,8 +1,7 @@
 /**
  * Provide a counter for a participant in the simulation.
  * This includes an identifying string and a count of how
- * many participants of this type currently exist within
- * the simulation.
+ * many participants of this type currently exist within the simulation.
  * 
  * @author Bhavik Gilbert(K21004990) and Heman Seegolam(K21003628)
  * @version (28/02/2022)
